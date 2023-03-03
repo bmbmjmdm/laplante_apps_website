@@ -9,12 +9,13 @@ module.exports = {
       {
         test: /\.(js|jsx)$/,
         resolve: {
-          extensions: [ '.ts', '.js', '.tsx', '.jsx'],
+          extensions: ['.web.js', '.ts', '.js', '.tsx', '.jsx'],
         },
         use: {
           loader: "babel-loader",
           options: {
             presets: ["@babel/preset-react"],
+            plugins: ['react-native-web'],
           }
         }
       },
@@ -22,7 +23,7 @@ module.exports = {
       {
          test: /\.(ts|tsx)$/,
          resolve: {
-           extensions: [ '.ts', '.js', '.tsx', '.jsx'],
+           extensions: ['.ts', '.js', '.tsx', '.jsx'],
          },
          exclude: /node_modules/,
          use: ["ts-loader"],
@@ -52,10 +53,11 @@ module.exports = {
   
   resolve: {
     alias: {
-      // Support React Native Web
-      // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
-      'react-native': 'react-native-web',
-    },
-  },
+        'react-native$': 'react-native-web',
+        '../Utilities/Platform': 'react-native-web/dist/exports/Platform',
+        '../../Utilities/Platform': 'react-native-web/dist/exports/Platform',
+        './Platform': 'react-native-web/dist/exports/Platform',
+    }
+}
 
 }

@@ -27,10 +27,16 @@
     ]
   },
   "dependencies": {
+    "-": "^0.0.1",
+    "@react-navigation/native": "^6.1.6",
+    "@react-navigation/stack": "^6.3.16",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-native-safe-area-context": "^4.5.0",
+    "react-native-screens": "^3.20.0",
     "react-native-vector-icons": "^9.2.0",
-    "react-native-web": "^0.18.12"
+    "react-native-web": "^0.18.12",
+    "save-dev": "^0.0.1-security"
   },
   "devDependencies": {
     "@babel/core": "^7.21.0",
@@ -39,6 +45,8 @@
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
     "babel-loader": "^9.1.2",
+    "babel-plugin-module-resolver": "^5.0.0",
+    "babel-plugin-react-native-web": "^0.18.12",
     "css-loader": "^6.7.3",
     "file-loader": "^6.2.0",
     "html-loader": "^4.2.0",

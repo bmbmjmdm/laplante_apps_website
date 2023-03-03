@@ -3,8 +3,23 @@ import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 import './App.css';
 import { scaleFont } from './helpers';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+
+const Stack = createStackNavigator();
 
 const App:React.FunctionComponent<{}> = () => {
+  
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Home">
+        <Stack.Screen name="Home" component={HomeScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
+
+function HomeScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Hello World</Text>
