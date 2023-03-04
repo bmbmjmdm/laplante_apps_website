@@ -2,7 +2,7 @@
   "name": "create-react-app-v2",
   "version": "1.0.0",
   "description": "React App without create-react-app",
-  "main": "src/index.tsx",
+  "main": "src/startup/index.tsx",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --config webpack.prod.js",
@@ -36,7 +36,8 @@
     "react-native-screens": "^3.20.0",
     "react-native-vector-icons": "^9.2.0",
     "react-native-web": "^0.18.12",
-    "save-dev": "^0.0.1-security"
+    "save-dev": "^0.0.1-security",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.21.0",
@@ -44,6 +45,7 @@
     "@babel/preset-react": "^7.18.6",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
+    "@types/uuid": "^9.0.1",
     "babel-loader": "^9.1.2",
     "babel-plugin-module-resolver": "^5.0.0",
     "babel-plugin-react-native-web": "^0.18.12",
