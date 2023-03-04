@@ -1,13 +1,13 @@
-// @ts-ignore-next-line
-import { View } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import React, { FunctionComponent, useContext } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { StackHeaderProps, createStackNavigator } from '@react-navigation/stack';
 import { ThemeContext, ThemeProvider, Themes } from './Theme';
 import { HomeScreen } from './HomeScreen';
 import { TypingScreen1, TypingScreen2 } from './TypingScreen';
 // @ts-ignore-next-line
 import LinearGradient from 'react-native-web-linear-gradient';
+import { Flex, Padding } from './Components';
 
 const Stack = createStackNavigator();
 
@@ -38,12 +38,12 @@ const Navigator:FunctionComponent<{}> = () => {
   };
   // by default we dont show the header on any screens
   const defaultOptions = {
-    headerShown: false,
+    header: Header,
   }
   return (
     <LinearGradient
       colors={theme.background}
-      style={{height: "100vh"}}
+      style={{height: "100vh", overflow: "hidden"}}
       useAngle={true}
       angle={135}
       angleCenter={{ x: 0.5, y: 0.5}}
@@ -56,6 +56,19 @@ const Navigator:FunctionComponent<{}> = () => {
         </Stack.Navigator>
       </NavigationContainer>
     </LinearGradient>
+  )
+}
+// TODO make padding responsive
+const Header:FunctionComponent<StackHeaderProps> = ({ navigation, route, options, back }) => {
+  const theme = useContext(ThemeContext);
+
+  return (
+    <Flex row style={{width: "100hw"}} >
+      <TouchableOpacity style={[theme.navButton, {marginLeft: "auto"}]} onPress={() => {}} />
+      <TouchableOpacity style={theme.navButton} onPress={() => {}} />
+      <TouchableOpacity style={theme.navButton} onPress={() => {}} />
+      <Padding horizontal={500} />
+    </Flex>
   )
 }
 

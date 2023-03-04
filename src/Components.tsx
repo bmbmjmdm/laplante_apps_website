@@ -1,4 +1,3 @@
-// @ts-ignore-next-line
 import { Text, View, ViewStyle, TextStyle } from 'react-native';
 import React, { FunctionComponent, useContext, useState, useEffect, useRef, ReactElement, ReactNode } from 'react';
 import { ThemeContext, styles } from './Theme';

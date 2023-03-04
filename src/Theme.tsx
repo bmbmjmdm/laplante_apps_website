@@ -1,5 +1,4 @@
-// @ts-ignore-next-line
-import { StyleSheet, TextStyle, Dimensions } from 'react-native';
+import { StyleSheet, TextStyle, Dimensions, ViewStyle } from 'react-native';
 import React, { FunctionComponent, ReactNode, createContext } from 'react';
 
 // scaling operations for different screen sizes
@@ -9,6 +8,8 @@ export const scaleFontDefault = (size:number) => {
   return Math.round(size * scale);
 }
 
+// TODO make nav buttons and font sizes responsive
+
 // styles for our theme
 export const styles = StyleSheet.create({
   darkText: {
@@ -16,6 +17,15 @@ export const styles = StyleSheet.create({
   },
   darkCaption: {
     color: "#AAAAAA",
+  },
+  darkNavButton: {
+    backgroundColor: "#DDDDDD",
+    borderRadius: 999,
+    width: 50,
+    height: 50,
+    marginRight: 50,
+    marginTop: 50,
+    marginBottom: 50,
   },
 
   header: {
@@ -60,6 +70,7 @@ type Theme = {
   body: TextStyle;
   caption: TextStyle;
   header: TextStyle;
+  navButton: ViewStyle;
   // these color strings are fed into our linear gradient background. if you want a solid background, just provide 1 color
   background: string[];
 }
@@ -73,6 +84,7 @@ export const Themes:Record<ThemeName, Theme> = {
     caption: {...styles.caption, ...styles.darkCaption},
     header: styles.header,
     background: ['#000000', '#1a1a1a', '#1a1a1a', '#3d3d3d'],
+    navButton: styles.darkNavButton,
   }
 }
 

@@ -1,4 +1,3 @@
-// @ts-ignore-next-line
 import { Button } from 'react-native';
 import React, { FunctionComponent } from 'react';
 import { useNavigation } from '@react-navigation/native';

@@ -1,51 +1,75 @@
-// @ts-ignore-next-line
-import { Animated } from 'react-native';
+import { Animated, Easing, Text } from 'react-native';
 import React, { FunctionComponent, useState, useEffect, useRef } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { Flex, Padding, StyledText, Typewriter, TypewriterProps } from './Components';
+import { easeOutBack } from './CustomEasing';
 
+const FINAL_CAPTION = 10
+const CAT_MODE_KEY = "laplantAppsCatMode 90124986496340230485789523042983752"
 
+// TODO make images responsive
 export const HomeScreen:FunctionComponent<{}> = () => {
+  // if the user already saw the cat mode (or close enough), we want to start in cat mode
+  const alreadyInCatMode = React.useRef(Boolean(localStorage.getItem(CAT_MODE_KEY))).current
+
   // go through various captions, eventually switching to a different product (cat title + pictures)
-  const [curCaption, setCurCaption] = useState(0);
-  const [deleteTitle, setDeleteTitle] = useState(false);
+  const [curCaption, setCurCaption] = useState(alreadyInCatMode ? FINAL_CAPTION: 0);
+  const [deleteTitle, setDeleteTitle] = useState(alreadyInCatMode);
   const [changeTitle, setChangeTitle] = useState(false);
-  const pictureList = useRef(appPictures);
-  const titleFinish = deleteTitle ? () => setChangeTitle(true) : undefined
+  const catMode = useRef(false);
+  const titleFinish = deleteTitle ? () => {
+    catMode.current = true;
+    setChangeTitle(true)
+   } : undefined
   const nextCaption = () => setCurCaption(curCaption + 1);
   const changeProduct = () => {
     setDeleteTitle(true);
-    pictureList.current = catPictures;
+    setCurCaption(curCaption + 1)
+    setTimeout(() => {
+      setCurCaption(curCaption + 1)
+    }, 20 * 1000)
   }
+  // if we start in cat mode, setup a 20sec timer to show the extended caption still
+  useEffect(() => {
+    if (alreadyInCatMode) {
+      setTimeout(() => {
+        setCurCaption(curCaption + 1)
+      }, 20 * 1000)
+    }
+  }, [])
+
   // we use a placeholder to make sure the view remains the same size as the typewriter text even when its empty
   const placeholder = () => <StyledText type={"header"}>{'\u200A'}</StyledText>
 
   // cycle through pictures every 5 seconds
+  const pictureList = useRef(appPictures);
   const [curPicture, setCurPicture] = useState(0);
   const [stationaryPic, setStationaryPic] = useState(appPictures[0]);
   const stationaryPicOpacity = useRef(new Animated.Value(0)).current;
   const movingPicOpacity = useRef(new Animated.Value(0)).current;
   const movingPicTop = useRef(new Animated.Value(350)).current;
 
-  // TODO current problem is that the animated values are updating as normal, but the image is not reflecting the changes until the next re-render. no idea why
   useEffect(() => {
+    // animate the new image just below the current one, fading new one in and old one out, and drag the new one up into the old one's place
     Animated.parallel([
       Animated.timing(stationaryPicOpacity, {
         toValue: 0,
-        duration: 500,
+        duration: 600,
         useNativeDriver: false
       }),
       Animated.timing(movingPicOpacity, {
         toValue: 1,
-        duration: 500,
+        duration: 600,
         useNativeDriver: false
       }),
       Animated.timing(movingPicTop, {
         toValue: 0,
-        duration: 500,
+        easing: easeOutBack,
+        duration: 800,
         useNativeDriver: false
       }),
     ]).start(() => {
+      // now make the old component use the new image, reset the new component's position, and reset both their opacities
       const curPicOrLast = Math.min(curPicture, pictureList.current.length - 1)
       setStationaryPic(pictureList.current[curPicOrLast])
       setTimeout(() => {
@@ -55,13 +79,17 @@ export const HomeScreen:FunctionComponent<{}> = () => {
       }, 500)
     })
     setTimeout(() => {
+      // we switch over the picture lists here to ensure it doesnt conflict with the animation
+      if (catMode.current) {
+        pictureList.current = catPictures;
+      }
       if (curPicture >= pictureList.current.length - 1) {
         setCurPicture(0)
       }
       else {
         setCurPicture(curPicture + 1)
       }
-    }, 5000)
+    }, 5 * 1000)
   }, [curPicture])
 
   return (
@@ -156,7 +184,10 @@ const getCaption = (curCaption:number, nextCaption:Function, changeProduct:Funct
       Or can I?
     </Typewriter>,
 
-    <Typewriter {...defaultProps()} >
+    <Typewriter {...defaultProps()} onFinish={() => {
+      nextCaption();
+      localStorage.setItem(CAT_MODE_KEY, "yes")
+    }}>
       Jk I can't. But I can refuse to cooperate. 
     </Typewriter>,
 
@@ -167,6 +198,19 @@ const getCaption = (curCaption:number, nextCaption:Function, changeProduct:Funct
     <Typewriter {...defaultProps()} deleteAfter={false} onFinish={changeProduct}>
       I like cats. 
     </Typewriter>,
+    
+    <StyledText type={"caption"}>
+      I like cats. 
+    </StyledText>,
+
+    <Text>
+      <StyledText type={"caption"}>
+        I like cats. 
+      </StyledText>
+      <Typewriter {...defaultProps()} deleteAfter={false} onFinish={undefined}>
+        {"    .    .    .    (Actually it would be spelled LeChatte)"}
+      </Typewriter>,
+    </Text>,
   ][curCaption];
 }
 
