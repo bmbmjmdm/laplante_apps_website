@@ -14,15 +14,33 @@ export const styles = StyleSheet.create({
   darkText: {
     color: "#FFFFFF",
   },
-  darkBackground: {
-    backgroundColor: "#282C34"
+  darkCaption: {
+    color: "#AAAAAA",
   },
 
   header: {
-    fontSize: 48, //scaleFont(48),
+    fontSize: 56, //scaleFont(48),
+    fontWeight: "bold",
+  },
+  body: {
+    fontSize: 30, //scaleFont(24),
+  },
+  caption: {
+    fontSize: 24, //scaleFont(24),
   },
   flex: {
     flex: 1
+  },
+  centeredVertical: {
+    justifyContent: 'center',
+  },
+  row: {
+    flexDirection: 'row',
+  },
+  slim: {
+    width: "100%",
+    maxWidth: 1500,
+    paddingHorizontal: 50,
   },
   centered: {
     alignItems: 'center',
@@ -38,19 +56,23 @@ type ThemeName = "dark";
 type Theme = {
   name: ThemeName;
   scaleFont: (size:number) => number;
+  text: TextStyle;
   body: TextStyle;
+  caption: TextStyle;
   header: TextStyle;
-  // background is a string because we need to feed it into our navigation container
-  background: string;
+  // these color strings are fed into our linear gradient background. if you want a solid background, just provide 1 color
+  background: string[];
 }
 
 export const Themes:Record<ThemeName, Theme> = {
   dark: {
     name: "dark",
     scaleFont: scaleFontDefault,
-    body: {...styles.darkText},
-    header: {...styles.darkText, ...styles.header},
-    background: styles.darkBackground.backgroundColor,
+    text: styles.darkText,
+    body: styles.body,
+    caption: {...styles.caption, ...styles.darkCaption},
+    header: styles.header,
+    background: ['#000000', '#1a1a1a', '#1a1a1a', '#3d3d3d'],
   }
 }
 

@@ -6,6 +6,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { ThemeContext, ThemeProvider, Themes } from './Theme';
 import { HomeScreen } from './HomeScreen';
 import { TypingScreen1, TypingScreen2 } from './TypingScreen';
+// @ts-ignore-next-line
+import LinearGradient from 'react-native-web-linear-gradient';
 
 const Stack = createStackNavigator();
 
@@ -13,21 +15,20 @@ const Stack = createStackNavigator();
 const App:FunctionComponent<{}> = () => {
   return (
     <ThemeProvider name={Themes['dark']}>
-      <View style={{height: "100vh"}}>
-        <Navigator />
-      </View>
+      <Navigator />
     </ThemeProvider>
   );
 }
 
 // Here is where all of our screens and paths are defined in a central naviator
+// We also define our background color here
 const Navigator:FunctionComponent<{}> = () => {
   const theme = useContext(ThemeContext);
-  // we pass an empty theme to the navigation container because we prefer to use our theme context, however we still need to pass the background color
+  // we pass an empty theme to the navigation container because we prefer to use our theme context
   const emptyTheme = {
     dark: false,
     colors: {
-      background: theme.background,
+      background: "transparent",
       primary: "",
       card: "",
       text: "",
@@ -40,13 +41,21 @@ const Navigator:FunctionComponent<{}> = () => {
     headerShown: false,
   }
   return (
-    <NavigationContainer theme={emptyTheme}>
-      <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name="Home" component={HomeScreen} options={defaultOptions} />
-        <Stack.Screen name="TypingScreen1" component={TypingScreen1} options={defaultOptions} />
-        <Stack.Screen name="TypingScreen2" component={TypingScreen2} options={defaultOptions} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <LinearGradient
+      colors={theme.background}
+      style={{height: "100vh"}}
+      useAngle={true}
+      angle={135}
+      angleCenter={{ x: 0.5, y: 0.5}}
+    >
+      <NavigationContainer theme={emptyTheme}>
+        <Stack.Navigator initialRouteName="Home">
+          <Stack.Screen name="Home" component={HomeScreen} options={defaultOptions} />
+          <Stack.Screen name="TypingScreen1" component={TypingScreen1} options={defaultOptions} />
+          <Stack.Screen name="TypingScreen2" component={TypingScreen2} options={defaultOptions} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </LinearGradient>
   )
 }
 

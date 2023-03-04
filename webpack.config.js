@@ -57,6 +57,7 @@ module.exports = {
         '../Utilities/Platform': 'react-native-web/dist/exports/Platform',
         '../../Utilities/Platform': 'react-native-web/dist/exports/Platform',
         './Platform': 'react-native-web/dist/exports/Platform',
+        'react-native-linear-gradient': 'react-native-web-linear-gradient',
     }
 }
 
