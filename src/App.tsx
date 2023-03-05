@@ -1,13 +1,15 @@
-import { TouchableOpacity, View } from 'react-native';
+// @ts-ignore-next-line
+import { TouchableOpacity, View, Image } from 'react-native';
 import React, { FunctionComponent, useContext } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { StackHeaderProps, createStackNavigator } from '@react-navigation/stack';
 import { ThemeContext, ThemeProvider, Themes } from './Theme';
 import { HomeScreen } from './HomeScreen';
-import { TypingScreen1, TypingScreen2 } from './TypingScreen';
+// @ts-ignore-next-line
+import menu from "./assets/menu_white.png";
 // @ts-ignore-next-line
 import LinearGradient from 'react-native-web-linear-gradient';
-import { Flex, Padding } from './Components';
+import { Flex, Padding, StyledText } from './Components';
 
 const Stack = createStackNavigator();
 
@@ -51,23 +53,25 @@ const Navigator:FunctionComponent<{}> = () => {
       <NavigationContainer theme={emptyTheme}>
         <Stack.Navigator initialRouteName="Home">
           <Stack.Screen name="Home" component={HomeScreen} options={defaultOptions} />
-          <Stack.Screen name="TypingScreen1" component={TypingScreen1} options={defaultOptions} />
-          <Stack.Screen name="TypingScreen2" component={TypingScreen2} options={defaultOptions} />
         </Stack.Navigator>
       </NavigationContainer>
     </LinearGradient>
   )
 }
+
 // TODO make padding responsive
 const Header:FunctionComponent<StackHeaderProps> = ({ navigation, route, options, back }) => {
   const theme = useContext(ThemeContext);
 
   return (
-    <Flex row style={{width: "100hw"}} >
-      <TouchableOpacity style={[theme.navButton, {marginLeft: "auto"}]} onPress={() => {}} />
+    <Flex fullWidth row centeredVertical style={{backgroundColor: "#000000", paddingHorizontal: 50, paddingVertical: 35 }}>
+      <Image source={menu} style={{width: 35, height: 35}} />
+      <Padding horizontal={50} />
+      <StyledText type={"caption"}> LaPlante Apps </StyledText>
+      <StyledText type={"caption"} style={{marginLeft: "auto", marginRight: "auto"}}> Central </StyledText>
+      <TouchableOpacity style={[theme.navButton]} onPress={() => {}} />
       <TouchableOpacity style={theme.navButton} onPress={() => {}} />
       <TouchableOpacity style={theme.navButton} onPress={() => {}} />
-      <Padding horizontal={500} />
     </Flex>
   )
 }

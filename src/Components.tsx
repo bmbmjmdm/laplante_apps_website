@@ -1,3 +1,4 @@
+// @ts-ignore-next-line
 import { Text, View, ViewStyle, TextStyle } from 'react-native';
 import React, { FunctionComponent, useContext, useState, useEffect, useRef, ReactElement, ReactNode } from 'react';
 import { ThemeContext, styles } from './Theme';
@@ -157,6 +158,7 @@ const parseSubText = (text: string | ReactElement<TWTextProps> | (string | React
 // A component that makes it easy to create full-size and/or centered containers
 type FlexProps = {
   full?: boolean;
+  fullWidth?: boolean;
   centered?: boolean;
   centeredVertical?: boolean;
   style?: ViewStyle;
@@ -166,6 +168,7 @@ type FlexProps = {
 }
 export const Flex:FunctionComponent<FlexProps> = ({
   full= false,
+  fullWidth = false,
   centered= false,
   slim = false,
   centeredVertical = false,
@@ -176,8 +179,10 @@ export const Flex:FunctionComponent<FlexProps> = ({
   return (
     <View style={[
       full ? styles.flex : {},
+      fullWidth ? styles.fullWidth : {},
       centered ? styles.centered : {},
-      centeredVertical ? styles.centeredVertical : {},
+      centeredVertical && row ? styles.alignCenter : {},
+      centeredVertical && !row ? styles.justifyCenter : {},
       slim ? styles.slim : {},
       row ? styles.row : {},
       style

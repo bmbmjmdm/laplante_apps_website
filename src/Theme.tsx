@@ -1,3 +1,4 @@
+// @ts-ignore-next-line
 import { StyleSheet, TextStyle, Dimensions, ViewStyle } from 'react-native';
 import React, { FunctionComponent, ReactNode, createContext } from 'react';
 
@@ -23,9 +24,7 @@ export const styles = StyleSheet.create({
     borderRadius: 999,
     width: 50,
     height: 50,
-    marginRight: 50,
-    marginTop: 50,
-    marginBottom: 50,
+    marginLeft: 50,
   },
 
   header: {
@@ -41,8 +40,11 @@ export const styles = StyleSheet.create({
   flex: {
     flex: 1
   },
-  centeredVertical: {
+  justifyCenter: {
     justifyContent: 'center',
+  },
+  alignCenter: {
+    alignItems: 'center',
   },
   row: {
     flexDirection: 'row',
@@ -51,6 +53,9 @@ export const styles = StyleSheet.create({
     width: "100%",
     maxWidth: 1500,
     paddingHorizontal: 50,
+  },
+  fullWidth: {
+    width: "100%",
   },
   centered: {
     alignItems: 'center',

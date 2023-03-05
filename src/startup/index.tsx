@@ -1,5 +1,6 @@
 import './index.css';
 import App from '../App';
+// @ts-ignore-next-line
 import { AppRegistry } from "react-native";
 
 AppRegistry.registerComponent("App", () => App);

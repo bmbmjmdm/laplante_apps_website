@@ -1,13 +1,20 @@
-import { Animated, Easing, Text } from 'react-native';
+// @ts-ignore-next-line
+import { Animated, Easing, Text, Image, Dimensions } from 'react-native';
 import React, { FunctionComponent, useState, useEffect, useRef } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { Flex, Padding, StyledText, Typewriter, TypewriterProps } from './Components';
 import { easeOutBack } from './CustomEasing';
+// @ts-ignore-next-line
+import phone_back from './assets/phone_back.png';
+// @ts-ignore-next-line
+import phone_front from './assets/phone_front.png';
+import CardFlip, {CardFlipRef} from './CardFlip';
 
 const FINAL_CAPTION = 10
 const CAT_MODE_KEY = "laplantAppsCatMode 90124986496340230485789523042983752"
 
 // TODO make images responsive
+// TODO extra out hardcoded styles/etc
 export const HomeScreen:FunctionComponent<{}> = () => {
   // if the user already saw the cat mode (or close enough), we want to start in cat mode
   const alreadyInCatMode = React.useRef(Boolean(localStorage.getItem(CAT_MODE_KEY))).current
@@ -26,7 +33,7 @@ export const HomeScreen:FunctionComponent<{}> = () => {
     setDeleteTitle(true);
     setCurCaption(curCaption + 1)
     setTimeout(() => {
-      setCurCaption(curCaption + 1)
+      setCurCaption((cur) => cur + 1)
     }, 20 * 1000)
   }
   // if we start in cat mode, setup a 20sec timer to show the extended caption still
@@ -41,6 +48,59 @@ export const HomeScreen:FunctionComponent<{}> = () => {
   // we use a placeholder to make sure the view remains the same size as the typewriter text even when its empty
   const placeholder = () => <StyledText type={"header"}>{'\u200A'}</StyledText>
 
+  // animate in a phone with a picture of the app on it
+  const windowHeight = Dimensions.get('window').height/2;
+  const phoneTop = useRef(new Animated.Value(windowHeight)).current;
+  const phoneScale = useRef(new Animated.Value(1.25)).current;
+  const cardRef = useRef<CardFlipRef>(null);
+  const [phoneDone, setPhoneDone] = useState(false);
+
+  useEffect(() => {
+    Animated.sequence([
+      Animated.delay(1000),
+      Animated.timing(phoneTop, {
+        toValue: windowHeight - 500,
+        duration: 1000,
+        useNativeDriver: false
+      }),
+      Animated.delay(500),
+      Animated.timing(phoneTop, {
+        toValue: windowHeight,
+        duration: 4000,
+        useNativeDriver: false
+      }),
+      Animated.delay(800),
+      Animated.timing(phoneTop, {
+        toValue: windowHeight - 350,
+        duration: 500,
+        useNativeDriver: false
+      }),
+      Animated.delay(100),
+      Animated.timing(phoneTop, {
+        toValue: windowHeight,
+        duration: 300,
+        useNativeDriver: false
+      }),
+      Animated.delay(1000),
+      Animated.parallel([
+        Animated.timing(phoneTop, {
+          toValue: -1240 / 2,
+          easing: easeOutBack, // TODO make this slow down at the end for a softer landing
+          duration: 1000,
+          useNativeDriver: false
+        }),
+        Animated.timing(phoneScale, {
+          toValue: 0.65,
+          duration: 1000,
+          useNativeDriver: false
+        }),
+        Animated.delay(1500),
+      ])
+    ]).start(() => {
+      cardRef.current?.flip()
+    })
+  }, [])
+
   // cycle through pictures every 5 seconds
   const pictureList = useRef(appPictures);
   const [curPicture, setCurPicture] = useState(0);
@@ -50,47 +110,49 @@ export const HomeScreen:FunctionComponent<{}> = () => {
   const movingPicTop = useRef(new Animated.Value(350)).current;
 
   useEffect(() => {
-    // animate the new image just below the current one, fading new one in and old one out, and drag the new one up into the old one's place
-    Animated.parallel([
-      Animated.timing(stationaryPicOpacity, {
-        toValue: 0,
-        duration: 600,
-        useNativeDriver: false
-      }),
-      Animated.timing(movingPicOpacity, {
-        toValue: 1,
-        duration: 600,
-        useNativeDriver: false
-      }),
-      Animated.timing(movingPicTop, {
-        toValue: 0,
-        easing: easeOutBack,
-        duration: 800,
-        useNativeDriver: false
-      }),
-    ]).start(() => {
-      // now make the old component use the new image, reset the new component's position, and reset both their opacities
-      const curPicOrLast = Math.min(curPicture, pictureList.current.length - 1)
-      setStationaryPic(pictureList.current[curPicOrLast])
+    if (phoneDone) {
+      // animate the new image just below the current one, fading new one in and old one out, and drag the new one up into the old one's place
+      Animated.parallel([
+        Animated.timing(stationaryPicOpacity, {
+          toValue: 0,
+          duration: 600,
+          useNativeDriver: false
+        }),
+        Animated.timing(movingPicOpacity, {
+          toValue: 1,
+          duration: 600,
+          useNativeDriver: false
+        }),
+        Animated.timing(movingPicTop, {
+          toValue: 0,
+          easing: easeOutBack,
+          duration: 800,
+          useNativeDriver: false
+        }),
+      ]).start(() => {
+        // now make the old component use the new image, reset the new component's position, and reset both their opacities
+        const curPicOrLast = Math.min(curPicture, pictureList.current.length - 1)
+        setStationaryPic(pictureList.current[curPicOrLast])
+        setTimeout(() => {
+          stationaryPicOpacity.setValue(1);
+          movingPicOpacity.setValue(0);
+          movingPicTop.setValue(350);
+        }, 500)
+      })
       setTimeout(() => {
-        stationaryPicOpacity.setValue(1);
-        movingPicOpacity.setValue(0);
-        movingPicTop.setValue(350);
-      }, 500)
-    })
-    setTimeout(() => {
-      // we switch over the picture lists here to ensure it doesnt conflict with the animation
-      if (catMode.current) {
-        pictureList.current = catPictures;
-      }
-      if (curPicture >= pictureList.current.length - 1) {
-        setCurPicture(0)
-      }
-      else {
-        setCurPicture(curPicture + 1)
-      }
-    }, 5 * 1000)
-  }, [curPicture])
+        // we switch over the picture lists here to ensure it doesnt conflict with the animation
+        if (catMode.current) {
+          pictureList.current = catPictures;
+        }
+        if (curPicture >= pictureList.current.length - 1) {
+          setCurPicture(0)
+        }
+        else {
+          setCurPicture(curPicture + 1)
+        }
+      }, 5 * 1000)
+    }
+  }, [curPicture, phoneDone])
 
   return (
     <Flex full centered>
@@ -116,25 +178,53 @@ export const HomeScreen:FunctionComponent<{}> = () => {
           </Flex>
         </Flex>
         <Flex full centered>
-          <Animated.Image
-            style={{
-              width: 500,
-              height: 500,
-              opacity: stationaryPicOpacity,
-              zIndex: -1,
-            }}
-            source={{uri: stationaryPic}}
-          />
-          <Animated.Image
-            style={{
-              position: "absolute",
-              width: 500,
-              height: 500,
-              opacity: movingPicOpacity,
-              transform:[{translateY: movingPicTop}],
-            }}
-            source={{uri: pictureList.current[curPicture]}}
-          />
+          {phoneDone && (
+            <>
+              <Animated.Image
+                style={{
+                  width: 500,
+                  height: 650,
+                  opacity: stationaryPicOpacity,
+                  zIndex: -1,
+                  borderRadius: 20,
+                }}
+                source={{uri: stationaryPic}}
+              />
+              <Animated.Image
+                style={{
+                  position: "absolute",
+                  width: 500,
+                  height: 650,
+                  borderRadius: 20,
+                  opacity: movingPicOpacity,
+                  transform:[{translateY: movingPicTop}],
+                }}
+                source={{uri: pictureList.current[curPicture]}}
+              />
+            </>
+          )}
+          {!phoneDone &&
+            <Animated.View style={{
+              transform:[{scale: phoneScale}, {translateY: phoneTop}],
+            }} >
+              <CardFlip ref={cardRef} expectedWidth={590} >
+                <Image
+                  style={{
+                    width: 590,
+                    height: 1240,
+                  }}
+                  source={phone_back}
+                />
+                <Image
+                  style={{
+                    width: 590,
+                    height: 1240,
+                  }}
+                  source={phone_front}
+                />
+              </CardFlip>
+            </Animated.View>
+          }
         </Flex>
       </Flex>
     </Flex>
@@ -207,7 +297,7 @@ const getCaption = (curCaption:number, nextCaption:Function, changeProduct:Funct
       <StyledText type={"caption"}>
         I like cats. 
       </StyledText>
-      <Typewriter {...defaultProps()} deleteAfter={false} onFinish={undefined}>
+      <Typewriter {...defaultProps()} pauseTime={5000} onFinish={undefined}>
         {"    .    .    .    (Actually it would be spelled LeChatte)"}
       </Typewriter>,
     </Text>,
