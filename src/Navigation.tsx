@@ -1,12 +1,10 @@
 // @ts-ignore-next-line
-import { TouchableOpacity, View, Image } from 'react-native';
+import { TouchableOpacity, Image } from 'react-native';
 import React, { FunctionComponent, useContext } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { StackHeaderProps, createStackNavigator } from '@react-navigation/stack';
 import { ThemeContext, ThemeProvider, Themes } from './Theme';
 import { HomeScreen } from './Screens';
-// @ts-ignore-next-line
-import menu from "./assets/menu_white.png";
 // @ts-ignore-next-line
 import LinearGradient from 'react-native-web-linear-gradient';
 import { Flex, Padding, StyledText } from './Components';
@@ -64,11 +62,15 @@ const Header:FunctionComponent<StackHeaderProps> = ({ navigation, route, options
   const theme = useContext(ThemeContext);
 
   return (
-    <Flex fullWidth row centeredVertical style={{backgroundColor: "#000000", paddingHorizontal: 50, paddingVertical: 35 }}>
-      <Image source={menu} style={{width: 35, height: 35}} />
+    <Flex fullWidth row centeredVertical style={{paddingHorizontal: 100, paddingVertical: 50 }}>
+      <Image source={theme.menu} style={{width: 35, height: 35}} />
       <Padding horizontal={50} />
-      <StyledText type={"caption"}> LaPlante Apps </StyledText>
-      <StyledText type={"caption"} style={{marginLeft: "auto", marginRight: "auto"}}> Central </StyledText>
+      <StyledText type={"caption"}>
+        LaPlante Apps
+      </StyledText>
+      <StyledText type={"caption"} style={{marginLeft: "auto", marginRight: "auto"}}>
+        { route.name === "Home" ? null : route.name }
+       </StyledText>
       <TouchableOpacity style={[theme.navButton]} onPress={() => {}} />
       <TouchableOpacity style={theme.navButton} onPress={() => {}} />
       <TouchableOpacity style={theme.navButton} onPress={() => {}} />

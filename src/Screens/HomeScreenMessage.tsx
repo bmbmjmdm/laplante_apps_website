@@ -11,7 +11,7 @@ type HomeScreenMessageProps = {
 }
 
 export const HomeScreenMessage:FunctionComponent<HomeScreenMessageProps> = ({ setCatMode }) => {
-  const startWithCatModeText = React.useRef(Boolean(localStorage.getItem(CAT_MODE_KEY))).current
+  const startWithCatModeText = false//React.useRef(Boolean(localStorage.getItem(CAT_MODE_KEY))).current //TODO reenable
   // go through various captions, eventually switching to a different product (cat title + pictures)
   const [curCaption, setCurCaption] = useState(startWithCatModeText ? CAT_CAPTION: 0);
   const [deleteTitle, setDeleteTitle] = useState(startWithCatModeText);

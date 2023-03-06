@@ -1,28 +1,53 @@
 // @ts-ignore-next-line
-import { Animated, Easing, Image, Dimensions } from 'react-native';
+import { Animated, View, Image, Dimensions } from 'react-native';
 import React, { FunctionComponent, useState, useEffect, useRef, MutableRefObject } from 'react';
 import { easeOutBack, CardFlip, CardFlipRef } from '../Components';
 // @ts-ignore-next-line
 import phone_back from '../assets/phone_back.png';
 // @ts-ignore-next-line
+import phone_case from '../assets/phone_case.png';
+// @ts-ignore-next-line
 import phone_front from '../assets/phone_front.png';
 // @ts-ignore-next-line
-import iadventure from '../assets/23-03-05-10-21-31.gif';
+import phone_inner from '../assets/phone_inner.png';
+// @ts-ignore-next-line
+import iadventure from '../assets/iadventure.gif';
+// @ts-ignore-next-line
+import npcg from '../assets/npcg_short.gif';
+// @ts-ignore-next-line
+import dice from '../assets/dice.gif';
+// @ts-ignore-next-line
+import virta from '../assets/virta_short.gif';
+// @ts-ignore-next-line
+import weread from '../assets/weread_short.gif';
+// @ts-ignore-next-line
+import hearyouout from '../assets/hearyouout_short.gif';
 
 type HomeScreenImagesProps = {
   catMode: MutableRefObject<boolean>;
 }
 
+// TODO fix overflowing animation
+
 // TODO make images responsive
 // TODO extra out hardcoded styles/etc
 export const HomeScreenImages:FunctionComponent<HomeScreenImagesProps> = ({ catMode }) => {
-  // animate in a phone with a picture of the app on it
+  // animate in a phone from off-screen
   const windowHeight = Dimensions.get('window').height/2;
   const phoneTop = useRef(new Animated.Value(windowHeight)).current;
   const phoneScale = useRef(new Animated.Value(1.25)).current;
   const cardRef = useRef<CardFlipRef>(null);
   const [phoneDone, setPhoneDone] = useState(false);
+  const [phoneCycling, setPhoneCycling] = useState(false);
+  const finalPhoneScale = 0.65;
+  const basePhoneHeight = 1232;
+  const basePhoneWidth = 572;
+  const heightPhoneAtScale = basePhoneHeight * finalPhoneScale;
+  const widthPhoneAtScale = basePhoneWidth * finalPhoneScale;
+  const heightAppAtScale = 1150 * finalPhoneScale;
+  const widthAppAtScale = 525 * finalPhoneScale;
 
+  // make the phone slide up playfully, then flip over
   useEffect(() => {
     Animated.sequence([
       Animated.delay(1000),
@@ -52,13 +77,13 @@ export const HomeScreenImages:FunctionComponent<HomeScreenImagesProps> = ({ catM
       Animated.delay(1000),
       Animated.parallel([
         Animated.timing(phoneTop, {
-          toValue: -1240 / 2,
+          toValue: -basePhoneHeight / 2,
           easing: easeOutBack, // TODO make this slow down at the end for a softer landing
           duration: 1000,
           useNativeDriver: false
         }),
         Animated.timing(phoneScale, {
-          toValue: 0.65,
+          toValue: finalPhoneScale,
           duration: 1000,
           useNativeDriver: false
         }),
@@ -69,108 +94,172 @@ export const HomeScreenImages:FunctionComponent<HomeScreenImagesProps> = ({ catM
     })
   }, [])
 
-  // cycle through pictures every 5 seconds
-  const pictureList = useRef(appPictures);
-  const [curPicture, setCurPicture] = useState(0);
-  const [stationaryPic, setStationaryPic] = useState(appPictures[0]);
-  const stationaryPicOpacity = useRef(new Animated.Value(0)).current;
-  const movingPicOpacity = useRef(new Animated.Value(0)).current;
-  const movingPicTop = useRef(new Animated.Value(350)).current;
+  // after the phone is done, start showing apps on it
+  // we use 2 app screens, one on top of the other, so we can animate the new one in and the old one out, then they swap roles
+  const curApp = useRef(0);
+  const [curPicOneState, setCurPicOneSetter] = useState(0);
+  const [curPicTwoState, setCurPicTwoSetter] = useState(1);
+  const innerPhoneOpacity = useRef(new Animated.Value(1)).current;
+  const appScreens = [
+    {
+      picList: useRef(appPictures),
+      picOpacity: useRef(new Animated.Value(0)).current,
+      picTop: useRef(new Animated.Value(150)).current,
+      picZ: useRef(new Animated.Value(1)).current,
+      curPic: curPicOneState,
+      setCurPic: setCurPicOneSetter
+    },
+    {
+      picList: useRef(appPictures),
+      picOpacity: useRef(new Animated.Value(0)).current,
+      picTop: useRef(new Animated.Value(150)).current,
+      picZ: useRef(new Animated.Value(2)).current,
+      curPic: curPicTwoState,
+      setCurPic: setCurPicTwoSetter
+    }
+  ]
 
+  // cycle through our apps
   useEffect(() => {
     if (phoneDone) {
+      const curAppScreen = appScreens[curApp.current];
+      const nextAppScreen = appScreens[1 - curApp.current];
+      // optionally fade out the inner phone if we just started cycling
+      const optionalAnimation = phoneCycling ? [] : [
+        Animated.timing(innerPhoneOpacity, {
+          toValue: 0,
+          duration: 600,
+          useNativeDriver: false
+        })
+      ]
       // animate the new image just below the current one, fading new one in and old one out, and drag the new one up into the old one's place
       Animated.parallel([
-        Animated.timing(stationaryPicOpacity, {
+        ...optionalAnimation,
+        Animated.timing(curAppScreen.picOpacity, {
           toValue: 0,
           duration: 600,
           useNativeDriver: false
         }),
-        Animated.timing(movingPicOpacity, {
+        Animated.timing(nextAppScreen.picOpacity, {
           toValue: 1,
           duration: 600,
           useNativeDriver: false
         }),
-        Animated.timing(movingPicTop, {
+        Animated.timing(nextAppScreen.picTop, {
           toValue: 0,
           easing: easeOutBack,
-          duration: 800,
+          duration: 600,
           useNativeDriver: false
         }),
       ]).start(() => {
-        // now make the old component use the new image, reset the new component's position, and reset both their opacities
-        const curPicOrLast = Math.min(curPicture, pictureList.current.length - 1)
-        setStationaryPic(pictureList.current[curPicOrLast])
+        // now set them up to do it again next time
+        setPhoneCycling(true)
         setTimeout(() => {
-          stationaryPicOpacity.setValue(1);
-          movingPicOpacity.setValue(0);
-          movingPicTop.setValue(350);
+          curAppScreen.picZ.setValue(2);
+          nextAppScreen.picZ.setValue(1);
+          curAppScreen.picTop.setValue(150);
         }, 500)
       })
       setTimeout(() => {
         // we switch over the picture lists here to ensure it doesnt conflict with the animation
         if (catMode.current) {
-          pictureList.current = catPictures;
+          curAppScreen.picList.current = catPictures;
         }
-        if (curPicture >= pictureList.current.length - 1) {
-          setCurPicture(0)
+        // go to the next picture (by 2 so the 2 app screens leep frog each other)
+        // if we go off the end of the list, reset to our original index
+        const nextPicOrLast = Math.min(curAppScreen.curPic + 2, curAppScreen.picList.current.length - 1)
+        if (nextPicOrLast >= curAppScreen.picList.current.length - 1) {
+          curAppScreen.setCurPic(curApp.current)
         }
         else {
-          setCurPicture(curPicture + 1)
+          curAppScreen.setCurPic(curAppScreen.curPic + 2)
         }
+        curApp.current = 1 - curApp.current;
       }, 5 * 1000)
     }
-  }, [curPicture, phoneDone])
+  }, [curPicOneState, curPicTwoState, phoneDone])
 
+  // render the phone and the apps
   return (
     <>
-      <Animated.View style={{
-        position: "absolute",
-        transform:[{scale: phoneScale}, {translateY: phoneTop}],
-      }} >
-        <CardFlip ref={cardRef} expectedWidth={590} onFlipEnd={() => setPhoneDone(true)}>
-          <Image
-            style={{
-              width: 590,
-              height: 1240,
-            }}
-            source={phone_back}
-          />
-          <Image
-            style={{
-              width: 590,
-              height: 1240,
-            }}
-            source={phone_front}
-          />
-        </CardFlip>
-      </Animated.View>
+      {!phoneCycling &&
+        <Animated.View style={{
+          position: "absolute",
+          zIndex: 0,
+          transform:[{scale: phoneScale}, {translateY: phoneTop}],
+        }} >
+          <CardFlip ref={cardRef} expectedWidth={basePhoneWidth} onFlipEnd={() => setTimeout(() => setPhoneDone(true), 3000)}>
+            <Image
+              style={{
+                width: basePhoneWidth,
+                height: basePhoneHeight,
+              }}
+              source={phone_back}
+            />
+            <Image
+              style={{
+                width: basePhoneWidth,
+                height: basePhoneHeight,
+              }}
+              source={phone_front}
+            />
+          </CardFlip>
+        </Animated.View>
+      }
       {phoneDone && (
-        <>
+        <View style={{
+          overflow: "hidden", 
+          zIndex: 1,
+          width: widthPhoneAtScale,
+          height: heightPhoneAtScale,
+        }}>
           <Animated.Image
             style={{
-              width: 530,
-              height: 1150,
-              transform:[{scale: phoneScale}],
-              opacity: stationaryPicOpacity,
-              zIndex: 1,
-              borderRadius: 20,
+              width: widthPhoneAtScale,
+              zIndex: 3,
+              height: heightPhoneAtScale,
             }}
-            source={stationaryPic}
+            source={phone_case}
+          />
+          {!phoneCycling &&
+            <Animated.Image
+              style={{
+                position: "absolute",
+                width: widthPhoneAtScale,
+                zIndex: 0,
+                opacity: innerPhoneOpacity,
+                height: heightPhoneAtScale,
+              }}
+              source={phone_inner}
+            />
+          }
+          <Animated.Image
+            style={{
+              position: "absolute",
+              width: widthAppAtScale,
+              height: heightAppAtScale,
+              zIndex: appScreens[0].picZ,
+              top: 12,
+              left: 15,
+              opacity: appScreens[0].picOpacity,
+              transform:[{translateY: appScreens[0].picTop}],
+            }}
+            source={appScreens[0].picList.current[appScreens[0].curPic]}
           />
           <Animated.Image
             style={{
               position: "absolute",
-              width: 530,
-              height: 1150,
-              borderRadius: 20,
-              zIndex: 2,
-              opacity: movingPicOpacity,
-              transform:[{translateY: movingPicTop}, {scale: phoneScale}],
+              width: widthAppAtScale,
+              height: heightAppAtScale,
+              zIndex: appScreens[1].picZ,
+              top: 12,
+              left: 15,
+              opacity: appScreens[1].picOpacity,
+              transform:[{translateY: appScreens[1].picTop}],
             }}
-            source={pictureList.current[curPicture]}
+            source={appScreens[1].picList.current[appScreens[1].curPic]}
           />
-        </>
+        </View>
       )}
     </>
   );
@@ -178,9 +267,19 @@ export const HomeScreenImages:FunctionComponent<HomeScreenImagesProps> = ({ catM
 
 
 const appPictures = [
+  dice,
+  hearyouout,
+  virta,
   iadventure,
+  weread,
+  npcg, 
 ]
 
 const catPictures = [
-  iadventure
+  dice,
+  hearyouout,
+  virta,
+  iadventure,
+  weread,
+  npcg, 
 ]
