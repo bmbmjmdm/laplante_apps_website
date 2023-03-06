@@ -1,5 +1,5 @@
 import './index.css';
-import App from '../App';
+import App from '../Navigation';
 // @ts-ignore-next-line
 import { AppRegistry } from "react-native";
 

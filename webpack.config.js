@@ -48,6 +48,10 @@ module.exports = {
         test: /\.ttf$/,
         loader: 'file-loader',
       },
+      {
+        test: /\.mp4$/,
+        use: 'file-loader?name=videos/[name].[ext]',
+      },
     ],
   },
   
