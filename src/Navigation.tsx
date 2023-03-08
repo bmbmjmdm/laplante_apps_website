@@ -8,6 +8,7 @@ import { HomeScreen } from './Screens';
 // @ts-ignore-next-line
 import LinearGradient from 'react-native-web-linear-gradient';
 import { Flex, Padding, StyledText } from './Components';
+import { AppsScreen } from './Screens/AppsScreen';
 
 const Stack = createStackNavigator();
 
@@ -49,8 +50,9 @@ const Navigator:FunctionComponent<{}> = () => {
       angleCenter={{ x: 0.5, y: 0.5}}
     >
       <NavigationContainer theme={emptyTheme}>
-        <Stack.Navigator initialRouteName="Home">
+        <Stack.Navigator initialRouteName="Apps">
           <Stack.Screen name="Home" component={HomeScreen} options={defaultOptions} />
+          <Stack.Screen name="Apps" component={AppsScreen} options={defaultOptions} />
         </Stack.Navigator>
       </NavigationContainer>
     </LinearGradient>

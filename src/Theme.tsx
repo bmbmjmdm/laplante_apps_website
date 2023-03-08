@@ -34,7 +34,7 @@ export const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   body: {
-    fontSize: 36, //scaleFont(24),
+    fontSize: 45, //scaleFont(24),
   },
   caption: {
     fontSize: 30, //scaleFont(24),

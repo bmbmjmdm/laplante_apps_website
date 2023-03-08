@@ -27,10 +27,8 @@ type HomeScreenImagesProps = {
   catMode: MutableRefObject<boolean>;
 }
 
-// TODO fix overflowing animation
-
 // TODO make images responsive
-// TODO extra out hardcoded styles/etc
+// TODO extract out hardcoded styles/etc
 export const HomeScreenImages:FunctionComponent<HomeScreenImagesProps> = ({ catMode }) => {
   // animate in a phone from off-screen
   const windowHeight = Dimensions.get('window').height/2;
@@ -44,7 +42,7 @@ export const HomeScreenImages:FunctionComponent<HomeScreenImagesProps> = ({ catM
   const basePhoneWidth = 572;
   const heightPhoneAtScale = basePhoneHeight * finalPhoneScale;
   const widthPhoneAtScale = basePhoneWidth * finalPhoneScale;
-  const heightAppAtScale = 1150 * finalPhoneScale;
+  const heightAppAtScale = 1050 * finalPhoneScale;
   const widthAppAtScale = 525 * finalPhoneScale;
 
   // make the phone slide up playfully, then flip over
@@ -100,20 +98,23 @@ export const HomeScreenImages:FunctionComponent<HomeScreenImagesProps> = ({ catM
   const [curPicOneState, setCurPicOneSetter] = useState(0);
   const [curPicTwoState, setCurPicTwoSetter] = useState(1);
   const innerPhoneOpacity = useRef(new Animated.Value(1)).current;
+  const startingTopVal = 250;
   const appScreens = [
     {
       picList: useRef(appPictures),
       picOpacity: useRef(new Animated.Value(0)).current,
-      picTop: useRef(new Animated.Value(150)).current,
+      picTop: useRef(new Animated.Value(startingTopVal)).current,
       picZ: useRef(new Animated.Value(1)).current,
+      picScale: useRef(new Animated.Value(0.5)).current,
       curPic: curPicOneState,
       setCurPic: setCurPicOneSetter
     },
     {
       picList: useRef(appPictures),
       picOpacity: useRef(new Animated.Value(0)).current,
-      picTop: useRef(new Animated.Value(150)).current,
+      picTop: useRef(new Animated.Value(startingTopVal)).current,
       picZ: useRef(new Animated.Value(2)).current,
+      picScale: useRef(new Animated.Value(0.5)).current,
       curPic: curPicTwoState,
       setCurPic: setCurPicTwoSetter
     }
@@ -151,13 +152,19 @@ export const HomeScreenImages:FunctionComponent<HomeScreenImagesProps> = ({ catM
           duration: 600,
           useNativeDriver: false
         }),
+        Animated.timing(nextAppScreen.picScale, {
+          toValue: 1,
+          duration: 600,
+          useNativeDriver: false
+        }),
       ]).start(() => {
         // now set them up to do it again next time
         setPhoneCycling(true)
         setTimeout(() => {
-          curAppScreen.picZ.setValue(2);
           nextAppScreen.picZ.setValue(1);
-          curAppScreen.picTop.setValue(150);
+          curAppScreen.picZ.setValue(2);
+          curAppScreen.picScale.setValue(0.5);
+          curAppScreen.picTop.setValue(startingTopVal);
         }, 500)
       })
       setTimeout(() => {
@@ -165,17 +172,16 @@ export const HomeScreenImages:FunctionComponent<HomeScreenImagesProps> = ({ catM
         if (catMode.current) {
           curAppScreen.picList.current = catPictures;
         }
-        // go to the next picture (by 2 so the 2 app screens leep frog each other)
+        // go to the next picture (by 2 so the 2 app screens leap frog each other)
         // if we go off the end of the list, reset to our original index
-        const nextPicOrLast = Math.min(curAppScreen.curPic + 2, curAppScreen.picList.current.length - 1)
-        if (nextPicOrLast >= curAppScreen.picList.current.length - 1) {
+        if (curAppScreen.curPic + 2 > curAppScreen.picList.current.length - 1) {
           curAppScreen.setCurPic(curApp.current)
         }
         else {
           curAppScreen.setCurPic(curAppScreen.curPic + 2)
         }
         curApp.current = 1 - curApp.current;
-      }, 5 * 1000)
+      }, 6 * 1000)
     }
   }, [curPicOneState, curPicTwoState, phoneDone])
 
@@ -188,7 +194,7 @@ export const HomeScreenImages:FunctionComponent<HomeScreenImagesProps> = ({ catM
           zIndex: 0,
           transform:[{scale: phoneScale}, {translateY: phoneTop}],
         }} >
-          <CardFlip ref={cardRef} expectedWidth={basePhoneWidth} onFlipEnd={() => setTimeout(() => setPhoneDone(true), 3000)}>
+          <CardFlip ref={cardRef} expectedWidth={basePhoneWidth} onFlipEnd={() => setTimeout(() => setPhoneDone(true), 1500)}>
             <Image
               style={{
                 width: basePhoneWidth,
@@ -210,6 +216,7 @@ export const HomeScreenImages:FunctionComponent<HomeScreenImagesProps> = ({ catM
         <View style={{
           overflow: "hidden", 
           zIndex: 1,
+          borderRadius: 51,
           width: widthPhoneAtScale,
           height: heightPhoneAtScale,
         }}>
@@ -239,10 +246,10 @@ export const HomeScreenImages:FunctionComponent<HomeScreenImagesProps> = ({ catM
               width: widthAppAtScale,
               height: heightAppAtScale,
               zIndex: appScreens[0].picZ,
-              top: 12,
+              top: 40,
               left: 15,
               opacity: appScreens[0].picOpacity,
-              transform:[{translateY: appScreens[0].picTop}],
+              transform:[{translateY: appScreens[0].picTop}, {scale: appScreens[0].picScale}],
             }}
             source={appScreens[0].picList.current[appScreens[0].curPic]}
           />
@@ -252,10 +259,10 @@ export const HomeScreenImages:FunctionComponent<HomeScreenImagesProps> = ({ catM
               width: widthAppAtScale,
               height: heightAppAtScale,
               zIndex: appScreens[1].picZ,
-              top: 12,
+              top: 40,
               left: 15,
               opacity: appScreens[1].picOpacity,
-              transform:[{translateY: appScreens[1].picTop}],
+              transform:[{translateY: appScreens[1].picTop}, {scale: appScreens[1].picScale}],
             }}
             source={appScreens[1].picList.current[appScreens[1].curPic]}
           />

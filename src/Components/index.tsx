@@ -4,3 +4,5 @@ export { easeOutBack } from './Easing';
 export type { TypewriterProps } from './Text';
 export { CardFlip } from './CardFlip';
 export  type {CardFlipRef} from './CardFlip';
+export { ShowcaseRow } from './ShowcaseRow';
+export { ShowcaseHeader } from './ShowcaseHeader';
