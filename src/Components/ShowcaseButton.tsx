@@ -49,6 +49,11 @@ export const ShowcaseButton: FunctionComponent<ShowcaseButtonProps> = ({ link, n
     outputRange: ["0deg", "-10deg", "10deg", "-20deg", "30deg", "0deg"],
     extrapolate: "clamp"
   })).current;
+  const linkCounterRotate = useRef(linkAnimation.interpolate({
+    inputRange: [0, 20, 40, 60, 80, 100],
+    outputRange: ["0deg", "10deg", "-10deg", "20deg", "-30deg", "0deg"],
+    extrapolate: "clamp"
+  })).current;
 
 
   const randomTimeout = (f: Function) => {
@@ -163,6 +168,7 @@ export const ShowcaseButton: FunctionComponent<ShowcaseButtonProps> = ({ link, n
                   transform: [
                     { scaleY: Animated.divide(new Animated.Value(1), linkScaleY) },
                     { scaleX: Animated.divide(new Animated.Value(1), linkScaleX) },
+                    { rotate: linkCounterRotate },
                   ]
                 }}
                 type={"button"}

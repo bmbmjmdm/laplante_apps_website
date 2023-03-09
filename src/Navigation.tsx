@@ -62,13 +62,13 @@ const Navigator:FunctionComponent<{}> = () => {
 // TODO make padding responsive
 const Header:FunctionComponent<StackHeaderProps> = ({ navigation, route, options, back }) => {
   const theme = useContext(ThemeContext);
-  const sideMenuLeft = useRef(new Animated.Value(-250)).current;
+  const sideMenuLeft = useRef(new Animated.Value(-200)).current;
   const isSideMenuShown = useRef(false);
   const toggleMenu = () => {
     Animated.timing(sideMenuLeft, {
-      toValue: isSideMenuShown.current ? -250 : 0, 
-      duration: 550, 
-      easing: Easing.in(Easing.sin), 
+      toValue: isSideMenuShown.current ? -200 : 0, 
+      duration: 450, 
+      easing: Easing.out(Easing.sin), 
       useNativeDrivers: false
     }).start(() => {
       isSideMenuShown.current = !isSideMenuShown.current
