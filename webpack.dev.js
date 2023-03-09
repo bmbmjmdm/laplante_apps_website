@@ -23,7 +23,8 @@ module.exports = merge(config, {
     },
     compress: true,
     port: 3000,
-    hot: true
+    hot: true,
+    historyApiFallback: true,
   },
 
   // Uncomment before final deployment.

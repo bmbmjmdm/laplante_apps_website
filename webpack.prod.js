@@ -9,7 +9,8 @@ module.exports = merge(dev, {
   devtool: 'source-map',
   
   devServer: {
-    static: './build'
+    static: './build',
+    historyApiFallback: true,
   },
   
   output : {

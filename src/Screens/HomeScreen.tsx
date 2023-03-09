@@ -12,7 +12,7 @@ export const HomeScreen:FunctionComponent<{}> = () => {
     <AnimatedScreen>
       <Flex full centered>
         <Flex full slim row>
-          <Flex full centeredVertical style={{paddingHorizontal: 50}}>
+          <Flex full centeredVertical style={{paddingHorizontal: 50, marginTop: -50}}>
             <HomeScreenMessage setCatMode={(mode) => catMode.current = mode} />
           </Flex>
           <Flex full centered style={{paddingHorizontal: 50}}>

@@ -36,10 +36,19 @@ const Navigator:FunctionComponent<{}> = () => {
       notification: ""
     }
   };
-  // by default we dont show the header on any screens
+  // setup our header on all screens
   const defaultOptions = {
     header: Header,
   }
+  // setup linking to allow the url path to be used to navigate, as well as the back button
+  const config = {
+    screens: {
+      Home: 'home',
+      Apps: 'apps',
+      Work: "work"
+    },
+  };
+  const linking = { config, prefixes: [] }
   return (
     <LinearGradient
       colors={theme.background}
@@ -48,7 +57,7 @@ const Navigator:FunctionComponent<{}> = () => {
       angle={135}
       angleCenter={{ x: 0.5, y: 0.5}}
     >
-      <NavigationContainer theme={emptyTheme}>
+      <NavigationContainer theme={emptyTheme} linking={linking}>
         <Stack.Navigator initialRouteName="Home">
           <Stack.Screen name="Home" component={HomeScreen} options={defaultOptions} />
           <Stack.Screen name="Apps" component={AppsScreen} options={defaultOptions} />
@@ -59,10 +68,11 @@ const Navigator:FunctionComponent<{}> = () => {
   )
 }
 
-// TODO make padding responsive
+// TODO make responsive
 const Header:FunctionComponent<StackHeaderProps> = ({ navigation, route, options, back }) => {
   const theme = useContext(ThemeContext);
   const sideMenuLeft = useRef(new Animated.Value(-200)).current;
+  const sideMenuOpacity = useRef(new Animated.Value(1)).current;
   const isSideMenuShown = useRef(false);
   const toggleMenu = () => {
     Animated.timing(sideMenuLeft, {
@@ -75,11 +85,23 @@ const Header:FunctionComponent<StackHeaderProps> = ({ navigation, route, options
     })
   }
 
+  const navigate = (path:string) => () => {
+    navigation.replace(path)
+    Animated.timing(sideMenuOpacity, {
+      toValue: 0,
+      duration: 250,
+      useNativeDrivers: false
+    }).start()
+  }
+
+  // TODO I use navigation.replace here to allow fading-out the current screen, however 
+  // this prevents the back button from working. If I use navigation.push, the back button works, but the screen doesn't fade out
   return (
     <Flex fullWidth row centeredVertical style={{paddingHorizontal: 100, paddingVertical: 50 }}>
       <Animated.View style={{
         padding: 50,
         paddingTop: 100,
+        opacity: sideMenuOpacity,
         marginTop: 100,
         height: "100vh",
         position: "absolute",
@@ -87,23 +109,19 @@ const Header:FunctionComponent<StackHeaderProps> = ({ navigation, route, options
         top: 0,
         transform: [{translateX: sideMenuLeft}]
       }}>
-        <TouchableOpacity style={{
-          marginBottom: 35,
-        }} onPress={() => {navigation.push("Home")}}>
+        <TouchableOpacity onPress={navigate("Home")}>
           <StyledText type={"body"}>
             Home
           </StyledText>
         </TouchableOpacity>
-        <TouchableOpacity style={{
-          marginBottom: 35,
-        }} onPress={() => {navigation.push("Apps")}}>
+        <Padding vertical={35} />
+        <TouchableOpacity onPress={navigate("Apps")}>
           <StyledText type={"body"}>
             Apps
           </StyledText>
         </TouchableOpacity>
-        <TouchableOpacity style={{
-          marginBottom: 35,
-        }} onPress={() => {navigation.push("Work")}}>
+        <Padding vertical={35} />
+        <TouchableOpacity onPress={navigate("Work")}>
           <StyledText type={"body"}>
             Work
           </StyledText>
