@@ -1,6 +1,6 @@
 // @ts-ignore-next-line
-import { TouchableOpacity, Image } from 'react-native';
-import React, { FunctionComponent, useContext } from 'react';
+import { TouchableOpacity, Image, Animated, View, Easing } from 'react-native';
+import React, { FunctionComponent, useContext, useRef } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { StackHeaderProps, createStackNavigator } from '@react-navigation/stack';
 import { ThemeContext, ThemeProvider, Themes } from './Theme';
@@ -49,7 +49,7 @@ const Navigator:FunctionComponent<{}> = () => {
       angleCenter={{ x: 0.5, y: 0.5}}
     >
       <NavigationContainer theme={emptyTheme}>
-        <Stack.Navigator initialRouteName="Work">
+        <Stack.Navigator initialRouteName="Home">
           <Stack.Screen name="Home" component={HomeScreen} options={defaultOptions} />
           <Stack.Screen name="Apps" component={AppsScreen} options={defaultOptions} />
           <Stack.Screen name="Work" component={WorkScreen} options={defaultOptions} />
@@ -62,10 +62,56 @@ const Navigator:FunctionComponent<{}> = () => {
 // TODO make padding responsive
 const Header:FunctionComponent<StackHeaderProps> = ({ navigation, route, options, back }) => {
   const theme = useContext(ThemeContext);
+  const sideMenuLeft = useRef(new Animated.Value(-250)).current;
+  const isSideMenuShown = useRef(false);
+  const toggleMenu = () => {
+    Animated.timing(sideMenuLeft, {
+      toValue: isSideMenuShown.current ? -250 : 0, 
+      duration: 550, 
+      easing: Easing.in(Easing.sin), 
+      useNativeDrivers: false
+    }).start(() => {
+      isSideMenuShown.current = !isSideMenuShown.current
+    })
+  }
 
   return (
     <Flex fullWidth row centeredVertical style={{paddingHorizontal: 100, paddingVertical: 50 }}>
-      <Image source={theme.menu} style={{width: 35, height: 35}} />
+      <Animated.View style={{
+        padding: 50,
+        paddingTop: 100,
+        marginTop: 100,
+        height: "100vh",
+        position: "absolute",
+        left: 0,
+        top: 0,
+        transform: [{translateX: sideMenuLeft}]
+      }}>
+        <TouchableOpacity style={{
+          marginBottom: 35,
+        }} onPress={() => {navigation.push("Home")}}>
+          <StyledText type={"body"}>
+            Home
+          </StyledText>
+        </TouchableOpacity>
+        <TouchableOpacity style={{
+          marginBottom: 35,
+        }} onPress={() => {navigation.push("Apps")}}>
+          <StyledText type={"body"}>
+            Apps
+          </StyledText>
+        </TouchableOpacity>
+        <TouchableOpacity style={{
+          marginBottom: 35,
+        }} onPress={() => {navigation.push("Work")}}>
+          <StyledText type={"body"}>
+            Work
+          </StyledText>
+        </TouchableOpacity>
+      </Animated.View>
+      <TouchableOpacity onPress={toggleMenu} >
+        <Image source={theme.menu} style={{width: 35, height: 35}} />
+      </TouchableOpacity>
       <Padding horizontal={50} />
       <StyledText type={"caption"}>
         LaPlante Apps
@@ -73,7 +119,7 @@ const Header:FunctionComponent<StackHeaderProps> = ({ navigation, route, options
       <StyledText type={"caption"} style={{marginLeft: "auto", marginRight: "auto"}}>
         { route.name === "Home" ? null : route.name }
        </StyledText>
-      <TouchableOpacity style={[theme.navButton]} onPress={() => {}} />
+      <TouchableOpacity style={theme.navButton} onPress={() => {}} />
       <TouchableOpacity style={theme.navButton} onPress={() => {}} />
       <TouchableOpacity style={theme.navButton} onPress={() => {}} />
     </Flex>
