@@ -29,19 +29,24 @@ export const ShowcaseButton: FunctionComponent<ShowcaseButtonProps> = ({ link, n
     outputRange: [0, 144, 150, 0],
     extrapolate: "clamp"
   })).current;
-  const linkScale = useRef(linkAnimation.interpolate({
-    inputRange: [0, 50, 100],
-    outputRange: [1, 2, 2],
+  const linkScaleY = useRef(linkAnimation.interpolate({
+    inputRange: [0, 20, 40, 60, 80, 100],
+    outputRange: [1, 1.2, 1.5, 1.2, 1.8, 1],
+    extrapolate: "clamp"
+  })).current;
+  const linkScaleX = useRef(linkAnimation.interpolate({
+    inputRange: [0, 20, 40, 60, 80, 100],
+    outputRange: [1, 0.75, 1, 1.25, 1.5, 1],
     extrapolate: "clamp"
   })).current;
   const linkRadius = useRef(linkAnimation.interpolate({
-    inputRange: [0, 50, 100],
-    outputRange: [35, 10, 0],
+    inputRange: [0, 20, 40, 60, 80, 100],
+    outputRange: [35, 10, 20, 50, 20, 35],
     extrapolate: "clamp"
   })).current;
-  const linkTop = useRef(linkAnimation.interpolate({
-    inputRange: [0, 50],
-    outputRange: [0, -20],
+  const linkRotation = useRef(linkAnimation.interpolate({
+    inputRange: [0, 20, 40, 60, 80, 100],
+    outputRange: ["0deg", "-10deg", "10deg", "-20deg", "30deg", "0deg"],
     extrapolate: "clamp"
   })).current;
 
@@ -80,18 +85,13 @@ export const ShowcaseButton: FunctionComponent<ShowcaseButtonProps> = ({ link, n
   }
 
   const nextAnimationLink = () => {
-    Animated.sequence([
-      Animated.timing(linkAnimation, {
-        toValue: 100,
-        duration: 1000,
-        useNativeDriver: false
-      }),
-      Animated.timing(linkAnimation, {
-        toValue: 0,
-        duration: 1000,
-        useNativeDriver: false
-      })
-    ]).start()
+    Animated.timing(linkAnimation, {
+      toValue: 100,
+      duration: 1000,
+      useNativeDriver: false
+    }).start(() => {
+      linkAnimation.setValue(0)
+    })
     randomTimeout(nextAnimationLink)
   }
 
@@ -139,7 +139,11 @@ export const ShowcaseButton: FunctionComponent<ShowcaseButtonProps> = ({ link, n
             overflow: "hidden",
             height: 50,
             width: 100,
-            transform: [ { scaleY: linkScale } ]
+            transform: [
+              { scaleY: linkScaleY },
+              { scaleX: linkScaleX },
+              { rotate: linkRotation },
+            ]
           }}>
             <LinearGradient
               colors={['#ffb0fb', '#19344d']}
@@ -157,33 +161,8 @@ export const ShowcaseButton: FunctionComponent<ShowcaseButtonProps> = ({ link, n
                 animated
                 style={{
                   transform: [
-                    { scaleY: Animated.divide(new Animated.Value(1), linkScale) },
-                  ]
-                }}
-                type={"button"}
-              >
-                Link
-              </StyledText>
-              <StyledText
-                animated
-                style={{
-                  position: "absolute",
-                  transform: [
-                    { scaleY: Animated.divide(new Animated.Value(1), linkScale) },
-                    { translateY: linkTop },
-                  ]
-                }}
-                type={"button"}
-              >
-                Link
-              </StyledText>
-              <StyledText
-                animated
-                style={{
-                  position: "absolute",
-                  transform: [
-                    { scaleY: Animated.divide(new Animated.Value(1), linkScale) },
-                    { translateY: Animated.multiply(new Animated.Value(-1), linkTop) },
+                    { scaleY: Animated.divide(new Animated.Value(1), linkScaleY) },
+                    { scaleX: Animated.divide(new Animated.Value(1), linkScaleX) },
                   ]
                 }}
                 type={"button"}
