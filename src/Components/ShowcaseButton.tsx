@@ -2,18 +2,22 @@
 import { TouchableOpacity, Linking, Animated, Easing } from 'react-native';
 import React, { FunctionComponent, useRef, useEffect } from 'react';
 // @ts-ignore-next-line
+import LinearGradient from 'react-native-web-linear-gradient';
+// @ts-ignore-next-line
 import apple from '../assets/apple.png';
 // @ts-ignore-next-line
 import android from '../assets/android.png';
+import { StyledText } from './Text';
 
 type ShowcaseButtonProps = {
   link: string;
-  name: "Android" | "Apple";
+  name: "Android" | "Apple" | "Link";
 }
 
 export const ShowcaseButton: FunctionComponent<ShowcaseButtonProps> = ({ link, name }) => {
   const androidAnimation = useRef(new Animated.Value(0)).current;
   const appleAnimation = useRef(new Animated.Value(0)).current;
+  const linkAnimation = useRef(new Animated.Value(0)).current;
   const androidRotation = useRef(androidAnimation.interpolate({
     inputRange: [0, 10, 20, 50, 65, 75, 100, 107, 115],
     outputRange: ["0deg", "-10deg", "-20deg", "-20deg", "10deg", "20deg", "20deg", "-10deg", "0deg"],
@@ -25,12 +29,27 @@ export const ShowcaseButton: FunctionComponent<ShowcaseButtonProps> = ({ link, n
     outputRange: [0, 144, 150, 0],
     extrapolate: "clamp"
   })).current;
-
+  const linkScale = useRef(linkAnimation.interpolate({
+    inputRange: [0, 50, 100],
+    outputRange: [1, 2, 2],
+    extrapolate: "clamp"
+  })).current;
+  const linkRadius = useRef(linkAnimation.interpolate({
+    inputRange: [0, 50, 100],
+    outputRange: [35, 10, 0],
+    extrapolate: "clamp"
+  })).current;
+  const linkTop = useRef(linkAnimation.interpolate({
+    inputRange: [0, 50],
+    outputRange: [0, -20],
+    extrapolate: "clamp"
+  })).current;
 
 
   const randomTimeout = (f: Function) => {
     setTimeout(f, Math.random() * 25000 + 5000)
   }
+
   const nextAnimationAndroid = () => {
     Animated.timing(androidAnimation, {
       toValue: 115,
@@ -56,15 +75,30 @@ export const ShowcaseButton: FunctionComponent<ShowcaseButtonProps> = ({ link, n
         easing: Easing.bounce,
         useNativeDriver: false
       })
-    ]).start(() => {
-      appleAnimation.setValue(0)
-    })
+    ]).start()
     randomTimeout(nextAnimationApple)
+  }
+
+  const nextAnimationLink = () => {
+    Animated.sequence([
+      Animated.timing(linkAnimation, {
+        toValue: 100,
+        duration: 1000,
+        useNativeDriver: false
+      }),
+      Animated.timing(linkAnimation, {
+        toValue: 0,
+        duration: 1000,
+        useNativeDriver: false
+      })
+    ]).start()
+    randomTimeout(nextAnimationLink)
   }
 
   useEffect(() => {
     randomTimeout(nextAnimationAndroid)
     randomTimeout(nextAnimationApple)
+    randomTimeout(nextAnimationLink)
   }, [])
 
   return (
@@ -96,6 +130,67 @@ export const ShowcaseButton: FunctionComponent<ShowcaseButtonProps> = ({ link, n
             }}
             source={android}
           />
+          </Animated.View>
+        }
+        {
+          name === "Link" &&
+          <Animated.View style={{
+            borderRadius: linkRadius,
+            overflow: "hidden",
+            height: 50,
+            width: 100,
+            transform: [ { scaleY: linkScale } ]
+          }}>
+            <LinearGradient
+              colors={['#ffb0fb', '#19344d']}
+              useAngle={true}
+              angle={135}
+              angleCenter={{ x: 0.5, y: 0.5}}
+              style={{
+                height: "100%",
+                width: "100%",
+                justifyContent: "center",
+                alignItems: "center"
+              }}
+            >
+              <StyledText
+                animated
+                style={{
+                  transform: [
+                    { scaleY: Animated.divide(new Animated.Value(1), linkScale) },
+                  ]
+                }}
+                type={"button"}
+              >
+                Link
+              </StyledText>
+              <StyledText
+                animated
+                style={{
+                  position: "absolute",
+                  transform: [
+                    { scaleY: Animated.divide(new Animated.Value(1), linkScale) },
+                    { translateY: linkTop },
+                  ]
+                }}
+                type={"button"}
+              >
+                Link
+              </StyledText>
+              <StyledText
+                animated
+                style={{
+                  position: "absolute",
+                  transform: [
+                    { scaleY: Animated.divide(new Animated.Value(1), linkScale) },
+                    { translateY: Animated.multiply(new Animated.Value(-1), linkTop) },
+                  ]
+                }}
+                type={"button"}
+              >
+                Link
+              </StyledText>
+            </LinearGradient>
           </Animated.View>
         }
       </TouchableOpacity>

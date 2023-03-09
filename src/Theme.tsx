@@ -39,6 +39,10 @@ export const styles = StyleSheet.create({
   caption: {
     fontSize: 30, //scaleFont(24),
   },
+  buttonText: {
+    fontSize: 16, //scaleFont(24),
+    paddingBottom: 2,
+  },
   flex: {
     flex: 1
   },
@@ -76,6 +80,7 @@ type Theme = {
   text: TextStyle;
   body: TextStyle;
   caption: TextStyle;
+  buttonText: TextStyle;
   header: TextStyle;
   navButton: ViewStyle;
   menu: Object | Object[] | number,
@@ -94,6 +99,7 @@ export const Themes:Record<ThemeName, Theme> = {
     background: ['#000000', '#000000', '#1a1a1a', '#3d3d3d'],
     navButton: styles.darkNavButton,
     menu: white_menu,
+    buttonText: styles.buttonText,
   }
 }
 

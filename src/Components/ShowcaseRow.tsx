@@ -10,6 +10,7 @@ type ShowcaseRowProps = {
   image: any;
   android?: string;
   apple?: string;
+  link?: string;
 }
 
 export const ShowcaseRow:FunctionComponent<ShowcaseRowProps> = ({ 
@@ -18,6 +19,7 @@ export const ShowcaseRow:FunctionComponent<ShowcaseRowProps> = ({
   image,
   android,
   apple,
+  link,
  }) => {
 
   return (
@@ -36,6 +38,9 @@ export const ShowcaseRow:FunctionComponent<ShowcaseRowProps> = ({
               }
               {android && 
                 <ShowcaseButton link={android} name={"Android"} />
+              }
+              {link && 
+                <ShowcaseButton link={link} name={"Link"} />
               }
             </Flex>
           </Flex>

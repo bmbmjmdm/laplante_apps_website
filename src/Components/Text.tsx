@@ -1,5 +1,5 @@
 // @ts-ignore-next-line
-import { Text, TextStyle } from 'react-native';
+import { Text, TextStyle, Animated } from 'react-native';
 import React, { FunctionComponent, useContext, useState, useEffect, useRef, ReactElement, ReactNode } from 'react';
 import { ThemeContext } from '../Theme';
 import { v4 as uuid } from 'uuid';
@@ -10,19 +10,22 @@ type TextProps = {
   style?: TextStyle,
   children: ReactNode,
   onPress?: () => void,
-  type?: "header" | "body" | "caption"
+  type?: "header" | "body" | "caption" | "button",
+  animated?: boolean,
 }
 export const StyledText:FunctionComponent<TextProps> = (props) => {
   const theme = useContext(ThemeContext);
   // setup style
   const newProps  = {...props};
-  let {style = {}, type} = props;
+  let {style = {}, type, animated} = props;
   newProps.style = {...theme.text, ...style}
   // use the given type to lookup that text type style in our theme
   if (type) {
-    newProps.style = {...theme[type], ...newProps.style}
+    const fullType = type === "button" ? "buttonText" : type;
+    newProps.style = {...theme[fullType], ...newProps.style}
   }
-  return <Text {...newProps} />
+  if (animated) return <Animated.Text {...newProps} />
+  else return <Text {...newProps} />
 }
 
 
