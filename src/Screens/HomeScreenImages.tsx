@@ -22,6 +22,8 @@ import virta from '../assets/virta_short.gif';
 import weread from '../assets/weread_short.gif';
 // @ts-ignore-next-line
 import hearyouout from '../assets/hearyouout_short.gif';
+// @ts-ignore-next-line
+import sushimonster from '../assets/sushimonster_short.gif';
 
 type HomeScreenImagesProps = {
   catMode: MutableRefObject<boolean>;
@@ -277,6 +279,7 @@ const appPictures = [
   dice,
   hearyouout,
   virta,
+  sushimonster, 
   iadventure,
   weread,
   npcg, 
@@ -286,6 +289,7 @@ const catPictures = [
   dice,
   hearyouout,
   virta,
+  sushimonster, 
   iadventure,
   weread,
   npcg, 

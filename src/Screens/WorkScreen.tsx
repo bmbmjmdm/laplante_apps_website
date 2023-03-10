@@ -7,6 +7,11 @@ import { ShowcaseRow } from '../Components';
 // @ts-ignore-next-line
 import virta from "../assets/virta.gif"
 // @ts-ignore-next-line
+import sushimonster from '../assets/sushimonster.gif';
+// @ts-ignore-next-line
+import gsg from '../assets/gsg.png';
+// @ts-ignore-next-line
+import pega from '../assets/pega.jpg';
 
 
 export const WorkScreen:FunctionComponent<StackScreenProps<any>> = ({ route }) => {
@@ -21,20 +26,25 @@ export const WorkScreen:FunctionComponent<StackScreenProps<any>> = ({ route }) =
         />
         <ShowcaseRow
           title={"Scolastic / HMH"}
-          description={""}
-          image={null}
+          description={"I led the mobile team at Houghton Mifflin Harcourt, maintaining over a dozen apps, reviving old ones, and implementing new features and tooling."}
+          image={sushimonster}
+          horizontalImage
           link={"https://www.hmhco.com/"}
         />
         <ShowcaseRow
           title={"Grant Street Group"}
-          description={""}
-          image={null}
-          link={"https://www.grantstreet.com/clients/"}
+          description={"I created Grant Street Group's first mobile app and added numerous features to their websites, including creating their admin portal where they can create and configure entirely new websites automatically."}
+          image={gsg}
+          horizontalImage
+          sharpEdges
+          link={"https://www.grantstreet.com/clients/our-clients/"}
         />
         <ShowcaseRow
           title={"Pegasystems"}
-          description={""}
-          image={null}
+          description={"I interned at Pegasystems, adding new features and content to their Pega platform."}
+          image={pega}
+          horizontalImage
+          sharpEdges
           link={"https://www.pega.com/platform-guided-tour"}
         />
       </ScrollView>

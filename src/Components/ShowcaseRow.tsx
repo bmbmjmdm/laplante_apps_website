@@ -8,6 +8,8 @@ type ShowcaseRowProps = {
   title: string;
   description: string;
   image: any;
+  horizontalImage?: boolean;
+  sharpEdges?: boolean;
   android?: string;
   apple?: string;
   link?: string;
@@ -17,6 +19,8 @@ export const ShowcaseRow:FunctionComponent<ShowcaseRowProps> = ({
   title,
   description,
   image,
+  horizontalImage = false,
+  sharpEdges = false,
   android,
   apple,
   link,
@@ -44,10 +48,16 @@ export const ShowcaseRow:FunctionComponent<ShowcaseRowProps> = ({
               }
             </Flex>
           </Flex>
-          <Flex row>
-            <Padding horizontal={200} />
-            <Image source={image} style={{width: 200, height: 400, resizeMode: "contain", borderRadius: 30 }} />
-          </Flex>
+          <View style={{ width: 400, height: horizontalImage ? 200 : 400 }}>
+            <Image source={image} style={{
+              width: horizontalImage ? 400 : 200,
+              height: horizontalImage ? 200 : 400,
+              resizeMode: "stretch",
+              borderRadius: sharpEdges ? 0 : 20,
+              position: "absolute",
+              left: horizontalImage ? 100 : 200,
+            }} />
+          </View>
         </Flex>
         <Padding vertical={100} />
       </Flex>
