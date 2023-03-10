@@ -74,10 +74,10 @@ const Header:FunctionComponent<StackHeaderProps> = ({ navigation, route, options
   const sideMenuLeft = useRef(new Animated.Value(-200)).current;
   const sideMenuOpacity = useRef(new Animated.Value(1)).current;
   const isSideMenuShown = useRef(false);
-  const toggleMenu = () => {
+  const toggleMenu = (fast?: boolean) => {
     Animated.timing(sideMenuLeft, {
       toValue: isSideMenuShown.current ? -200 : 0, 
-      duration: 450, 
+      duration: fast ? 250 : 450, 
       easing: Easing.out(Easing.sin), 
       useNativeDrivers: false
     }).start(() => {
@@ -86,14 +86,19 @@ const Header:FunctionComponent<StackHeaderProps> = ({ navigation, route, options
   }
 
   const navigate = (path:string) => () => {
-    navigation.replace(path)
+    navigation.setParams({fadeOut: true});
+    toggleMenu(true)
     Animated.timing(sideMenuOpacity, {
       toValue: 0,
       duration: 250,
       useNativeDrivers: false
-    }).start()
+    }).start(() => {
+      navigation.push(path)
+      setTimeout(() => {
+        sideMenuOpacity.setValue(1);
+      }, 100)
+    })
   }
-
   // TODO I use navigation.replace here to allow fading-out the current screen, however 
   // this prevents the back button from working. If I use navigation.push, the back button works, but the screen doesn't fade out
   return (

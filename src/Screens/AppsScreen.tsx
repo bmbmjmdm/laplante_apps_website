@@ -2,6 +2,7 @@
 import { ScrollView } from "react-native"
 import { AnimatedScreen } from './AnimatedScreen';
 import React, { FunctionComponent } from 'react';
+import { StackScreenProps } from '@react-navigation/stack';
 import { ShowcaseRow } from '../Components';
 // @ts-ignore-next-line
 import iadventure from "../assets/iadventure.gif"
@@ -15,9 +16,9 @@ import npcg from "../assets/npcg.gif"
 import dice from "../assets/dice.gif"
 
 
-export const AppsScreen:FunctionComponent<{}> = () => {
+export const AppsScreen:FunctionComponent<StackScreenProps<any>> = ({ route })=> {
   return (
-    <AnimatedScreen>
+    <AnimatedScreen fadeOut={route?.params?.fadeOut}>
       <ScrollView style={{height: 1}}>
         <ShowcaseRow
           title={"Hear You Out"}

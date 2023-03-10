@@ -1,30 +1,31 @@
 // @ts-ignore-next-line
-import { Animated, ScrollView } from "react-native"
-import React, { FunctionComponent, ReactNode, useEffect, useRef, useCallback } from 'react';
-import { Flex, ShowcaseRow, easeOutBack } from '../Components';
+import { Animated } from "react-native"
+import React, { FunctionComponent, ReactNode, useRef, useCallback } from 'react';
+import { easeOutBack } from '../Components';
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 
 type AnimatedScreenProps = {
   children: ReactNode;
+  fadeOut?: boolean;
 }
 
-export const AnimatedScreen:FunctionComponent<AnimatedScreenProps> = ({ children }) => {
+export const AnimatedScreen:FunctionComponent<AnimatedScreenProps> = ({ children, fadeOut = false }) => {
   const animatedTop = useRef(new Animated.Value(200)).current;
   const animatedOpacity = useRef(new Animated.Value(0)).current;
   const navigation = useNavigation();
 
-  // animate out the screen when the user navigates away
+  // animate out the screen when the user navigates somewhere else
   React.useEffect(() => {
-    const unsub = navigation.addListener('beforeRemove', (e) => {
-      e.preventDefault();
+    if (fadeOut) {
+      // @ts-ignore-next-line
+      navigation.setParams({fadeOut: false});
       Animated.timing(animatedOpacity, {
         toValue: 0,
         duration: 250,
         useNativeDriver: false
-      }).start(() => navigation.dispatch(e.data.action))
-    })
-    return unsub
-  }, [navigation]);
+      }).start()
+    }
+  }, [fadeOut]);
 
   //animate in the screen when the user navigates to it
   useFocusEffect(

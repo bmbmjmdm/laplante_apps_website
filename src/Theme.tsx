@@ -7,12 +7,6 @@ import white_menu from "./assets/menu_white.png";
 // scaling operations for different screen sizes
 const scale = Dimensions.get('window').width / 1000;
 
-export const scaleFontDefault = (size:number) => {
-  return Math.round(size * scale);
-}
-
-// TODO make nav buttons and font sizes responsive
-
 // styles for our theme
 export const styles = StyleSheet.create({
   darkText: {
@@ -30,17 +24,17 @@ export const styles = StyleSheet.create({
   },
 
   header: {
-    fontSize: 70, //scaleFont(48),
+    fontSize: 70, //70 * scale,
     fontWeight: "bold",
   },
   body: {
-    fontSize: 45, //scaleFont(24),
+    fontSize: 45, 
   },
   caption: {
-    fontSize: 30, //scaleFont(24),
+    fontSize: 30, 
   },
   buttonText: {
-    fontSize: 16, //scaleFont(24),
+    fontSize: 16, 
     paddingBottom: 2,
   },
   flex: {
@@ -76,7 +70,6 @@ type ThemeName = "dark";
 // the styling options provided by each theme
 type Theme = {
   name: ThemeName;
-  scaleFont: (size:number) => number;
   text: TextStyle;
   body: TextStyle;
   caption: TextStyle;
@@ -91,7 +84,6 @@ type Theme = {
 export const Themes:Record<ThemeName, Theme> = {
   dark: {
     name: "dark",
-    scaleFont: scaleFontDefault,
     text: styles.darkText,
     body: styles.body,
     caption: {...styles.caption, ...styles.darkCaption},

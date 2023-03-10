@@ -2,15 +2,16 @@
 import { ScrollView } from "react-native"
 import { AnimatedScreen } from './AnimatedScreen';
 import React, { FunctionComponent } from 'react';
+import { StackScreenProps } from '@react-navigation/stack';
 import { ShowcaseRow } from '../Components';
 // @ts-ignore-next-line
 import virta from "../assets/virta.gif"
 // @ts-ignore-next-line
 
 
-export const WorkScreen:FunctionComponent<{}> = () => {
+export const WorkScreen:FunctionComponent<StackScreenProps<any>> = ({ route }) => {
   return (
-    <AnimatedScreen>
+    <AnimatedScreen fadeOut={route?.params?.fadeOut}>
       <ScrollView style={{height: 1}}>
         <ShowcaseRow
           title={"Virta Health"}
@@ -19,16 +20,16 @@ export const WorkScreen:FunctionComponent<{}> = () => {
           link={"https://www.virtahealth.com/"}
         />
         <ShowcaseRow
-          title={"Grant Street Group"}
-          description={""}
-          image={null}
-          link={"https://www.grantstreet.com/clients/"}
-        />
-        <ShowcaseRow
           title={"Scolastic / HMH"}
           description={""}
           image={null}
           link={"https://www.hmhco.com/"}
+        />
+        <ShowcaseRow
+          title={"Grant Street Group"}
+          description={""}
+          image={null}
+          link={"https://www.grantstreet.com/clients/"}
         />
         <ShowcaseRow
           title={"Pegasystems"}
