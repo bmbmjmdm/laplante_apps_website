@@ -1,10 +1,10 @@
 // @ts-ignore-next-line
-import { TouchableOpacity, Image, Animated, View, Easing } from 'react-native';
+import { TouchableOpacity, Image, Animated, Linking, Easing } from 'react-native';
 import React, { FunctionComponent, useContext, useRef } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { StackHeaderProps, createStackNavigator } from '@react-navigation/stack';
 import { ThemeContext, ThemeProvider, Themes } from './Theme';
-import { HomeScreen, WorkScreen, AppsScreen } from './Screens';
+import { HomeScreen, WorkScreen, AppsScreen, NonAppsScreen } from './Screens';
 // @ts-ignore-next-line
 import LinearGradient from 'react-native-web-linear-gradient';
 import { Flex, Padding, StyledText } from './Components';
@@ -61,6 +61,7 @@ const Navigator:FunctionComponent<{}> = () => {
         <Stack.Navigator initialRouteName="Home">
           <Stack.Screen name="Home" component={HomeScreen} options={defaultOptions} />
           <Stack.Screen name="Apps" component={AppsScreen} options={defaultOptions} />
+          <Stack.Screen name="NonApps" component={NonAppsScreen} options={defaultOptions} />
           <Stack.Screen name="Work" component={WorkScreen} options={defaultOptions} />
         </Stack.Navigator>
       </NavigationContainer>
@@ -71,12 +72,12 @@ const Navigator:FunctionComponent<{}> = () => {
 // TODO make responsive
 const Header:FunctionComponent<StackHeaderProps> = ({ navigation, route, options, back }) => {
   const theme = useContext(ThemeContext);
-  const sideMenuLeft = useRef(new Animated.Value(-200)).current;
+  const sideMenuLeft = useRef(new Animated.Value(-235)).current;
   const sideMenuOpacity = useRef(new Animated.Value(1)).current;
   const isSideMenuShown = useRef(false);
   const toggleMenu = (fast?: boolean) => {
     Animated.timing(sideMenuLeft, {
-      toValue: isSideMenuShown.current ? -200 : 0, 
+      toValue: isSideMenuShown.current ? -235 : 0, 
       duration: fast ? 250 : 450, 
       easing: Easing.out(Easing.sin), 
       useNativeDrivers: false
@@ -126,11 +127,23 @@ const Header:FunctionComponent<StackHeaderProps> = ({ navigation, route, options
           </StyledText>
         </TouchableOpacity>
         <Padding vertical={35} />
+        <TouchableOpacity onPress={navigate("NonApps")}>
+          <StyledText type={"body"}>
+            NonApps
+          </StyledText>
+        </TouchableOpacity>
+        <Padding vertical={35} />
         <TouchableOpacity onPress={navigate("Work")}>
           <StyledText type={"body"}>
             Work
           </StyledText>
         </TouchableOpacity>
+        <Padding vertical={35} />
+        <a href="mailto:bmbmjmdm@gmail.com">
+          <StyledText type={"body"}>
+            Contact
+          </StyledText>
+        </a>
       </Animated.View>
       <TouchableOpacity onPress={toggleMenu} >
         <Image source={theme.menu} style={{width: 35, height: 35}} />

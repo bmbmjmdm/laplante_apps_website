@@ -33,7 +33,7 @@ export const ShowcaseRow:FunctionComponent<ShowcaseRowProps> = ({
         <Padding vertical={100} />
         <Flex row>
           <Flex>
-            <StyledText type={"body"}>{title}</StyledText>
+            <StyledText type={"body"} style={{width: 500}}>{title}</StyledText>
             <Padding vertical={30} />
             <StyledText type={"caption"} style={{width: 500, marginBottom: 10}}>{description}</StyledText>
               <Flex row style={{marginTop: "auto"}}>

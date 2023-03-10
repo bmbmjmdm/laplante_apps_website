@@ -45,7 +45,7 @@ export const HomeScreenImages:FunctionComponent<HomeScreenImagesProps> = ({ catM
   const heightPhoneAtScale = basePhoneHeight * finalPhoneScale;
   const widthPhoneAtScale = basePhoneWidth * finalPhoneScale;
   const heightAppAtScale = 1050 * finalPhoneScale;
-  const widthAppAtScale = 525 * finalPhoneScale;
+  const widthAppAtScale = 520 * finalPhoneScale;
 
   // make the phone slide up playfully, then flip over
   useEffect(() => {
