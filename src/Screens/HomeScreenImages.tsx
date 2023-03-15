@@ -2,28 +2,33 @@
 import { Animated, View, Image, Dimensions } from 'react-native';
 import React, { FunctionComponent, useState, useEffect, useRef, MutableRefObject } from 'react';
 import { easeOutBack, CardFlip, CardFlipRef } from '../Components';
-// @ts-ignore-next-line
 import phone_back from '../assets/phone_back.png';
-// @ts-ignore-next-line
 import phone_case from '../assets/phone_case.png';
-// @ts-ignore-next-line
 import phone_front from '../assets/phone_front.png';
-// @ts-ignore-next-line
 import phone_inner from '../assets/phone_inner.png';
-// @ts-ignore-next-line
 import iadventure from '../assets/iadventure.gif';
-// @ts-ignore-next-line
 import npcg from '../assets/npcg_short.gif';
-// @ts-ignore-next-line
 import dice from '../assets/dice.gif';
-// @ts-ignore-next-line
 import virta from '../assets/virta_short.gif';
-// @ts-ignore-next-line
 import weread from '../assets/weread_short.gif';
-// @ts-ignore-next-line
 import hearyouout from '../assets/hearyouout_short.gif';
-// @ts-ignore-next-line
 import sushimonster from '../assets/sushimonster_short.gif';
+import cat1 from '../assets/cat1.png';
+import cat2 from '../assets/cat2.png';
+import cat3 from '../assets/cat3.png';
+import cat4 from '../assets/cat4.png';
+import cat5 from '../assets/cat5.png';
+import cat6 from '../assets/cat6.png';
+import cat7 from '../assets/cat7.png';
+import cat8 from '../assets/cat8.png';
+import cat9 from '../assets/cat9.png';
+import cat10 from '../assets/cat10.png';
+import cat11 from '../assets/cat11.png';
+import cat12 from '../assets/cat12.png';
+import cat13 from '../assets/cat13.png';
+import cat14 from '../assets/cat14.png';
+import cat15 from '../assets/cat15.png';
+
 
 type HomeScreenImagesProps = {
   catMode: MutableRefObject<boolean>;
@@ -87,8 +92,8 @@ export const HomeScreenImages:FunctionComponent<HomeScreenImagesProps> = ({ catM
           duration: 1000,
           useNativeDriver: false
         }),
-        Animated.delay(1500),
-      ])
+      ]),
+      Animated.delay(500),
     ]).start(() => {
       cardRef.current?.flip()
     })
@@ -286,11 +291,19 @@ const appPictures = [
 ]
 
 const catPictures = [
-  dice,
-  hearyouout,
-  virta,
-  sushimonster, 
-  iadventure,
-  weread,
-  npcg, 
+  cat14,
+  cat15,
+  cat1,
+  cat2,
+  cat3,
+  cat4,
+  cat5,
+  cat6,
+  cat7,
+  cat8,
+  cat9,
+  cat10,
+  cat11,
+  cat12,
+  cat13,
 ]

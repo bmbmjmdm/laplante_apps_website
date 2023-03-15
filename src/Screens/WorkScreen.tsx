@@ -4,13 +4,9 @@ import { AnimatedScreen } from './AnimatedScreen';
 import React, { FunctionComponent } from 'react';
 import { StackScreenProps } from '@react-navigation/stack';
 import { ShowcaseRow } from '../Components';
-// @ts-ignore-next-line
 import virta from "../assets/virta.gif"
-// @ts-ignore-next-line
 import sushimonster from '../assets/sushimonster.gif';
-// @ts-ignore-next-line
-import gsg from '../assets/gsg.png';
-// @ts-ignore-next-line
+import gsg from '../assets/gsg.gif';
 import pega from '../assets/pega.jpg';
 
 
@@ -35,9 +31,7 @@ export const WorkScreen:FunctionComponent<StackScreenProps<any>> = ({ route }) =
           title={"Grant Street Group"}
           description={"I created Grant Street Group's first mobile app and added numerous features to their websites, including creating their admin portal where they can create and configure entirely new websites automatically."}
           image={gsg}
-          horizontalImage
-          sharpEdges
-          link={"https://www.grantstreet.com/clients/our-clients/"}
+          link={"https://www.grantstreet.com/"}
         />
         <ShowcaseRow
           title={"Pegasystems"}
@@ -45,7 +39,7 @@ export const WorkScreen:FunctionComponent<StackScreenProps<any>> = ({ route }) =
           image={pega}
           horizontalImage
           sharpEdges
-          link={"https://www.pega.com/platform-guided-tour"}
+          link={"https://www.pega.com/"}
         />
       </ScrollView>
     </AnimatedScreen>

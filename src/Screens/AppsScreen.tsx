@@ -4,15 +4,10 @@ import { AnimatedScreen } from './AnimatedScreen';
 import React, { FunctionComponent } from 'react';
 import { StackScreenProps } from '@react-navigation/stack';
 import { ShowcaseRow } from '../Components';
-// @ts-ignore-next-line
 import iadventure from "../assets/iadventure.gif"
-// @ts-ignore-next-line
 import hearyouout from "../assets/hearyouout.gif"
-// @ts-ignore-next-line
 import weread from "../assets/weread.gif"
-// @ts-ignore-next-line
 import npcg from "../assets/npcg.gif"
-// @ts-ignore-next-line
 import dice from "../assets/dice.gif"
 
 

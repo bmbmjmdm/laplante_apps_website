@@ -53,7 +53,7 @@ export const ShowcaseRow:FunctionComponent<ShowcaseRowProps> = ({
               width: horizontalImage ? 400 : 200,
               height: horizontalImage ? 200 : 400,
               resizeMode: "stretch",
-              borderRadius: sharpEdges ? 0 : 20,
+              borderRadius: sharpEdges ? 5 : 20,
               position: "absolute",
               left: horizontalImage ? 100 : 200,
             }} />

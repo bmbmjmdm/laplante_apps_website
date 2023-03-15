@@ -5,6 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+	background-color: #000000;
 }
 
 code {
@@ -14,23 +15,4 @@ code {
 
 a {
   text-decoration: none;
-}
-
-/* width */
-::-webkit-scrollbar {
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  background: #000000;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: #444444;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #555555;
 }

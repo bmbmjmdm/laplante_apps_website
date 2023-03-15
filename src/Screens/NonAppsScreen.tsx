@@ -4,7 +4,6 @@ import { AnimatedScreen } from './AnimatedScreen';
 import React, { FunctionComponent } from 'react';
 import { StackScreenProps } from '@react-navigation/stack';
 import { ShowcaseRow } from '../Components';
-// @ts-ignore-next-line
 import beatbiome from '../assets/beatbiome.gif'
 
 
