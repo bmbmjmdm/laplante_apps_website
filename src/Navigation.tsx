@@ -53,9 +53,7 @@ const Navigator:FunctionComponent<{}> = () => {
     <LinearGradient
       colors={theme.background}
       style={{height: "100vh", overflow: "hidden"}}
-      useAngle={true}
-      angle={135}
-      angleCenter={{ x: 0.5, y: 0.5}}
+      {...theme.linearGradient}
     >
       <NavigationContainer theme={emptyTheme} linking={linking}>
         <Stack.Navigator initialRouteName="Home">
@@ -69,16 +67,18 @@ const Navigator:FunctionComponent<{}> = () => {
   )
 }
 
-// TODO make responsive
 const Header:FunctionComponent<StackHeaderProps> = ({ navigation, route, options, back }) => {
   const theme = useContext(ThemeContext);
-  const sideMenuLeft = useRef(new Animated.Value(-235)).current;
+  const sideMenuWidth = theme.sideMenuWidth
+  const sideMenuSpeed = theme.sideMenuSpeed
+
+  const sideMenuLeft = useRef(new Animated.Value(-sideMenuWidth)).current;
   const sideMenuOpacity = useRef(new Animated.Value(1)).current;
   const isSideMenuShown = useRef(false);
   const toggleMenu = (fast?: boolean) => {
     Animated.timing(sideMenuLeft, {
-      toValue: isSideMenuShown.current ? -235 : 0, 
-      duration: fast ? 250 : 450, 
+      toValue: isSideMenuShown.current ? -sideMenuWidth : 0, 
+      duration: fast ? sideMenuSpeed/2 : sideMenuSpeed, 
       easing: Easing.out(Easing.sin), 
       useNativeDrivers: false
     }).start(() => {
@@ -91,7 +91,7 @@ const Header:FunctionComponent<StackHeaderProps> = ({ navigation, route, options
     toggleMenu(true)
     Animated.timing(sideMenuOpacity, {
       toValue: 0,
-      duration: 250,
+      duration: sideMenuSpeed/2,
       useNativeDrivers: false
     }).start(() => {
       navigation.push(path)
@@ -103,12 +103,12 @@ const Header:FunctionComponent<StackHeaderProps> = ({ navigation, route, options
   // TODO I use navigation.replace here to allow fading-out the current screen, however 
   // this prevents the back button from working. If I use navigation.push, the back button works, but the screen doesn't fade out
   return (
-    <Flex fullWidth row centeredVertical style={{paddingHorizontal: 100, paddingVertical: 50 }}>
+    <Flex fullWidth row centeredVertical style={{paddingHorizontal: theme.largeSpace, paddingVertical: theme.mediumSpace }}>
       <Animated.View style={{
-        padding: 50,
-        paddingTop: 100,
+        padding: theme.mediumSpace,
+        paddingTop: theme.largeSpace,
         opacity: sideMenuOpacity,
-        marginTop: 100,
+        marginTop: theme.largeSpace,
         height: "100vh",
         position: "absolute",
         left: 0,
@@ -120,25 +120,25 @@ const Header:FunctionComponent<StackHeaderProps> = ({ navigation, route, options
             Home
           </StyledText>
         </TouchableOpacity>
-        <Padding vertical={35} />
+        <Padding vertical={theme.mediumSmallSpace} />
         <TouchableOpacity onPress={navigate("Apps")}>
           <StyledText type={"body"}>
             Apps
           </StyledText>
         </TouchableOpacity>
-        <Padding vertical={35} />
+        <Padding vertical={theme.mediumSmallSpace} />
         <TouchableOpacity onPress={navigate("NonApps")}>
           <StyledText type={"body"}>
             NonApps
           </StyledText>
         </TouchableOpacity>
-        <Padding vertical={35} />
+        <Padding vertical={theme.mediumSmallSpace} />
         <TouchableOpacity onPress={navigate("Work")}>
           <StyledText type={"body"}>
             Work
           </StyledText>
         </TouchableOpacity>
-        <Padding vertical={35} />
+        <Padding vertical={theme.mediumSmallSpace} />
         <a href="mailto:bmbmjmdm@gmail.com">
           <StyledText type={"body"}>
             Contact
@@ -146,9 +146,9 @@ const Header:FunctionComponent<StackHeaderProps> = ({ navigation, route, options
         </a>
       </Animated.View>
       <TouchableOpacity onPress={toggleMenu} >
-        <Image source={theme.menu} style={{width: 35, height: 35}} />
+        <Image source={theme.menu} style={{width: theme.menuSize, height: theme.menuSize}} />
       </TouchableOpacity>
-      <Padding horizontal={50} />
+      <Padding horizontal={theme.mediumSpace} />
       <StyledText type={"caption"}>
         LaPlante Apps
       </StyledText>

@@ -1,16 +1,19 @@
 // @ts-ignore-next-line
 import { Text } from 'react-native';
-import React, { FunctionComponent, useState, useEffect } from 'react';
+import React, { FunctionComponent, useState, useEffect, useContext } from 'react';
 import { Flex, Padding, StyledText, Typewriter, TypewriterProps } from '../Components';
+import { ThemeContext } from '../Theme';
 
 export const CAT_CAPTION = 10
 const CAT_MODE_KEY = "laplantAppsCatMode 90124986496340230485789523042983752"
+const CAT_CLARIFICATION_DELAY = 20 * 1000
 
 type HomeScreenMessageProps = {
   setCatMode: (mode:boolean) => void;
 }
 
 export const HomeScreenMessage:FunctionComponent<HomeScreenMessageProps> = ({ setCatMode }) => {
+  const theme = useContext(ThemeContext);
   const startWithCatModeText = false//React.useRef(Boolean(localStorage.getItem(CAT_MODE_KEY))).current //TODO reenable
   // go through various captions, eventually switching to a different product (cat title + pictures)
   const [curCaption, setCurCaption] = useState(startWithCatModeText ? CAT_CAPTION: 0);
@@ -26,14 +29,14 @@ export const HomeScreenMessage:FunctionComponent<HomeScreenMessageProps> = ({ se
     setCurCaption(curCaption + 1)
     setTimeout(() => {
       setCurCaption((cur) => cur + 1)
-    }, 20 * 1000)
+    }, CAT_CLARIFICATION_DELAY)
   }
   // if we start in cat mode, setup a 20sec timer to show the extended caption still
   useEffect(() => {
     if (startWithCatModeText) {
       setTimeout(() => {
         setCurCaption(curCaption + 1)
-      }, 20 * 1000)
+      }, CAT_CLARIFICATION_DELAY)
     }
   }, [])
 
@@ -56,7 +59,7 @@ export const HomeScreenMessage:FunctionComponent<HomeScreenMessageProps> = ({ se
         )}
       </Flex>
       <Padding vertical={15} />
-      <Flex row style={{ height: 100 }}>
+      <Flex row style={{ height: theme.messageHeightHolder }}>
         { placeholder() }
         { getCaption(curCaption, nextCaption, changeProduct) }
       </Flex>

@@ -1,8 +1,9 @@
 // @ts-ignore-next-line
 import { Animated } from "react-native"
-import React, { FunctionComponent, ReactNode, useRef, useCallback } from 'react';
+import React, { FunctionComponent, ReactNode, useRef, useCallback, useContext, } from 'react';
 import { easeOutBack } from '../Components';
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { ThemeContext } from "../Theme";
 
 type AnimatedScreenProps = {
   children: ReactNode;
@@ -10,7 +11,8 @@ type AnimatedScreenProps = {
 }
 
 export const AnimatedScreen:FunctionComponent<AnimatedScreenProps> = ({ children, fadeOut = false }) => {
-  const animatedTop = useRef(new Animated.Value(200)).current;
+  const theme = useContext(ThemeContext);
+  const animatedTop = useRef(new Animated.Value(theme.screenAnimationY)).current;
   const animatedOpacity = useRef(new Animated.Value(0)).current;
   const navigation = useNavigation();
 

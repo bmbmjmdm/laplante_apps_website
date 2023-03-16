@@ -1,13 +1,12 @@
 // @ts-ignore-next-line
 import { TouchableOpacity, Linking, Animated, Easing } from 'react-native';
-import React, { FunctionComponent, useRef, useEffect } from 'react';
+import React, { FunctionComponent, useRef, useEffect, useContext } from 'react';
 // @ts-ignore-next-line
 import LinearGradient from 'react-native-web-linear-gradient';
-// @ts-ignore-next-line
 import apple from '../assets/apple.png';
-// @ts-ignore-next-line
 import android from '../assets/android.png';
 import { StyledText } from './Text';
+import { ThemeContext } from '../Theme';
 
 type ShowcaseButtonProps = {
   link: string;
@@ -15,6 +14,7 @@ type ShowcaseButtonProps = {
 }
 
 export const ShowcaseButton: FunctionComponent<ShowcaseButtonProps> = ({ link, name }) => {
+  const theme = useContext(ThemeContext);
   const androidAnimation = useRef(new Animated.Value(0)).current;
   const appleAnimation = useRef(new Animated.Value(0)).current;
   const linkAnimation = useRef(new Animated.Value(0)).current;
@@ -108,15 +108,15 @@ export const ShowcaseButton: FunctionComponent<ShowcaseButtonProps> = ({ link, n
 
   return (
       <TouchableOpacity 
-        style={{marginRight: 20, marginTop: 30}}
+        style={{marginRight: theme.mediumSmallSpace, marginTop: theme.mediumSmallSpace}}
         onPress={() => Linking.openURL(link)}
       >
         {
           name === "Apple" && 
           <Animated.Image
             style={{
-              height: 70,
-              width: 70,
+              height: theme.appLinkSize,
+              width: theme.appLinkSize,
               transform: [ {translateY: appleAnimation } ]
             }}
             source={apple}
@@ -129,8 +129,8 @@ export const ShowcaseButton: FunctionComponent<ShowcaseButtonProps> = ({ link, n
           }}>
           <Animated.Image
             style={{
-              height: 70,
-              width: 70,
+              height: theme.appLinkSize,
+              width: theme.appLinkSize,
               transform: [ { rotate: androidRotation } ]
             }}
             source={android}
@@ -142,8 +142,8 @@ export const ShowcaseButton: FunctionComponent<ShowcaseButtonProps> = ({ link, n
           <Animated.View style={{
             borderRadius: linkRadius,
             overflow: "hidden",
-            height: 50,
-            width: 100,
+            height: theme.webLinkHeight,
+            width: theme.webLinkWidth,
             transform: [
               { scaleY: linkScaleY },
               { scaleX: linkScaleX },
@@ -151,10 +151,8 @@ export const ShowcaseButton: FunctionComponent<ShowcaseButtonProps> = ({ link, n
             ]
           }}>
             <LinearGradient
-              colors={['#ffb0fb', '#19344d']}
-              useAngle={true}
-              angle={135}
-              angleCenter={{ x: 0.5, y: 0.5}}
+              colors={theme.linkBackground}
+              {...theme.linearGradient}
               style={{
                 height: "100%",
                 width: "100%",

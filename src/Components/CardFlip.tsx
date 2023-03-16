@@ -94,8 +94,6 @@ const CardFlipComponent: FunctionComponent<FlipCardProps> = ({
   }
 
   function _flipTo(toValue:any) {
-    console.log("flipping")
-    console.log(duration)
     onFlip?.(side === 0 ? 1 : 0);
     onFlipStart?.(side === 0 ? 1 : 0);
     Animated.parallel([
@@ -127,7 +125,6 @@ const CardFlipComponent: FunctionComponent<FlipCardProps> = ({
         useNativeDriver: false
       })
     ]).start(() => {
-      console.log("DONE")
       onFlipEnd?.(side === 0 ? 1 : 0);
     });
   }
@@ -244,118 +241,3 @@ const styles = StyleSheet.create({
 
 // @ts-ignore-next-line
 export const CardFlip = forwardRef(CardFlipComponent);
-
-/* TODO: convert these
-  tip(customConfig:any) {
-    const defaultConfig = { direction: "left", progress: 0.05, duration: 150 };
-    const config = { ...defaultConfig, ...customConfig };
-    const { direction, progress, duration } = config;
-
-    const { rotationX, rotationY, side } = this.state as FlipCardState;
-    const sequence = [];
-
-    if (direction === "right") {
-      sequence.push(
-        Animated.parallel([
-          Animated.timing(rotationX, {
-            toValue: 0,
-            duration,
-            useNativeDriver: false
-          }),
-          Animated.timing(rotationY, {
-            toValue: side === 0 ? 50 + progress * 50 : 90,
-            duration,
-            useNativeDriver: false
-          })
-        ])
-      );
-    } else {
-      sequence.push(
-        Animated.parallel([
-          Animated.timing(rotationX, {
-            toValue: 0,
-            duration,
-            useNativeDriver: false
-          }),
-          Animated.timing(rotationY, {
-            toValue: side === 0 ? 50 - progress * 50 : 90,
-            duration,
-            useNativeDriver: false
-          })
-        ])
-      );
-    }
-    sequence.push(
-      Animated.parallel([
-        Animated.timing(rotationX, {
-          toValue: 0,
-          duration,
-          useNativeDriver: false
-        }),
-        Animated.timing(rotationY, {
-          toValue: side === 0 ? 50 : 100,
-          duration,
-          useNativeDriver: false
-        }),
-      ])
-    );
-    Animated.sequence(sequence).start();
-  }
-
-  jiggle(customConfig = {}) {
-    const defaultConfig = { count: 2, duration: 100, progress: 0.05 };
-    const config = { ...defaultConfig, ...customConfig };
-
-    const { count, duration, progress } = config;
-
-    const { rotationX, rotationY, side } = this.state as FlipCardState;
-
-    const sequence = [];
-    for (let i = 0; i < count; i++) {
-      sequence.push(
-        Animated.parallel([
-          Animated.timing(rotationX, {
-            toValue: 0,
-            duration,
-            useNativeDriver: false
-          }),
-          Animated.timing(rotationY, {
-            toValue: side === 0 ? 50 + progress * 50 : 90,
-            duration,
-            useNativeDriver: false
-          })
-        ])
-      );
-
-      sequence.push(
-        Animated.parallel([
-          Animated.timing(rotationX, {
-            toValue: 0,
-            duration,
-            useNativeDriver: false
-          }),
-          Animated.timing(rotationY, {
-            toValue: side === 0 ? 50 - progress * 50 : 110,
-            duration,
-            useNativeDriver: false
-          })
-        ])
-      );
-    }
-    sequence.push(
-      Animated.parallel([
-        Animated.timing(rotationX, {
-          toValue: 0,
-          duration,
-          useNativeDriver: false
-        }),
-        Animated.timing(rotationY, {
-          toValue: side === 0 ? 50 : 100,
-          duration,
-          useNativeDriver: false
-        })
-      ])
-    );
-    Animated.sequence(sequence).start();
-  }
-*/

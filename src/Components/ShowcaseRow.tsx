@@ -1,8 +1,9 @@
 // @ts-ignore-next-line
 import { View, Image } from 'react-native';
-import React, { FunctionComponent, useState, useEffect } from 'react';
-import { Flex, Padding, StyledText, Typewriter, TypewriterProps } from '../Components';
+import React, { FunctionComponent, useContext } from 'react';
+import { Flex, Padding, StyledText } from '../Components';
 import { ShowcaseButton } from './ShowcaseButton';
+import { ThemeContext } from '../Theme';
 
 type ShowcaseRowProps = {
   title: string;
@@ -25,17 +26,20 @@ export const ShowcaseRow:FunctionComponent<ShowcaseRowProps> = ({
   apple,
   link,
  }) => {
+  const theme = useContext(ThemeContext);
+  const imageWidth = horizontalImage ? theme.showcaseImageLong : theme.showcaseImageShort;
+  const imageHeight = horizontalImage ? theme.showcaseImageShort : theme.showcaseImageLong;
 
   return (
     <Flex fullWidth centered>
       <Flex slim centered>
-        <View style={{ width: "50%", height: 2, backgroundColor: "white", }} />
-        <Padding vertical={100} />
+        <View style={theme.showcaseDivider} />
+        <Padding vertical={theme.largeSpace} />
         <Flex row>
           <Flex>
-            <StyledText type={"body"} style={{width: 500}}>{title}</StyledText>
-            <Padding vertical={30} />
-            <StyledText type={"caption"} style={{width: 500, marginBottom: 10}}>{description}</StyledText>
+            <StyledText type={"body"} style={{width: theme.showcaseTextWidth}}>{title}</StyledText>
+            <Padding vertical={theme.mediumSmallSpace} />
+            <StyledText type={"caption"} style={{width: theme.showcaseTextWidth, marginBottom: theme.smallSpace}}>{description}</StyledText>
               <Flex row style={{marginTop: "auto"}}>
               {apple &&
                 <ShowcaseButton link={apple} name={"Apple"} />
@@ -48,18 +52,18 @@ export const ShowcaseRow:FunctionComponent<ShowcaseRowProps> = ({
               }
             </Flex>
           </Flex>
-          <View style={{ width: 400, height: horizontalImage ? 200 : 400 }}>
+          <View style={{ width: theme.showcaseImageLong, height: imageHeight }}>
             <Image source={image} style={{
-              width: horizontalImage ? 400 : 200,
-              height: horizontalImage ? 200 : 400,
+              width: imageWidth,
+              height: imageHeight,
               resizeMode: "stretch",
               borderRadius: sharpEdges ? 5 : 20,
               position: "absolute",
-              left: horizontalImage ? 100 : 200,
+              left: imageHeight / 2,
             }} />
           </View>
         </Flex>
-        <Padding vertical={100} />
+        <Padding vertical={theme.largeSpace} />
       </Flex>
     </Flex>
   )

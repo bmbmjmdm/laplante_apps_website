@@ -9,11 +9,9 @@ const scale = Dimensions.get('window').width / 1000;
 
 // styles for our theme
 export const styles = StyleSheet.create({
+  // Dark theme components
   darkText: {
     color: "#FFFFFF",
-  },
-  darkCaption: {
-    color: "#AAAAAA",
   },
   darkNavButton: {
     backgroundColor: "#DDDDDD",
@@ -22,9 +20,15 @@ export const styles = StyleSheet.create({
     height: 50,
     marginLeft: 50,
   },
+  darkDivider: {
+    width: "50%",
+    height: 2,
+    backgroundColor: "#FFFFFF",
+  },
 
+  // shared theme sizing
   header: {
-    fontSize: 70, //70 * scale,
+    fontSize: 70,
     fontWeight: "bold",
   },
   body: {
@@ -37,6 +41,8 @@ export const styles = StyleSheet.create({
     fontSize: 16, 
     paddingBottom: 2,
   },
+
+  // shared theme layouts
   flex: {
     flex: 1
   },
@@ -76,22 +82,76 @@ type Theme = {
   buttonText: TextStyle;
   header: TextStyle;
   navButton: ViewStyle;
-  menu: Object | Object[] | number,
+  showcaseDivider: ViewStyle;
+  menu: Object | Object[] | number;
   // these color strings are fed into our linear gradient background. if you want a solid background, just provide 1 color
   background: string[];
+  linkBackground: string[];
+  phoneHeight: number;
+  phoneScaleInitial: number;
+  phoneScaleFinal: number;
+  appScaleInitial: number;
+  appCycleTime: number;
+  mediumSpace: number;
+  mediumSmallSpace: number;
+  smallSpace: number;
+  messageHeightHolder: number;
+  screenAnimationY: number;
+  largeSpace: number;
+  showcaseImageLong: number;
+  showcaseImageShort: number;
+  showcaseTextWidth: number;
+  appLinkSize: number;
+  webLinkHeight: number;
+  webLinkWidth: number;
+  linearGradient: Object;
+  sideMenuWidth: number;
+  sideMenuSpeed: number;
+  menuSize: number;
+}
+
+const defaultTheme = {
+  body: styles.body,
+  caption: styles.caption,
+  header: styles.header,
+  buttonText: styles.buttonText,
+  phoneHeight: 1232,
+  phoneScaleInitial: 1.25,
+  phoneScaleFinal: 0.65,
+  appScaleInitial: 0.5,
+  appCycleTime: 6,
+  largeSpace: 100,
+  mediumSpace: 50,
+  mediumSmallSpace: 35,
+  smallSpace: 15,
+  messageHeightHolder: 100,
+  screenAnimationY: 200,
+  showcaseImageLong: 400,
+  showcaseImageShort: 200,
+  showcaseTextWidth: 500,
+  appLinkSize: 70,
+  webLinkHeight: 50,
+  webLinkWidth: 100,
+  linearGradient: {
+    useAngle: true,
+    angle: 135,
+    angleCenter: { x: 0.5, y: 0.5}
+  },
+  sideMenuWidth: 235,
+  sideMenuSpeed: 450,
+  menuSize: 35,
 }
 
 export const Themes:Record<ThemeName, Theme> = {
   dark: {
     name: "dark",
     text: styles.darkText,
-    body: styles.body,
-    caption: {...styles.caption, ...styles.darkCaption},
-    header: styles.header,
     background: ['#000000', '#000000', '#1a1a1a', '#3d3d3d'],
     navButton: styles.darkNavButton,
     menu: white_menu,
-    buttonText: styles.buttonText,
+    showcaseDivider: styles.darkDivider,
+    linkBackground: ['#ffb0fb', '#19344d'],
+    ...defaultTheme,
   }
 }
 

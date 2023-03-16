@@ -1,6 +1,6 @@
 // @ts-ignore-next-line
 import { Animated, View, Image, Dimensions } from 'react-native';
-import React, { FunctionComponent, useState, useEffect, useRef, MutableRefObject } from 'react';
+import React, { FunctionComponent, useState, useEffect, useRef, MutableRefObject, useContext } from 'react';
 import { easeOutBack, CardFlip, CardFlipRef } from '../Components';
 import phone_back from '../assets/phone_back.png';
 import phone_case from '../assets/phone_case.png';
@@ -28,36 +28,39 @@ import cat12 from '../assets/cat12.png';
 import cat13 from '../assets/cat13.png';
 import cat14 from '../assets/cat14.png';
 import cat15 from '../assets/cat15.png';
+import { ThemeContext } from '../Theme';
 
 
 type HomeScreenImagesProps = {
   catMode: MutableRefObject<boolean>;
 }
 
-// TODO make images responsive
-// TODO extract out hardcoded styles/etc
+// You'll see constants used in various equations below. These are relative sizes to ensure that all the images appear in the correct proportions 
 export const HomeScreenImages:FunctionComponent<HomeScreenImagesProps> = ({ catMode }) => {
   // animate in a phone from off-screen
+  const theme = useContext(ThemeContext);
   const windowHeight = Dimensions.get('window').height/2;
   const phoneTop = useRef(new Animated.Value(windowHeight)).current;
-  const phoneScale = useRef(new Animated.Value(1.25)).current;
+  const phoneScale = useRef(new Animated.Value(theme.phoneScaleInitial)).current;
   const cardRef = useRef<CardFlipRef>(null);
   const [phoneDone, setPhoneDone] = useState(false);
   const [phoneCycling, setPhoneCycling] = useState(false);
-  const finalPhoneScale = 0.65;
-  const basePhoneHeight = 1232;
-  const basePhoneWidth = 572;
+  const finalPhoneScale = theme.phoneScaleFinal;
+  const basePhoneHeight = theme.phoneHeight;
+  const defaultPhoneHeight = 1232;
+  const phoneHeightRatio = basePhoneHeight/defaultPhoneHeight;
+  const basePhoneWidth = 572 * phoneHeightRatio;
   const heightPhoneAtScale = basePhoneHeight * finalPhoneScale;
   const widthPhoneAtScale = basePhoneWidth * finalPhoneScale;
-  const heightAppAtScale = 1050 * finalPhoneScale;
-  const widthAppAtScale = 520 * finalPhoneScale;
+  const heightAppAtScale = 1050 * phoneHeightRatio * finalPhoneScale;
+  const widthAppAtScale = 520/572 * basePhoneWidth * finalPhoneScale;
 
   // make the phone slide up playfully, then flip over
   useEffect(() => {
     Animated.sequence([
       Animated.delay(1000),
       Animated.timing(phoneTop, {
-        toValue: windowHeight - 500,
+        toValue: windowHeight - (500 * phoneHeightRatio),
         duration: 1000,
         useNativeDriver: false
       }),
@@ -69,7 +72,7 @@ export const HomeScreenImages:FunctionComponent<HomeScreenImagesProps> = ({ catM
       }),
       Animated.delay(800),
       Animated.timing(phoneTop, {
-        toValue: windowHeight - 350,
+        toValue: windowHeight - (350 * phoneHeightRatio),
         duration: 500,
         useNativeDriver: false
       }),
@@ -83,7 +86,7 @@ export const HomeScreenImages:FunctionComponent<HomeScreenImagesProps> = ({ catM
       Animated.parallel([
         Animated.timing(phoneTop, {
           toValue: -basePhoneHeight / 2,
-          easing: easeOutBack, // TODO make this slow down at the end for a softer landing
+          easing: easeOutBack,
           duration: 1000,
           useNativeDriver: false
         }),
@@ -105,14 +108,15 @@ export const HomeScreenImages:FunctionComponent<HomeScreenImagesProps> = ({ catM
   const [curPicOneState, setCurPicOneSetter] = useState(0);
   const [curPicTwoState, setCurPicTwoSetter] = useState(1);
   const innerPhoneOpacity = useRef(new Animated.Value(1)).current;
-  const startingTopVal = 250;
+  const startingTopVal = 250 * phoneHeightRatio;
+  const startingScaleVal = theme.appScaleInitial;
   const appScreens = [
     {
       picList: useRef(appPictures),
       picOpacity: useRef(new Animated.Value(0)).current,
       picTop: useRef(new Animated.Value(startingTopVal)).current,
       picZ: useRef(new Animated.Value(1)).current,
-      picScale: useRef(new Animated.Value(0.5)).current,
+      picScale: useRef(new Animated.Value(startingScaleVal)).current,
       curPic: curPicOneState,
       setCurPic: setCurPicOneSetter
     },
@@ -121,7 +125,7 @@ export const HomeScreenImages:FunctionComponent<HomeScreenImagesProps> = ({ catM
       picOpacity: useRef(new Animated.Value(0)).current,
       picTop: useRef(new Animated.Value(startingTopVal)).current,
       picZ: useRef(new Animated.Value(2)).current,
-      picScale: useRef(new Animated.Value(0.5)).current,
+      picScale: useRef(new Animated.Value(startingScaleVal)).current,
       curPic: curPicTwoState,
       setCurPic: setCurPicTwoSetter
     }
@@ -170,7 +174,7 @@ export const HomeScreenImages:FunctionComponent<HomeScreenImagesProps> = ({ catM
         setTimeout(() => {
           nextAppScreen.picZ.setValue(1);
           curAppScreen.picZ.setValue(2);
-          curAppScreen.picScale.setValue(0.5);
+          curAppScreen.picScale.setValue(startingScaleVal);
           curAppScreen.picTop.setValue(startingTopVal);
         }, 500)
       })
@@ -188,7 +192,7 @@ export const HomeScreenImages:FunctionComponent<HomeScreenImagesProps> = ({ catM
           curAppScreen.setCurPic(curAppScreen.curPic + 2)
         }
         curApp.current = 1 - curApp.current;
-      }, 6 * 1000)
+      }, theme.appCycleTime * 1000)
     }
   }, [curPicOneState, curPicTwoState, phoneDone])
 
@@ -223,7 +227,7 @@ export const HomeScreenImages:FunctionComponent<HomeScreenImagesProps> = ({ catM
         <View style={{
           overflow: "hidden", 
           zIndex: 1,
-          borderRadius: 51,
+          borderRadius: 51 * phoneHeightRatio,
           width: widthPhoneAtScale,
           height: heightPhoneAtScale,
         }}>
@@ -253,8 +257,8 @@ export const HomeScreenImages:FunctionComponent<HomeScreenImagesProps> = ({ catM
               width: widthAppAtScale,
               height: heightAppAtScale,
               zIndex: appScreens[0].picZ,
-              top: 40,
-              left: 15,
+              top: 40 * phoneHeightRatio,
+              left: 15 * phoneHeightRatio,
               opacity: appScreens[0].picOpacity,
               transform:[{translateY: appScreens[0].picTop}, {scale: appScreens[0].picScale}],
             }}
@@ -266,8 +270,8 @@ export const HomeScreenImages:FunctionComponent<HomeScreenImagesProps> = ({ catM
               width: widthAppAtScale,
               height: heightAppAtScale,
               zIndex: appScreens[1].picZ,
-              top: 40,
-              left: 15,
+              top: 40 * phoneHeightRatio,
+              left: 15 * phoneHeightRatio,
               opacity: appScreens[1].picOpacity,
               transform:[{translateY: appScreens[1].picTop}, {scale: appScreens[1].picScale}],
             }}
