@@ -5,3 +5,5 @@ export type { TypewriterProps } from './Text';
 export { CardFlip } from './CardFlip';
 export  type {CardFlipRef} from './CardFlip';
 export { ShowcaseRow } from './ShowcaseRow';
+export { SideMenu } from './SideMenu';
+export { ScreenHeader } from './ScreenHeader';
