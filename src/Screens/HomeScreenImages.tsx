@@ -28,6 +28,10 @@ type HomeScreenImagesProps = {
   catMode: MutableRefObject<number>;
 }
 
+// This component is responsible for animating in the phone (PlayfulPhone half) and then cycling through
+// the various gifs or images (SlideshowPhone half). It does the handoff using two different state variables to assure no flickering
+// It accepts a ref to determine which list of assets to use
+// If catmode is enabled (1), it'll show cat pictures. Otherwise it'll show app gifs
 export const HomeScreenImages:FunctionComponent<HomeScreenImagesProps> = ({ catMode }) => {
   const [phoneDone, setPhoneDone] = useState(false);
   const [phoneCycling, setPhoneCycling] = useState(false);

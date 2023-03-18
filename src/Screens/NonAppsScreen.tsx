@@ -6,7 +6,9 @@ import { StackScreenProps } from '@react-navigation/stack';
 import { ShowcaseRow } from '../Components';
 import beatbiome from '../assets/beatbiome.gif'
 
-
+// This is the screen that shows a list of non-app projects, like board games and VR games
+// This shows in the same ShowcaseRows as AppScreen and WorkScreen, showing a title, description, image, and link(s)
+// It animates in and out using the usual AnimatedScreen
 export const NonAppsScreen:FunctionComponent<StackScreenProps<any>> = ({ route }) => {
   return (
     <AnimatedScreen fadeOut={route?.params?.fadeOut}>

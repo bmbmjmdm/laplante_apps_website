@@ -12,10 +12,13 @@ type HomeScreenMessageProps = {
   setCatMode: (mode:boolean) => void;
 }
 
+// This component is used to display the home screen messages. These are typed onto the screen one at a time,
+// changing to the next one after a short delay. Eventually, the final message will cause the homescreen to 
+// switch to showing a cat-themed product
 export const HomeScreenMessage:FunctionComponent<HomeScreenMessageProps> = ({ setCatMode }) => {
   const theme = useContext(ThemeContext);
-  const startWithCatModeText = false//React.useRef(Boolean(localStorage.getItem(CAT_MODE_KEY))).current //TODO reenable
-  // go through various captions, eventually switching to a different product (cat title + pictures)
+  // lookup if we're already in cat mode from previous sessions
+  const startWithCatModeText = React.useRef(Boolean(localStorage.getItem(CAT_MODE_KEY))).current
   const [curCaption, setCurCaption] = useState(startWithCatModeText ? CAT_CAPTION: 0);
   const [deleteTitle, setDeleteTitle] = useState(startWithCatModeText);
   const [changeTitle, setChangeTitle] = useState(false);
@@ -24,6 +27,8 @@ export const HomeScreenMessage:FunctionComponent<HomeScreenMessageProps> = ({ se
     setChangeTitle(true)
    } : undefined
   const nextCaption = () => setCurCaption(curCaption + 1);
+  // when we change to cat mode, change the title and pictures.
+  // also setup a 20sec timer to show the extended cat caption
   const changeProduct = () => {
     setDeleteTitle(true);
     setCurCaption(curCaption + 1)
@@ -31,7 +36,7 @@ export const HomeScreenMessage:FunctionComponent<HomeScreenMessageProps> = ({ se
       setCurCaption((cur) => cur + 1)
     }, CAT_CLARIFICATION_DELAY)
   }
-  // if we start in cat mode, setup a 20sec timer to show the extended caption still
+  // if we start in cat mode, setup a 20sec timer to show the extended cat caption
   useEffect(() => {
     if (startWithCatModeText) {
       setTimeout(() => {
@@ -67,8 +72,10 @@ export const HomeScreenMessage:FunctionComponent<HomeScreenMessageProps> = ({ se
   )
 }
 
+// this allows us to step through our list of captions simply
 export const getCaption = (curCaption:number, nextCaption:Function, changeProduct:Function) => {
   let counter = 0;
+  // all captions share the same default props, but some are overriden to change speed, etc for certain captions
   const defaultProps = ():Omit<TypewriterProps, "children"> & {key: number} => {
     counter++;
     return {
@@ -86,6 +93,7 @@ export const getCaption = (curCaption:number, nextCaption:Function, changeProduc
       This is a caption that I'll make informative and interesting and everything :). Not that you're reading it. Oh, you are? Ok, here we go!
     </Typewriter>,
 
+    // We use hairs here for consistent spacing and speed
     <Typewriter {...defaultProps()} pauseTime={1000} >
       This site is dedicated to LaPlante Apps (well, I guess that's obvious), a little business that makes mobile apps, board games, computer games, and more!{twentyHairs} .  .  .  Happy?
     </Typewriter>,
@@ -110,6 +118,7 @@ export const getCaption = (curCaption:number, nextCaption:Function, changeProduc
       Or can I?
     </Typewriter>,
 
+    // Once the user sees the next caption (the meows), we assume they've made it to cat mode on subsequent visits
     <Typewriter {...defaultProps()} onFinish={() => {
       nextCaption();
       localStorage.setItem(CAT_MODE_KEY, "yes")
@@ -125,6 +134,7 @@ export const getCaption = (curCaption:number, nextCaption:Function, changeProduc
       I like cats. 
     </Typewriter>,
     
+    // We have a duplicate of the caption here so that we can show the extended caption appropriately on subsequent loads
     <StyledText type={"caption"}>
       I like cats. 
     </StyledText>,

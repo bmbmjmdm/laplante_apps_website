@@ -1,15 +1,15 @@
 // @ts-ignore-next-line
 import { StyleSheet, TextStyle, Dimensions, ViewStyle } from 'react-native';
 import React, { FunctionComponent, ReactNode, createContext } from 'react';
-// @ts-ignore-next-line
 import white_menu from "./assets/menu_white.png";
 
 // scaling operations for different screen sizes
 const scale = Dimensions.get('window').width / 1000;
 
-// styles for our theme
+// styles used for themes and components
 export const styles = StyleSheet.create({
-  // Dark theme components
+
+  // Dark theme
   darkText: {
     color: "#FFFFFF",
   },
@@ -42,7 +42,7 @@ export const styles = StyleSheet.create({
     paddingBottom: 2,
   },
 
-  // shared theme layouts
+  // general component styles
   flex: {
     flex: 1
   },
@@ -110,6 +110,7 @@ type Theme = {
   menuSize: number;
 }
 
+// various properties that most themes will have in common, mostly things like component sizing/spacing/positioning
 const defaultTheme = {
   body: styles.body,
   caption: styles.caption,
@@ -142,6 +143,7 @@ const defaultTheme = {
   menuSize: 35,
 }
 
+// where our themes are actually defined and set up
 export const Themes:Record<ThemeName, Theme> = {
   dark: {
     name: "dark",
@@ -155,6 +157,7 @@ export const Themes:Record<ThemeName, Theme> = {
   }
 }
 
+// the theme provider/context used to provide the theme to all components/screens
 type ThemeProviderProps = {
   children: ReactNode;
   name: Theme;

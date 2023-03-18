@@ -3,7 +3,7 @@ import { View, ViewStyle } from 'react-native';
 import React, { FunctionComponent, ReactNode } from 'react';
 import { styles } from '../Theme';
 
-// A component that makes it easy to create full-size and/or centered containers
+// A component that makes it easy to create layout components, such as full-width, centered, row, etc
 type FlexProps = {
   full?: boolean;
   fullWidth?: boolean;

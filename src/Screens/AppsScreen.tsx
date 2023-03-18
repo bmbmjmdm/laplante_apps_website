@@ -10,7 +10,9 @@ import weread from "../assets/weread.gif"
 import npcg from "../assets/npcg.gif"
 import dice from "../assets/dice.gif"
 
-
+// This is the screen that shows a list of mobile app projects
+// This shows in the same ShowcaseRows as NonAppsScreen and WorkScreen, showing a title, description, image, and link(s)
+// It animates in and out using the usual AnimatedScreen
 export const AppsScreen:FunctionComponent<StackScreenProps<any>> = ({ route })=> {
   return (
     <AnimatedScreen fadeOut={route?.params?.fadeOut}>

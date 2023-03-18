@@ -10,11 +10,13 @@ type SideMenuProps = {
   navigation: StackNavigationProp<ParamListBase, string, undefined>;
 }
 
+// Component that can be toggled by its parent to show/hide a navigation menu
 const SideMenuComponent:FunctionComponent<SideMenuProps> = ({ navigation }, ref) => {
   const theme = useContext(ThemeContext);
   const sideMenuWidth = theme.sideMenuWidth
   const sideMenuSpeed = theme.sideMenuSpeed
 
+  // slide in the menu from off-screen left
   const sideMenuLeft = useRef(new Animated.Value(-sideMenuWidth)).current;
   const sideMenuOpacity = useRef(new Animated.Value(1)).current;
   const isSideMenuShown = useRef(false);
@@ -29,6 +31,8 @@ const SideMenuComponent:FunctionComponent<SideMenuProps> = ({ navigation }, ref)
     })
   }
 
+  // when navigating to a new screen, fade out the menu and slide it off-screen
+  // Also set page params to trigger the AnimatedScreen component's fade-out animation
   const navigate = (path:string) => () => {
     navigation.setParams({fadeOut: true});
     toggleMenu(true)
@@ -39,6 +43,7 @@ const SideMenuComponent:FunctionComponent<SideMenuProps> = ({ navigation }, ref)
     }).start(() => {
       navigation.push(path)
       setTimeout(() => {
+        // after completing the navigation, re-opacify the menu
         sideMenuOpacity.setValue(1);
       }, 100)
     })
@@ -49,8 +54,6 @@ const SideMenuComponent:FunctionComponent<SideMenuProps> = ({ navigation }, ref)
     toggleMenu
   }));
 
-  // TODO I use navigation.replace here to allow fading-out the current screen, however 
-  // this prevents the back button from working. If I use navigation.push, the back button works, but the screen doesn't fade out
   return (
       <Animated.View style={{
         padding: theme.mediumSpace,

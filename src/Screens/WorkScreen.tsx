@@ -9,7 +9,9 @@ import sushimonster from '../assets/sushimonster.gif';
 import gsg from '../assets/gsg.gif';
 import pega from '../assets/pega.jpg';
 
-
+// This is the screen that shows a list of previous jobs
+// This shows in the same ShowcaseRows as AppScreen and NonAppsScreen, showing a title, description, image, and link(s)
+// It animates in and out using the usual AnimatedScreen
 export const WorkScreen:FunctionComponent<StackScreenProps<any>> = ({ route }) => {
   return (
     <AnimatedScreen fadeOut={route?.params?.fadeOut}>

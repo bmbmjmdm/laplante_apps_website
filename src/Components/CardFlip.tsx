@@ -2,15 +2,11 @@ import React, { FunctionComponent, useImperativeHandle, forwardRef } from "react
 // @ts-ignore-next-line
 import { Platform, StyleSheet, Animated, ViewStyle } from "react-native";
 
-export type FlipDirection = "y" | "x";
-
-export type Direction = "right" | "left";
-
-export type FlipCardProps = {
+export type CardFlipProps = {
   style?: ViewStyle;
   duration?: number;
   flipZoom?: number;
-  flipDirection?: FlipDirection;
+  flipDirection?: "y" | "x";
   onFlip?: (index: number) => void;
   onFlipEnd?: (index: number) => void;
   onFlipStart?: (index: number) => void;
@@ -19,32 +15,13 @@ export type FlipCardProps = {
   expectedWidth: number;
 };
 
-
+// allow our parent to tell this component to flip
 export type CardFlipRef = {
   flip: () => void;
-
-  tip: ({
-    direction,
-    duration,
-    progress
-  }: {
-    direction?: Direction;
-    duration?: number;
-    progress?: number;
-  }) => void;
-
-  jiggle: ({
-    count,
-    duration,
-    progress
-  }: {
-    count?: number;
-    duration?: number;
-    progress?: number;
-  }) => void;
 }
 
-const CardFlipComponent: FunctionComponent<FlipCardProps> = ({
+// This is a component that flips between two children, animating the flip with a slight depth effect
+const CardFlipComponent: FunctionComponent<CardFlipProps> = ({
   style = {},
   duration = 750,
   flipZoom =  0.2,
@@ -55,7 +32,6 @@ const CardFlipComponent: FunctionComponent<FlipCardProps> = ({
   children = [],
   expectedWidth,
 }, ref) => {
-  const [sides, setSides] = React.useState(children);
   const [side, setSide] = React.useState(0);
   const progress = React.useRef(new Animated.Value(0)).current;
   const rotationX = React.useRef(new Animated.Value(50)).current;
@@ -63,7 +39,7 @@ const CardFlipComponent: FunctionComponent<FlipCardProps> = ({
   const zoom = React.useRef(new Animated.Value(0)).current;
   const [rotateOrientation, setRotateOrientation] = React.useState("");
 
-  // Flipping 
+  // Expose flip method to parent & call helper based on direction
   useImperativeHandle(ref, () => ({
     flip: () => {
       if (flipDirection == "y") {
@@ -74,34 +50,40 @@ const CardFlipComponent: FunctionComponent<FlipCardProps> = ({
     }
   }));
 
-  
+  // flipping over y axis
   function flipY() {
     _flipTo({
       x: 50,
       y: side === 0 ? 100 : 50
     });
+    // update state for later flips
     setSide(side === 0 ? 1 : 0);
     setRotateOrientation("y");
   }
 
+  // flipping over x axis
   function flipX() {
     _flipTo({
       y: 50,
       x: side === 0 ? 100 : 50
     });
+    // update state for later flips
     setSide(side === 0 ? 1 : 0);
     setRotateOrientation("x");
   }
 
   function _flipTo(toValue:any) {
+    // callbacks
     onFlip?.(side === 0 ? 1 : 0);
     onFlipStart?.(side === 0 ? 1 : 0);
     Animated.parallel([
+      // use a central progress value to interpolate the opacity of both sides simultaneously
       Animated.timing(progress, {
         toValue: side === 0 ? 100 : 0,
         duration,
         useNativeDriver: false
       }),
+      // zoom in and then out (scale up and then down) in for depth effect
       Animated.sequence([
         Animated.timing(zoom, {
           toValue: 100,
@@ -114,6 +96,7 @@ const CardFlipComponent: FunctionComponent<FlipCardProps> = ({
           useNativeDriver: false
         })
       ]),
+      // rotate around the given axis to make the side look like its flipping over
       Animated.timing(rotationX, {
         toValue: toValue.x,
         duration,
@@ -125,14 +108,12 @@ const CardFlipComponent: FunctionComponent<FlipCardProps> = ({
         useNativeDriver: false
       })
     ]).start(() => {
+      // callback
       onFlipEnd?.(side === 0 ? 1 : 0);
     });
   }
 
-
-  // Rendering
-
-  // Handle cardA transformation
+  // interpolate side A opacity so it switches over from A to B at 50% flip progress
   const sideAOpacity = progress.interpolate({
     inputRange: [50, 51],
     outputRange: [100, 0],
@@ -144,6 +125,7 @@ const CardFlipComponent: FunctionComponent<FlipCardProps> = ({
     transform: []
   };
   if (rotateOrientation === "x") {
+    // interpolate side A rotation so it flips over the x axis
     const aXRotation = rotationX.interpolate({
       inputRange: [0, 50, 100, 150],
       outputRange: ["-180deg", "0deg", "180deg", "0deg"],
@@ -151,7 +133,7 @@ const CardFlipComponent: FunctionComponent<FlipCardProps> = ({
     });
     cardATransform.transform.push({ rotateX: aXRotation } as never);
   } else {
-    // cardA Y-rotation
+    // interpolate side A rotation so it flips over the Y axis
     const aYRotation = rotationY.interpolate({
       inputRange: [0, 50, 100, 150],
       outputRange: ["-180deg", "0deg", "180deg", "0deg"],
@@ -159,9 +141,10 @@ const CardFlipComponent: FunctionComponent<FlipCardProps> = ({
     });
     cardATransform.transform.push({ rotateY: aYRotation } as never);
   }
+  // include a shift along the X axis to counter-act the card sliding out of place as it flips
   cardATransform.transform.push({ translateX:-expectedWidth/2 } as never)
 
-  // Handle cardB transformation
+  // interpolate side B opacity so it switches over from B to A at 50% flip progress
   const sideBOpacity = progress.interpolate({
     inputRange: [50, 51],
     outputRange: [0, 100],
@@ -175,6 +158,7 @@ const CardFlipComponent: FunctionComponent<FlipCardProps> = ({
   };
   let bYRotation;
   if (rotateOrientation === "x") {
+    // interpolate side B rotation so it flips over the x axis
     const bXRotation = rotationX.interpolate({
       inputRange: [0, 50, 100, 150],
       outputRange: ["0deg", "-180deg", "-360deg", "180deg"],
@@ -182,26 +166,18 @@ const CardFlipComponent: FunctionComponent<FlipCardProps> = ({
     });
     cardBTransform.transform.push({ rotateX: bXRotation } as never);
   } else {
-    if (Platform.OS === "ios") {
-      // cardB Y-rotation
-      bYRotation = rotationY.interpolate({
-        inputRange: [0, 50, 100, 150],
-        outputRange: ["0deg", "180deg", "0deg", "-180deg"],
-        extrapolate: "clamp"
-      });
-    } else {
-      // cardB Y-rotation
-      bYRotation = rotationY.interpolate({
-        inputRange: [0, 50, 100, 150],
-        outputRange: ["0deg", "-180deg", "0deg", "180deg"],
-        extrapolate: "clamp"
-      });
-    }
+    // interpolate side B rotation so it flips over the y axis
+    bYRotation = rotationY.interpolate({
+      inputRange: [0, 50, 100, 150],
+      outputRange: ["0deg", "-180deg", "0deg", "180deg"],
+      extrapolate: "clamp"
+    });
     cardBTransform.transform.push({ rotateY: bYRotation } as never);
   }
+  // include a shift along the X axis to counter-act the card sliding out of place as it flips
   cardBTransform.transform.push({ translateX: -expectedWidth/2 } as never)
 
-  // Handle cardPopup
+  // scale card with zoom for depth effect
   const cardZoom = zoom.interpolate({
     inputRange: [0, 100],
     outputRange: [1, 1 + flipZoom],
@@ -212,17 +188,13 @@ const CardFlipComponent: FunctionComponent<FlipCardProps> = ({
     transform: [{ scale: cardZoom }]
   };
 
-  const reposition = {
-    transform: [{ translateX: expectedWidth/2 }]
-  }
-
   return (
     <Animated.View style={[style, scaling]}>
       <Animated.View style={[styles.cardContainer, cardATransform]}>
-        {sides[0]}
+        {children[0]}
       </Animated.View>
       <Animated.View style={[styles.cardContainer, cardBTransform]}>
-        {sides[1]}
+        {children[1]}
       </Animated.View>
     </Animated.View>
   );

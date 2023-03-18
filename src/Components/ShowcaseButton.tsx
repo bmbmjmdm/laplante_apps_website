@@ -13,6 +13,8 @@ type ShowcaseButtonProps = {
   name: "Android" | "Apple" | "Link";
 }
 
+// This button shows either an Apple icon, Android icon, or a pill button
+// When it is pressed, it opens the link in a new tab
 export const ShowcaseButton: FunctionComponent<ShowcaseButtonProps> = ({ link, name }) => {
   const theme = useContext(ThemeContext);
   return (
@@ -22,19 +24,20 @@ export const ShowcaseButton: FunctionComponent<ShowcaseButtonProps> = ({ link, n
       >
         { name === "Apple" && AppleIcon }
         { name === "Android" && AndroidIcon }
-        { name === "Link" && LinkIcon }
+        { name === "Link" && PillButton }
       </TouchableOpacity>
   )
 }
 
-
+// This calls the given function after 5-30 seconds
 const randomTimeout = (f: Function) => {
   setTimeout(f, Math.random() * 25000 + 5000)
 }
 
-
+// The android icon slides from left to right and back, with appropriate acceleration/whip shown through rotation
 const AndroidIcon:FunctionComponent<{}> = () => {
   const theme = useContext(ThemeContext);
+  // use a central animation value to drive the icon's position and rotation using interpolation
   const androidAnimation = useRef(new Animated.Value(0)).current;
   const androidRotation = useRef(androidAnimation.interpolate({
     inputRange: [0, 10, 20, 50, 65, 75, 100, 107, 115],
@@ -48,6 +51,7 @@ const AndroidIcon:FunctionComponent<{}> = () => {
     extrapolate: "clamp"
   })).current;
 
+  // animate the icon after 5-30 seconds
   useEffect(() => {
     randomTimeout(nextAnimationAndroid)
   }, [])
@@ -60,6 +64,7 @@ const AndroidIcon:FunctionComponent<{}> = () => {
     }).start(() => {
       androidAnimation.setValue(0)
     })
+    // animate the icon again after 5-30 seconds
     randomTimeout(nextAnimationAndroid)
   }
 
@@ -79,23 +84,26 @@ const AndroidIcon:FunctionComponent<{}> = () => {
   )
 }
 
-
+// The apple icon jumps up and back down, with appropriate deceleration/acceleration to show interesting gravity
 const AppleIcon:FunctionComponent<{}> = () => {
   const theme = useContext(ThemeContext);
   const appleAnimation = useRef(new Animated.Value(0)).current;
 
+  // animate the icon after 5-30 seconds
   useEffect(() => {
     randomTimeout(nextAnimationApple)
   }, [])
 
   const nextAnimationApple = () => {
     Animated.sequence([
+      // go up, decelerating
       Animated.timing(appleAnimation, {
         toValue: -100,
         duration: 500,
         easing: Easing.out(Easing.sin),
         useNativeDriver: false
       }),
+      // go down, accelerating
       Animated.timing(appleAnimation, {
         toValue: 0,
         duration: 750,
@@ -103,6 +111,7 @@ const AppleIcon:FunctionComponent<{}> = () => {
         useNativeDriver: false
       })
     ]).start()
+    // animate the icon after 5-30 seconds
     randomTimeout(nextAnimationApple)
   }
 
@@ -118,35 +127,44 @@ const AppleIcon:FunctionComponent<{}> = () => {
   )
 }
 
-const LinkIcon:FunctionComponent<{}> = () => {
+// The pill button bulges, curves/sharpens, and twists to show interesting motion
+// It then returns to its original state
+const PillButton:FunctionComponent<{}> = () => {
   const theme = useContext(ThemeContext);
+  // use a central animation value to drive the button's scale, radius, and rotation using interpolation
   const linkAnimation = useRef(new Animated.Value(0)).current;
+  // bulge vertically
   const linkScaleY = useRef(linkAnimation.interpolate({
     inputRange: [0, 20, 40, 60, 80, 100],
     outputRange: [1, 1.2, 1.5, 1.2, 1.8, 1],
     extrapolate: "clamp"
   })).current;
+  // bulge horizontally
   const linkScaleX = useRef(linkAnimation.interpolate({
     inputRange: [0, 20, 40, 60, 80, 100],
     outputRange: [1, 0.75, 1, 1.25, 1.5, 1],
     extrapolate: "clamp"
   })).current;
+  // curve/sharpen
   const linkRadius = useRef(linkAnimation.interpolate({
     inputRange: [0, 20, 40, 60, 80, 100],
     outputRange: [35, 10, 20, 50, 20, 35],
     extrapolate: "clamp"
   })).current;
+  // twist
   const linkRotation = useRef(linkAnimation.interpolate({
     inputRange: [0, 20, 40, 60, 80, 100],
     outputRange: ["0deg", "-10deg", "10deg", "-20deg", "30deg", "0deg"],
     extrapolate: "clamp"
   })).current;
+  // keep the link text upright
   const linkCounterRotate = useRef(linkAnimation.interpolate({
     inputRange: [0, 20, 40, 60, 80, 100],
     outputRange: ["0deg", "10deg", "-10deg", "20deg", "-30deg", "0deg"],
     extrapolate: "clamp"
   })).current;
 
+  // animate the icon after 5-30 seconds
   useEffect(() => {
     randomTimeout(nextAnimationLink)
   }, [])
@@ -159,6 +177,7 @@ const LinkIcon:FunctionComponent<{}> = () => {
     }).start(() => {
       linkAnimation.setValue(0)
     })
+    // animate the icon after 5-30 seconds
     randomTimeout(nextAnimationLink)
   }
 

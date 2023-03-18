@@ -13,6 +13,7 @@ type SlideshowPhoneProps = {
   onFirstCycleComplete: () => void;
 }
 
+// This component animates a phone cycling through a list of images/gifs
 // You'll see constants used in various equations below. These are relative sizes to ensure that all the images appear in the correct proportions 
 export const SlideshowPhone:FunctionComponent<SlideshowPhoneProps> = ({ pictureLists, curListRef, onFirstCycleComplete }) => {
   const theme = useContext(ThemeContext);
@@ -28,7 +29,6 @@ export const SlideshowPhone:FunctionComponent<SlideshowPhoneProps> = ({ pictureL
   const heightAppAtScale = 1050 * phoneHeightRatio * finalPhoneScale;
   const widthAppAtScale = 520/572 * basePhoneWidth * finalPhoneScale;
 
-  // after the phone is done, start showing apps on it
   // we use 2 app screens, one on top of the other, so we can animate the new one in and the old one out, then they swap roles
   const curApp = useRef(0);
   const [curPicOneState, setCurPicOneSetter] = useState(0);
@@ -69,25 +69,28 @@ export const SlideshowPhone:FunctionComponent<SlideshowPhoneProps> = ({ pictureL
         useNativeDriver: false
       })
     ]
-    // animate the new image just below the current one, fading new one in and old one out, and drag the new one up into the old one's place
     Animated.parallel([
       ...optionalAnimation,
+      // fade out old image
       Animated.timing(curAppScreen.picOpacity, {
         toValue: 0,
         duration: 600,
         useNativeDriver: false
       }),
+      // fade in new image
       Animated.timing(nextAppScreen.picOpacity, {
         toValue: 1,
         duration: 600,
         useNativeDriver: false
       }),
+      // slide new image into position
       Animated.timing(nextAppScreen.picTop, {
         toValue: 0,
         easing: easeOutBack,
         duration: 600,
         useNativeDriver: false
       }),
+      // scale up new image to full size
       Animated.timing(nextAppScreen.picScale, {
         toValue: 1,
         duration: 600,
@@ -118,6 +121,7 @@ export const SlideshowPhone:FunctionComponent<SlideshowPhoneProps> = ({ pictureL
         curAppScreen.setCurPic(curAppScreen.curPic + 2)
       }
       curApp.current = 1 - curApp.current;
+      // every X seconds change the picture/gif
     }, theme.appCycleTime * 1000)
   }, [curPicOneState, curPicTwoState])
 

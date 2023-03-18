@@ -1,3 +1,4 @@
+// Export all components from here. Components are used to create other components or screens
 export { Flex, Padding } from './Layout';
 export { StyledText, Typewriter,  } from './Text';
 export { easeOutBack } from './Easing';

@@ -11,6 +11,7 @@ type PlayfulPhoneProps = {
   onAnimationComplete: () => void;
 }
 
+// This component animates in the phone. It will slide up playfully, then flip over to reveal the front of the phone
 // You'll see constants used in various equations below. These are relative sizes to ensure that all the images appear in the correct proportions 
 export const PlayfulPhone:FunctionComponent<PlayfulPhoneProps> = ({ onAnimationComplete }) => {
   // animate in a phone from off-screen
@@ -25,34 +26,39 @@ export const PlayfulPhone:FunctionComponent<PlayfulPhoneProps> = ({ onAnimationC
   const phoneHeightRatio = basePhoneHeight/defaultPhoneHeight;
   const basePhoneWidth = 572 * phoneHeightRatio;
 
-  // make the phone slide up playfully, then flip over
   useEffect(() => {
+    // Use various delays to time the animations naturally
     Animated.sequence([
       Animated.delay(1000),
+      // slide up (onto the screen) at moderate speed
       Animated.timing(phoneTop, {
         toValue: windowHeight - (500 * phoneHeightRatio),
         duration: 1000,
         useNativeDriver: false
       }),
       Animated.delay(500),
+      // slide back down (off-screen) slowly
       Animated.timing(phoneTop, {
         toValue: windowHeight,
         duration: 4000,
         useNativeDriver: false
       }),
       Animated.delay(800),
+      // slide up (onto the screen) a little bit at high speed
       Animated.timing(phoneTop, {
         toValue: windowHeight - (350 * phoneHeightRatio),
         duration: 500,
         useNativeDriver: false
       }),
       Animated.delay(100),
+      // slide back off also at high speed
       Animated.timing(phoneTop, {
         toValue: windowHeight,
         duration: 300,
         useNativeDriver: false
       }),
       Animated.delay(1000),
+      // now scale the phone down to its normal size and slide it up into the center of its container
       Animated.parallel([
         Animated.timing(phoneTop, {
           toValue: -basePhoneHeight / 2,
@@ -68,6 +74,7 @@ export const PlayfulPhone:FunctionComponent<PlayfulPhoneProps> = ({ onAnimationC
       ]),
       Animated.delay(500),
     ]).start(() => {
+      // flip the phone to reveal the front face
       cardRef.current?.flip()
     })
   }, [])

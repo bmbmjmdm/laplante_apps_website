@@ -10,6 +10,9 @@ type AnimatedScreenProps = {
   fadeOut?: boolean;
 }
 
+// This animates in its children when the user navigates to a new screen
+// They will simultaniously slide up into position and fade in
+// They will also fade out when the user navigates away
 export const AnimatedScreen:FunctionComponent<AnimatedScreenProps> = ({ children, fadeOut = false }) => {
   const theme = useContext(ThemeContext);
   const animatedTop = useRef(new Animated.Value(theme.screenAnimationY)).current;
@@ -21,6 +24,7 @@ export const AnimatedScreen:FunctionComponent<AnimatedScreenProps> = ({ children
     if (fadeOut) {
       // @ts-ignore-next-line
       navigation.setParams({fadeOut: false});
+      // fade out
       Animated.timing(animatedOpacity, {
         toValue: 0,
         duration: 250,
@@ -32,12 +36,14 @@ export const AnimatedScreen:FunctionComponent<AnimatedScreenProps> = ({ children
   //animate in the screen when the user navigates to it
   useFocusEffect(
     useCallback(() => {
+      // fade in
       Animated.parallel([
         Animated.timing(animatedOpacity, {
           toValue: 1,
           duration: 850,
           useNativeDriver: false
         }),
+        // slide up
         Animated.timing(animatedTop, {
           toValue: 0,
           easing: easeOutBack,

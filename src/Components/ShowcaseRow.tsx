@@ -16,6 +16,8 @@ type ShowcaseRowProps = {
   link?: string;
 }
 
+// This component shows off a project/app/job/etc
+// It displays a title, description, image, and links
 export const ShowcaseRow:FunctionComponent<ShowcaseRowProps> = ({ 
   title,
   description,
