@@ -57,7 +57,7 @@ const SideMenuComponent:FunctionComponent<SideMenuProps> = ({ navigation }, ref)
         paddingTop: theme.largeSpace,
         opacity: sideMenuOpacity,
         marginTop: theme.largeSpace,
-        height: "100vh",
+        height: "100vh", // Replace with svh or dvh if problems with mobile/scrolls?
         position: "absolute",
         left: 0,
         top: 0,

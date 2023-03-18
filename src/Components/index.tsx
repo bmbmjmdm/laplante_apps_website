@@ -7,3 +7,5 @@ export  type {CardFlipRef} from './CardFlip';
 export { ShowcaseRow } from './ShowcaseRow';
 export { SideMenu } from './SideMenu';
 export { ScreenHeader } from './ScreenHeader';
+export { PlayfulPhone } from './PlayfulPhone';
+export { SlideshowPhone } from './SlideshowPhone';
