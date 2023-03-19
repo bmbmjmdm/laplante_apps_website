@@ -1,48 +1,17 @@
 // @ts-ignore-next-line
-import { StyleSheet, TextStyle, Dimensions, ViewStyle } from 'react-native';
+import { StyleSheet, TextStyle, Dimensions, ViewStyle, DimensionsValue } from 'react-native';
 import React, { FunctionComponent, ReactNode, createContext } from 'react';
 import white_menu from "./assets/menu_white.png";
+import { useState } from 'react';
+import { useEffect } from 'react';
 
-// scaling operations for different screen sizes
-const scale = Dimensions.get('window').width / 1000;
+// helper function to clamp a value between a min and max
+const clamp = (min:number, max:number, val:number) => {
+  return Math.round(Math.min(Math.max(val, min), max));
+}
 
-// styles used for themes and components
+// theme-independent basic layout styling
 export const styles = StyleSheet.create({
-
-  // Dark theme
-  darkText: {
-    color: "#FFFFFF",
-  },
-  darkNavButton: {
-    backgroundColor: "#DDDDDD",
-    borderRadius: 999,
-    width: 50,
-    height: 50,
-    marginLeft: 50,
-  },
-  darkDivider: {
-    width: "50%",
-    height: 2,
-    backgroundColor: "#FFFFFF",
-  },
-
-  // shared theme sizing
-  header: {
-    fontSize: 70,
-    fontWeight: "bold",
-  },
-  body: {
-    fontSize: 45, 
-  },
-  caption: {
-    fontSize: 30, 
-  },
-  buttonText: {
-    fontSize: 16, 
-    paddingBottom: 2,
-  },
-
-  // general component styles
   flex: {
     flex: 1
   },
@@ -54,6 +23,12 @@ export const styles = StyleSheet.create({
   },
   row: {
     flexDirection: 'row',
+  },
+  reverseRow: {
+    flexDirection: 'row-reverse',
+  },
+  reverseColumn: {
+    flexDirection: 'column-reverse',
   },
   slim: {
     width: "100%",
@@ -67,7 +42,6 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-
 });
 
 // the various theme options available
@@ -111,63 +85,99 @@ type Theme = {
 }
 
 // various properties that most themes will have in common, mostly things like component sizing/spacing/positioning
-const defaultTheme = {
-  body: styles.body,
-  caption: styles.caption,
-  header: styles.header,
-  buttonText: styles.buttonText,
-  phoneHeight: 1232,
+const defaultTheme = (scale: number) => ({
+  header: {
+    fontSize: clamp(45, 70, 100 * scale),
+    fontWeight: "bold",
+  },
+  body: {
+    fontSize: clamp(30, 45, 75 * scale), 
+  },
+  caption: {
+    fontSize: clamp(20, 30, 45 * scale), 
+  },
+  buttonText: {
+    fontSize: clamp(14, 16, 30 * scale), 
+    paddingBottom: 2,
+  },
+  phoneHeight: clamp(800, 1232, 1500 * scale),
   phoneScaleInitial: 1.25,
   phoneScaleFinal: 0.65,
   appScaleInitial: 0.5,
   appCycleTime: 6,
-  largeSpace: 100,
-  mediumSpace: 50,
-  mediumSmallSpace: 35,
-  smallSpace: 15,
-  messageHeightHolder: 100,
-  screenAnimationY: 200,
-  showcaseImageLong: 400,
-  showcaseImageShort: 200,
-  showcaseTextWidth: 500,
-  appLinkSize: 70,
-  webLinkHeight: 50,
-  webLinkWidth: 100,
+  largeSpace: clamp(50, 100, 150 * scale),
+  mediumSpace: clamp(25, 50, 75 * scale),
+  mediumSmallSpace: clamp(17, 35, 55 * scale),
+  smallSpace: clamp(8, 15, 25 * scale),
+  messageHeightHolder: clamp(50, 100, 150 * scale),
+  screenAnimationY: clamp(150, 200, 300 * scale),
+  showcaseImageLong: clamp(250, 400, 600 * scale),
+  showcaseImageShort: clamp(125, 200, 300 * scale),
+  showcaseTextWidth: clamp(200, 500, 700 * scale),
+  appLinkSize: clamp(40, 70, 100 * scale),
+  webLinkHeight: clamp(30, 50, 75 * scale),
+  webLinkWidth: clamp(60, 100, 150 * scale),
   linearGradient: {
     useAngle: true,
     angle: 135,
     angleCenter: { x: 0.5, y: 0.5}
   },
-  sideMenuWidth: 235,
+  sideMenuWidth: clamp(150, 235, 400 * scale),
   sideMenuSpeed: 450,
-  menuSize: 35,
-}
+  menuSize: clamp(35, 50, 100 * scale),
+})
 
-// where our themes are actually defined and set up
-export const Themes:Record<ThemeName, Theme> = {
-  dark: {
+// where our themes are defined
+// these all accept a scale variable, which is used to scale the theme's styling to different screen sizes
+// as such, they cannot be used without first providing scale
+export const Themes:Record<ThemeName, (scale: number) => Theme> = {
+  dark: (scale) => ({
+    ...defaultTheme(scale),
     name: "dark",
-    text: styles.darkText,
+    text: {
+      color: "#FFFFFF",
+    },
     background: ['#000000', '#000000', '#1a1a1a', '#3d3d3d'],
-    navButton: styles.darkNavButton,
+    navButton: {
+      backgroundColor: "#DDDDDD",
+      borderRadius: 999,
+      width: clamp(35, 50, 100 * scale),
+      height: clamp(35, 50, 100 * scale),
+      marginLeft: clamp(35, 50, 100 * scale),
+    },
     menu: white_menu,
-    showcaseDivider: styles.darkDivider,
+    showcaseDivider: {
+      width: "50%",
+      height: 2,
+      backgroundColor: "#FFFFFF",
+    },
     linkBackground: ['#ffb0fb', '#19344d'],
-    ...defaultTheme,
-  }
+  })
 }
 
 // the theme provider/context used to provide the theme to all components/screens
 type ThemeProviderProps = {
   children: ReactNode;
-  name: Theme;
+  name: (scale:number) => Theme;
 }
 
-export const ThemeContext = createContext<Theme>(Themes['dark']);
+// set the initial context using the dark theme and starting window width
+export const ThemeContext = createContext<Theme>(Themes['dark'](Dimensions.get('window').width));
 
 export const ThemeProvider:FunctionComponent<ThemeProviderProps> = ({ name, children }) => {
+  // scaling operations for different screen sizes
+  // we normalize around 1984 because thats my monitor's width :P 
+  const [scale, setScale] = useState(Dimensions.get('window').width / 1984);
+
+  useEffect(() => {
+    const unsub = Dimensions.addEventListener('change', ({ window }:DimensionsValue) => {
+      setScale(window.width / 1984)
+    });
+    return unsub.remove;
+  }, [])
+
   return (
-    <ThemeContext.Provider value={name}>
+    <ThemeContext.Provider value={name(scale)}>
       {children}
     </ThemeContext.Provider>
   )

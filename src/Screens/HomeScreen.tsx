@@ -1,3 +1,5 @@
+// @ts-ignore-next-line
+import { Dimensions } from 'react-native';
 import React, { FunctionComponent, useRef, useContext } from 'react';
 import { Flex } from '../Components';
 import { HomeScreenMessage } from './HomeScreenMessage';
@@ -13,12 +15,13 @@ export const HomeScreen:FunctionComponent<StackScreenProps<any>> = ({ route }) =
   const catMode = useRef(0);
   const theme = useContext(ThemeContext);
   const space = theme.mediumSpace;
+  const singleColumn = Dimensions.get('window').width < 650;
 
   return (
     <AnimatedScreen fadeOut={route?.params?.fadeOut}>
       <Flex full centered>
-        <Flex full slim row>
-          <Flex full centeredVertical style={{paddingHorizontal: space, marginTop: -space}}>
+        <Flex full slim row={!singleColumn} reverse={singleColumn} >
+          <Flex full centeredVertical style={{paddingHorizontal: space, marginTop: singleColumn ? undefined : -space}}>
             <HomeScreenMessage setCatMode={(mode) => {
               catMode.current = mode ? 1 : 0;
             }} />

@@ -21,6 +21,7 @@ export const AppsScreen:FunctionComponent<StackScreenProps<any>> = ({ route })=>
           title={"Hear You Out"}
           description={"Coming soon! Share views and have your own views challenged!"}
           image={hearyouout}
+          isFirst
         />
         <ShowcaseRow
           title={"weRead"}

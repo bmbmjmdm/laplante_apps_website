@@ -11,20 +11,21 @@ import { ThemeContext } from '../Theme';
 type ShowcaseButtonProps = {
   link: string;
   name: "Android" | "Apple" | "Link";
+  singleColumn?: boolean;
 }
 
 // This button shows either an Apple icon, Android icon, or a pill button
 // When it is pressed, it opens the link in a new tab
-export const ShowcaseButton: FunctionComponent<ShowcaseButtonProps> = ({ link, name }) => {
+export const ShowcaseButton: FunctionComponent<ShowcaseButtonProps> = ({ link, name, singleColumn = false }) => {
   const theme = useContext(ThemeContext);
   return (
       <TouchableOpacity 
-        style={{marginRight: theme.mediumSmallSpace, marginTop: theme.mediumSmallSpace}}
+        style={{marginRight: singleColumn ? undefined : theme.mediumSmallSpace, marginHorizontal: singleColumn ? theme.smallSpace : undefined, marginTop: theme.mediumSmallSpace}}
         onPress={() => Linking.openURL(link)}
       >
-        { name === "Apple" && AppleIcon }
-        { name === "Android" && AndroidIcon }
-        { name === "Link" && PillButton }
+        { name === "Apple" && <AppleIcon /> }
+        { name === "Android" && <AndroidIcon /> }
+        { name === "Link" && <PillButton /> }
       </TouchableOpacity>
   )
 }

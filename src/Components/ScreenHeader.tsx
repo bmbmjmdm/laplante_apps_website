@@ -1,5 +1,5 @@
 // @ts-ignore-next-line
-import { TouchableOpacity, Image } from 'react-native';
+import { TouchableOpacity, Image, Dimensions } from 'react-native';
 import React, { FunctionComponent, useContext } from 'react';
 import { StackHeaderProps } from '@react-navigation/stack';
 import { ThemeContext } from '../Theme';
@@ -11,6 +11,8 @@ export const ScreenHeader:FunctionComponent<StackHeaderProps> = ({ navigation, r
   const theme = useContext(ThemeContext);
   // we maintain a sidemneu ref to toggle it open or closed
   const sideMenuRef = React.useRef<{toggleMenu:Function} | null>(null);
+  // we dont need to add a listener since our theme will rerender us
+  const bigScreen = Dimensions.get('window').width > 650;
 
   return (
     <Flex fullWidth row centeredVertical style={{paddingHorizontal: theme.largeSpace, paddingVertical: theme.mediumSpace }}>
@@ -19,9 +21,11 @@ export const ScreenHeader:FunctionComponent<StackHeaderProps> = ({ navigation, r
         <Image source={theme.menu} style={{width: theme.menuSize, height: theme.menuSize}} />
       </TouchableOpacity>
       <Padding horizontal={theme.mediumSpace} />
-      <StyledText type={"caption"}>
-        LaPlante Apps
-      </StyledText>
+      {bigScreen && (
+        <StyledText type={"caption"}>
+          LaPlante Apps
+        </StyledText>
+      )}
       <StyledText type={"caption"} style={{marginLeft: "auto", marginRight: "auto"}}>
         { route.name === "Home" ? null : route.name }
        </StyledText>

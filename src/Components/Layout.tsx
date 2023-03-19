@@ -13,6 +13,7 @@ type FlexProps = {
   children: ReactNode;
   slim?: boolean;
   row?: boolean;
+  reverse?: boolean;
 }
 export const Flex:FunctionComponent<FlexProps> = ({
   full= false,
@@ -22,6 +23,7 @@ export const Flex:FunctionComponent<FlexProps> = ({
   centeredVertical = false,
   style = {},
   row = false,
+  reverse = false,
   children
 }) => {
   return (
@@ -33,6 +35,8 @@ export const Flex:FunctionComponent<FlexProps> = ({
       centeredVertical && !row ? styles.justifyCenter : {},
       slim ? styles.slim : {},
       row ? styles.row : {},
+      reverse && row ? styles.reverseRow : {},
+      reverse && !row ? styles.reverseColumn : {},
       style
     ]}>
       {children}

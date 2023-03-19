@@ -21,6 +21,7 @@ export const WorkScreen:FunctionComponent<StackScreenProps<any>> = ({ route }) =
           description={"I worked at Virta Health creating large portions of their mobile app and website, including the Today Page, User Profile, Bluetooth Meter Syncing, Biomarker Submission, Patient Journey, Action Items, and more!"}
           image={virta}
           link={"https://www.virtahealth.com/"}
+          isFirst
         />
         <ShowcaseRow
           title={"Scolastic / HMH"}
