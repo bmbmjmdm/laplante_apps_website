@@ -1,5 +1,5 @@
 // @ts-ignore-next-line
-import { TouchableOpacity, Animated, Easing } from 'react-native';
+import { TouchableOpacity, Animated, Easing, Dimensions } from 'react-native';
 import React, { FunctionComponent, useContext, useRef, forwardRef, useImperativeHandle } from 'react';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { ThemeContext } from '../Theme';
@@ -15,6 +15,7 @@ const SideMenuComponent:FunctionComponent<SideMenuProps> = ({ navigation }, ref)
   const theme = useContext(ThemeContext);
   const sideMenuWidth = theme.sideMenuWidth
   const sideMenuSpeed = theme.sideMenuSpeed
+  const smallScreen = Dimensions.get("window").width < 1750;
 
   // slide in the menu from off-screen left
   const sideMenuLeft = useRef(new Animated.Value(-sideMenuWidth)).current;
@@ -56,10 +57,11 @@ const SideMenuComponent:FunctionComponent<SideMenuProps> = ({ navigation }, ref)
 
   return (
       <Animated.View style={{
-        padding: theme.mediumSpace,
-        paddingTop: theme.largeSpace,
+        paddingLeft: theme.mediumSpace,
+        paddingRight: theme.mediumSmallSpace,
+        paddingTop: theme.largeSpace * 2,
         opacity: sideMenuOpacity,
-        marginTop: theme.largeSpace,
+        backgroundColor: smallScreen ? theme.sideMenuColor : undefined,
         height: "100vh", // Replace with svh or dvh if problems with mobile/scrolls?
         position: "absolute",
         left: 0,

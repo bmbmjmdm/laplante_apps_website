@@ -82,6 +82,7 @@ type Theme = {
   sideMenuWidth: number;
   sideMenuSpeed: number;
   menuSize: number;
+  sideMenuColor: string;
 }
 
 // various properties that most themes will have in common, mostly things like component sizing/spacing/positioning
@@ -122,7 +123,7 @@ const defaultTheme = (scale: number) => ({
     angle: 135,
     angleCenter: { x: 0.5, y: 0.5}
   },
-  sideMenuWidth: clamp(150, 235, 400 * scale),
+  sideMenuWidth: 235,
   sideMenuSpeed: 450,
   menuSize: clamp(35, 50, 100 * scale),
 })
@@ -137,6 +138,7 @@ export const Themes:Record<ThemeName, (scale: number) => Theme> = {
     text: {
       color: "#FFFFFF",
     },
+    sideMenuColor: "#000000",
     background: ['#000000', '#000000', '#1a1a1a', '#3d3d3d'],
     navButton: {
       backgroundColor: "#DDDDDD",
