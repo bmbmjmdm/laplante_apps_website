@@ -44,6 +44,7 @@ const Navigator:FunctionComponent<{}> = () => {
     screens: {
       Home: 'home',
       Apps: 'apps',
+      NonApps: 'nonapps',
       Work: "work"
     },
   };
