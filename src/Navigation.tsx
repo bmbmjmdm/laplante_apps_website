@@ -1,4 +1,3 @@
-// @ts-ignore-next-line
 import React, { FunctionComponent, useContext } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";

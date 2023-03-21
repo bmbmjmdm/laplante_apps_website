@@ -1,4 +1,3 @@
-// @ts-ignore-next-line
 import { TouchableOpacity, Linking, Animated, Easing } from "react-native";
 import React, { FunctionComponent, useRef, useEffect, useContext } from "react";
 // @ts-ignore-next-line

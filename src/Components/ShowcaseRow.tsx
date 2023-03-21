@@ -1,4 +1,3 @@
-// @ts-ignore-next-line
 import { View, Image, Dimensions } from "react-native";
 import React, { FunctionComponent, useContext } from "react";
 import { Flex, Padding, StyledText } from "../Components";

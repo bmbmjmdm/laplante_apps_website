@@ -1,4 +1,3 @@
-// @ts-ignore-next-line
 import { TouchableOpacity, Animated, Easing, Dimensions } from "react-native";
 import React, {
   FunctionComponent,

@@ -1,4 +1,3 @@
-// @ts-ignore-next-line
 import { Text, TextStyle, Animated } from "react-native";
 import React, {
   FunctionComponent,

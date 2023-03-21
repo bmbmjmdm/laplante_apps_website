@@ -1,4 +1,3 @@
-// @ts-ignore-next-line
 import { TouchableOpacity, Image, Dimensions } from "react-native";
 import React, { FunctionComponent, useContext } from "react";
 import { StackHeaderProps } from "@react-navigation/stack";

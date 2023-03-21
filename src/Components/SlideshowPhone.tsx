@@ -1,4 +1,3 @@
-// @ts-ignore-next-line
 import { Animated, View } from "react-native";
 import React, {
   FunctionComponent,

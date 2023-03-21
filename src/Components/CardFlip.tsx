@@ -3,7 +3,6 @@ import React, {
   useImperativeHandle,
   forwardRef,
 } from "react";
-// @ts-ignore-next-line
 import { StyleSheet, Animated, ViewStyle } from "react-native";
 
 export type CardFlipProps = {

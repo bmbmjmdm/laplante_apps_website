@@ -1,4 +1,3 @@
-// @ts-ignore-next-line
 import { View, ViewStyle } from "react-native";
 import React, { FunctionComponent, ReactNode } from "react";
 import { styles } from "../Theme";

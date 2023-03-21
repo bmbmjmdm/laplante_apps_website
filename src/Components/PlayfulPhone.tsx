@@ -1,4 +1,3 @@
-// @ts-ignore-next-line
 import { Animated, Image, Dimensions } from "react-native";
 import React, {
   FunctionComponent,

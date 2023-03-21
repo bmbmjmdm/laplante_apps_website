@@ -1,4 +1,3 @@
-// @ts-ignore-next-line
 import {
   StyleSheet,
   TextStyle,
