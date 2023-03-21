@@ -1,99 +1,122 @@
 // @ts-ignore-next-line
-import { TouchableOpacity, Linking, Animated, Easing } from 'react-native';
-import React, { FunctionComponent, useRef, useEffect, useContext } from 'react';
+import { TouchableOpacity, Linking, Animated, Easing } from "react-native";
+import React, { FunctionComponent, useRef, useEffect, useContext } from "react";
 // @ts-ignore-next-line
-import LinearGradient from 'react-native-web-linear-gradient';
-import apple from '../assets/apple.png';
-import android from '../assets/android.png';
-import { StyledText } from './Text';
-import { ThemeContext } from '../Theme';
+import LinearGradient from "react-native-web-linear-gradient";
+import apple from "../assets/apple.png";
+import android from "../assets/android.png";
+import { StyledText } from "./Text";
+import { ThemeContext } from "../Theme";
 
 type ShowcaseButtonProps = {
   link: string;
   name: "Android" | "Apple" | "Link";
   singleColumn?: boolean;
-}
+};
 
 // This button shows either an Apple icon, Android icon, or a pill button
 // When it is pressed, it opens the link in a new tab
-export const ShowcaseButton: FunctionComponent<ShowcaseButtonProps> = ({ link, name, singleColumn = false }) => {
+export const ShowcaseButton: FunctionComponent<ShowcaseButtonProps> = ({
+  link,
+  name,
+  singleColumn = false,
+}) => {
   const theme = useContext(ThemeContext);
   return (
-      <TouchableOpacity 
-        style={{marginRight: singleColumn ? undefined : theme.mediumSmallSpace, marginHorizontal: singleColumn ? theme.smallSpace : undefined, marginTop: theme.mediumSmallSpace}}
-        onPress={() => Linking.openURL(link)}
-      >
-        { name === "Apple" && <AppleIcon /> }
-        { name === "Android" && <AndroidIcon /> }
-        { name === "Link" && <PillButton /> }
-      </TouchableOpacity>
-  )
-}
+    <TouchableOpacity
+      style={{
+        marginRight: singleColumn ? undefined : theme.mediumSmallSpace,
+        marginHorizontal: singleColumn ? theme.smallSpace : undefined,
+        marginTop: theme.mediumSmallSpace,
+      }}
+      onPress={() => Linking.openURL(link)}
+    >
+      {name === "Apple" && <AppleIcon />}
+      {name === "Android" && <AndroidIcon />}
+      {name === "Link" && <PillButton />}
+    </TouchableOpacity>
+  );
+};
 
 // This calls the given function after 5-30 seconds
 const randomTimeout = (f: Function) => {
-  setTimeout(f, Math.random() * 25000 + 5000)
-}
+  setTimeout(f, Math.random() * 25000 + 5000);
+};
 
 // The android icon slides from left to right and back, with appropriate acceleration/whip shown through rotation
-const AndroidIcon:FunctionComponent<{}> = () => {
+const AndroidIcon: FunctionComponent<{}> = () => {
   const theme = useContext(ThemeContext);
   // use a central animation value to drive the icon's position and rotation using interpolation
   const androidAnimation = useRef(new Animated.Value(0)).current;
-  const androidRotation = useRef(androidAnimation.interpolate({
-    inputRange: [0, 10, 20, 50, 65, 75, 100, 107, 115],
-    outputRange: ["0deg", "-10deg", "-20deg", "-20deg", "10deg", "20deg", "20deg", "-10deg", "0deg"],
-    extrapolate: "clamp"
-
-  })).current;
-  const androidLeft = useRef(androidAnimation.interpolate({
-    inputRange: [0, 50, 55, 115],
-    outputRange: [0, 144, 150, 0],
-    extrapolate: "clamp"
-  })).current;
+  const androidRotation = useRef(
+    androidAnimation.interpolate({
+      inputRange: [0, 10, 20, 50, 65, 75, 100, 107, 115],
+      outputRange: [
+        "0deg",
+        "-10deg",
+        "-20deg",
+        "-20deg",
+        "10deg",
+        "20deg",
+        "20deg",
+        "-10deg",
+        "0deg",
+      ],
+      extrapolate: "clamp",
+    })
+  ).current;
+  const androidLeft = useRef(
+    androidAnimation.interpolate({
+      inputRange: [0, 50, 55, 115],
+      outputRange: [0, 144, 150, 0],
+      extrapolate: "clamp",
+    })
+  ).current;
 
   // animate the icon after 5-30 seconds
   useEffect(() => {
-    randomTimeout(nextAnimationAndroid)
-  }, [])
+    randomTimeout(nextAnimationAndroid);
+  }, []);
 
   const nextAnimationAndroid = () => {
     Animated.timing(androidAnimation, {
       toValue: 115,
       duration: 1000,
-      useNativeDriver: false
+      useNativeDriver: false,
     }).start(() => {
-      androidAnimation.setValue(0)
-    })
+      androidAnimation.setValue(0);
+    });
     // animate the icon again after 5-30 seconds
-    randomTimeout(nextAnimationAndroid)
-  }
+    randomTimeout(nextAnimationAndroid);
+  };
 
   return (
-    <Animated.View style={{
-      transform: [ { translateX: androidLeft } ]
-    }}>
-    <Animated.Image
+    <Animated.View
       style={{
-        height: theme.appLinkSize,
-        width: theme.appLinkSize,
-        transform: [ { rotate: androidRotation } ]
+        transform: [{ translateX: androidLeft }],
       }}
-      source={android}
-    />
+    >
+      <Animated.Image
+        style={{
+          height: theme.appLinkSize,
+          width: theme.appLinkSize,
+          transform: [{ rotate: androidRotation }],
+        }}
+        source={android}
+      />
     </Animated.View>
-  )
-}
+  );
+};
 
 // The apple icon jumps up and back down, with appropriate deceleration/acceleration to show interesting gravity
-const AppleIcon:FunctionComponent<{}> = () => {
+const AppleIcon: FunctionComponent<{}> = () => {
   const theme = useContext(ThemeContext);
   const appleAnimation = useRef(new Animated.Value(0)).current;
 
   // animate the icon after 5-30 seconds
   useEffect(() => {
-    randomTimeout(nextAnimationApple)
-  }, [])
+    randomTimeout(nextAnimationApple);
+  }, []);
 
   const nextAnimationApple = () => {
     Animated.sequence([
@@ -102,98 +125,110 @@ const AppleIcon:FunctionComponent<{}> = () => {
         toValue: -100,
         duration: 500,
         easing: Easing.out(Easing.sin),
-        useNativeDriver: false
+        useNativeDriver: false,
       }),
       // go down, accelerating
       Animated.timing(appleAnimation, {
         toValue: 0,
         duration: 750,
         easing: Easing.bounce,
-        useNativeDriver: false
-      })
-    ]).start()
+        useNativeDriver: false,
+      }),
+    ]).start();
     // animate the icon after 5-30 seconds
-    randomTimeout(nextAnimationApple)
-  }
+    randomTimeout(nextAnimationApple);
+  };
 
   return (
     <Animated.Image
       style={{
         height: theme.appLinkSize,
         width: theme.appLinkSize,
-        transform: [ {translateY: appleAnimation } ]
+        transform: [{ translateY: appleAnimation }],
       }}
       source={apple}
     />
-  )
-}
+  );
+};
 
 // The pill button bulges, curves/sharpens, and twists to show interesting motion
 // It then returns to its original state
-const PillButton:FunctionComponent<{}> = () => {
+const PillButton: FunctionComponent<{}> = () => {
   const theme = useContext(ThemeContext);
   // use a central animation value to drive the button's scale, radius, and rotation using interpolation
   const linkAnimation = useRef(new Animated.Value(0)).current;
   // bulge vertically
-  const linkScaleY = useRef(linkAnimation.interpolate({
-    inputRange: [0, 20, 40, 60, 80, 100],
-    outputRange: [1, 1.2, 1.5, 1.2, 1.8, 1],
-    extrapolate: "clamp"
-  })).current;
+  const linkScaleY = useRef(
+    linkAnimation.interpolate({
+      inputRange: [0, 20, 40, 60, 80, 100],
+      outputRange: [1, 1.2, 1.5, 1.2, 1.8, 1],
+      extrapolate: "clamp",
+    })
+  ).current;
   // bulge horizontally
-  const linkScaleX = useRef(linkAnimation.interpolate({
-    inputRange: [0, 20, 40, 60, 80, 100],
-    outputRange: [1, 0.75, 1, 1.25, 1.5, 1],
-    extrapolate: "clamp"
-  })).current;
+  const linkScaleX = useRef(
+    linkAnimation.interpolate({
+      inputRange: [0, 20, 40, 60, 80, 100],
+      outputRange: [1, 0.75, 1, 1.25, 1.5, 1],
+      extrapolate: "clamp",
+    })
+  ).current;
   // curve/sharpen
-  const linkRadius = useRef(linkAnimation.interpolate({
-    inputRange: [0, 20, 40, 60, 80, 100],
-    outputRange: [35, 10, 20, 50, 20, 35],
-    extrapolate: "clamp"
-  })).current;
+  const linkRadius = useRef(
+    linkAnimation.interpolate({
+      inputRange: [0, 20, 40, 60, 80, 100],
+      outputRange: [35, 10, 20, 50, 20, 35],
+      extrapolate: "clamp",
+    })
+  ).current;
   // twist
-  const linkRotation = useRef(linkAnimation.interpolate({
-    inputRange: [0, 20, 40, 60, 80, 100],
-    outputRange: ["0deg", "-10deg", "10deg", "-20deg", "30deg", "0deg"],
-    extrapolate: "clamp"
-  })).current;
+  const linkRotation = useRef(
+    linkAnimation.interpolate({
+      inputRange: [0, 20, 40, 60, 80, 100],
+      outputRange: ["0deg", "-10deg", "10deg", "-20deg", "30deg", "0deg"],
+      extrapolate: "clamp",
+    })
+  ).current;
   // keep the link text upright
-  const linkCounterRotate = useRef(linkAnimation.interpolate({
-    inputRange: [0, 20, 40, 60, 80, 100],
-    outputRange: ["0deg", "10deg", "-10deg", "20deg", "-30deg", "0deg"],
-    extrapolate: "clamp"
-  })).current;
+  const linkCounterRotate = useRef(
+    linkAnimation.interpolate({
+      inputRange: [0, 20, 40, 60, 80, 100],
+      outputRange: ["0deg", "10deg", "-10deg", "20deg", "-30deg", "0deg"],
+      extrapolate: "clamp",
+    })
+  ).current;
 
   // animate the icon after 5-30 seconds
   useEffect(() => {
-    randomTimeout(nextAnimationLink)
-  }, [])
+    randomTimeout(nextAnimationLink);
+  }, []);
 
   const nextAnimationLink = () => {
     Animated.timing(linkAnimation, {
       toValue: 100,
       duration: 1000,
-      useNativeDriver: false
+      useNativeDriver: false,
     }).start(() => {
-      linkAnimation.setValue(0)
-    })
+      linkAnimation.setValue(0);
+    });
     // animate the icon after 5-30 seconds
-    randomTimeout(nextAnimationLink)
-  }
+    randomTimeout(nextAnimationLink);
+  };
 
   return (
-    <Animated.View style={{
-      borderRadius: linkRadius,
-      overflow: "hidden",
-      height: theme.webLinkHeight,
-      width: theme.webLinkWidth,
-      transform: [
-        { scaleY: linkScaleY },
-        { scaleX: linkScaleX },
-        { rotate: linkRotation },
-      ]
-    }}>
+    <Animated.View
+      style={{
+        borderRadius: linkRadius,
+        overflow: "hidden",
+        height: theme.webLinkHeight,
+        width: theme.webLinkWidth,
+        transform: [
+          { scaleY: linkScaleY },
+          { scaleX: linkScaleX },
+          { rotate: linkRotation },
+        ],
+      }}
+    >
       <LinearGradient
         colors={theme.linkBackground}
         {...theme.linearGradient}
@@ -201,7 +236,7 @@ const PillButton:FunctionComponent<{}> = () => {
           height: "100%",
           width: "100%",
           justifyContent: "center",
-          alignItems: "center"
+          alignItems: "center",
         }}
       >
         <StyledText
@@ -211,7 +246,7 @@ const PillButton:FunctionComponent<{}> = () => {
               { scaleY: Animated.divide(new Animated.Value(1), linkScaleY) },
               { scaleX: Animated.divide(new Animated.Value(1), linkScaleX) },
               { rotate: linkCounterRotate },
-            ]
+            ],
           }}
           type={"button"}
         >
@@ -219,5 +254,5 @@ const PillButton:FunctionComponent<{}> = () => {
         </StyledText>
       </LinearGradient>
     </Animated.View>
-  )
-}
+  );
+};

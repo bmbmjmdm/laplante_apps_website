@@ -1,35 +1,40 @@
 // @ts-ignore-next-line
-import { StyleSheet, TextStyle, Dimensions, ViewStyle, DimensionsValue } from 'react-native';
-import React, { FunctionComponent, ReactNode, createContext } from 'react';
+import {
+  StyleSheet,
+  TextStyle,
+  Dimensions,
+  ViewStyle,
+} from "react-native";
+import React, { FunctionComponent, ReactNode, createContext } from "react";
 import white_menu from "./assets/menu_white.png";
 import black_menu from "./assets/menu_black.png";
-import { useState } from 'react';
-import { useEffect } from 'react';
+import { useState } from "react";
+import { useEffect } from "react";
 
 // helper function to clamp a value between a min and max
-const clamp = (min:number, max:number, val:number) => {
+const clamp = (min: number, max: number, val: number) => {
   return Math.round(Math.min(Math.max(val, min), max));
-}
+};
 
 // theme-independent basic layout styling
 export const styles = StyleSheet.create({
   flex: {
-    flex: 1
+    flex: 1,
   },
   justifyCenter: {
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   alignCenter: {
-    alignItems: 'center',
+    alignItems: "center",
   },
   row: {
-    flexDirection: 'row',
+    flexDirection: "row",
   },
   reverseRow: {
-    flexDirection: 'row-reverse',
+    flexDirection: "row-reverse",
   },
   reverseColumn: {
-    flexDirection: 'column-reverse',
+    flexDirection: "column-reverse",
   },
   slim: {
     width: "100%",
@@ -40,8 +45,8 @@ export const styles = StyleSheet.create({
     width: "100%",
   },
   centered: {
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
 
@@ -85,22 +90,22 @@ export type Theme = {
   menuSize: number;
   sideMenuColor: string;
   floatingText: TextStyle;
-}
+};
 
 // various properties that most themes will have in common, mostly things like component sizing/spacing/positioning
 const defaultTheme = (scale: number) => ({
   header: {
     fontSize: clamp(45, 70, 100 * scale),
-    fontWeight: "bold",
+    fontWeight: "bold" as "bold",
   },
   body: {
-    fontSize: clamp(30, 45, 75 * scale), 
+    fontSize: clamp(30, 45, 75 * scale),
   },
   caption: {
-    fontSize: clamp(20, 30, 45 * scale), 
+    fontSize: clamp(20, 30, 45 * scale),
   },
   buttonText: {
-    fontSize: clamp(14, 16, 30 * scale), 
+    fontSize: clamp(14, 16, 30 * scale),
     paddingBottom: 2,
   },
   phoneHeight: clamp(800, 1232, 1500 * scale),
@@ -123,17 +128,17 @@ const defaultTheme = (scale: number) => ({
   linearGradient: {
     useAngle: true,
     angle: 135,
-    angleCenter: { x: 0.5, y: 0.5}
+    angleCenter: { x: 0.5, y: 0.5 },
   },
   sideMenuWidth: 235,
   sideMenuSpeed: 450,
   menuSize: clamp(35, 50, 100 * scale),
-})
+});
 
 // where our themes are defined
 // these all accept a scale variable, which is used to scale the theme's styling to different screen sizes
 // as such, they cannot be used without first providing scale
-export const Themes:Record<ThemeName, (scale: number) => Theme> = {
+export const Themes: Record<ThemeName, (scale: number) => Theme> = {
   dark: (scale) => ({
     ...defaultTheme(scale),
     name: "dark",
@@ -141,7 +146,7 @@ export const Themes:Record<ThemeName, (scale: number) => Theme> = {
       color: "#FFFFFF",
     },
     sideMenuColor: "#000000",
-    background: ['#000000', '#000000', '#1a1a1a', '#3d3d3d'],
+    background: ["#000000", "#000000", "#1a1a1a", "#3d3d3d"],
     navButton: {
       backgroundColor: "#DDDDDD",
       borderRadius: 999,
@@ -155,7 +160,7 @@ export const Themes:Record<ThemeName, (scale: number) => Theme> = {
       height: 2,
       backgroundColor: "#FFFFFF",
     },
-    linkBackground: ['#ffb0fb', '#19344d'],
+    linkBackground: ["#ffb0fb", "#19344d"],
     floatingText: {
       fontSize: clamp(20, 30, 45 * scale),
       color: "#FFFFFF",
@@ -168,7 +173,7 @@ export const Themes:Record<ThemeName, (scale: number) => Theme> = {
       color: "#000000",
     },
     sideMenuColor: "#FFFFFF",
-    background: ['#FFFFFF', '#FFFFFF', '#EEEEEE', '#CCCCCC'],
+    background: ["#FFFFFF", "#FFFFFF", "#EEEEEE", "#CCCCCC"],
     navButton: {
       backgroundColor: "#333333",
       borderRadius: 0,
@@ -182,7 +187,7 @@ export const Themes:Record<ThemeName, (scale: number) => Theme> = {
       height: 20,
       backgroundColor: "#000000",
     },
-    linkBackground: ['#84ff0a', '#5a4c5c'],
+    linkBackground: ["#84ff0a", "#5a4c5c"],
     floatingText: {
       fontSize: clamp(20, 30, 45 * scale),
       color: "#000000",
@@ -193,13 +198,13 @@ export const Themes:Record<ThemeName, (scale: number) => Theme> = {
       fontWeight: "bold",
     },
     body: {
-      fontSize: clamp(15, 30, 50 * scale), 
+      fontSize: clamp(15, 30, 50 * scale),
     },
     caption: {
-      fontSize: clamp(50, 75, 100 * scale), 
+      fontSize: clamp(50, 75, 100 * scale),
     },
     buttonText: {
-      fontSize: clamp(7, 8, 15 * scale), 
+      fontSize: clamp(7, 8, 15 * scale),
       paddingBottom: 2,
     },
     phoneHeight: clamp(1200, 1600, 2000 * scale),
@@ -216,43 +221,53 @@ export const Themes:Record<ThemeName, (scale: number) => Theme> = {
     showcaseImageShort: clamp(250, 400, 600 * scale),
     showcaseImageLong: clamp(125, 200, 300 * scale),
     showcaseTextWidth: clamp(150, 350, 500 * scale),
-    appLinkSize: clamp(15, 250, 25 * (1/scale)),
+    appLinkSize: clamp(15, 250, 25 * (1 / scale)),
     webLinkWidth: clamp(30, 50, 75 * scale),
     webLinkHeight: clamp(60, 100, 150 * scale),
-    linearGradient: {
-    },
+    linearGradient: {},
     sideMenuWidth: 75,
     sideMenuSpeed: 5000,
     menuSize: clamp(35, 50, 100 * scale),
-  })
-}
+  }),
+};
 
 // the theme provider/context used to provide the theme to all components/screens
 type ThemeProviderProps = {
   children: ReactNode;
-}
+};
 
 // set the initial context using the dark theme and starting window width
-export const ThemeContext = createContext<Theme>(Themes['dark'](Dimensions.get('window').width));
+export const ThemeContext = createContext<Theme>(
+  Themes["dark"](Dimensions.get("window").width)
+);
 
 // setup context for changing the theme
-const DEFAULT_VAL_FOR_TS = (setter:((scale: number) => Theme) | (() => (scale:number) => Theme)) => {}
+const DEFAULT_VAL_FOR_TS = (
+  setter: ((scale: number) => Theme) | (() => (scale: number) => Theme)
+) => {};
 export const SetThemeContext = React.createContext(DEFAULT_VAL_FOR_TS);
 
-export const ThemeProvider:FunctionComponent<ThemeProviderProps> = ({children }) => {
+export const ThemeProvider: FunctionComponent<ThemeProviderProps> = ({
+  children,
+}) => {
   // scaling operations for different screen sizes
-  // we normalize around 1984 because thats my monitor's width :P 
-  const [scale, setScale] = useState(Dimensions.get('window').width / 1984);
+  // we normalize around 1984 because thats my monitor's width :P
+  const [scale, setScale] = useState(Dimensions.get("window").width / 1984);
 
   // we handle the current theme state here so that we can also change it from any component via SetThemeContext
-  const [curTheme, setCurTheme] = useState<(scale:number) => Theme>(() => Themes['dark']);
+  const [curTheme, setCurTheme] = useState<(scale: number) => Theme>(
+    () => Themes["dark"]
+  );
 
   useEffect(() => {
-    const unsub = Dimensions.addEventListener('change', ({ window }:DimensionsValue) => {
-      setScale(window.width / 1984)
-    });
+    const unsub = Dimensions.addEventListener(
+      "change",
+      ({ window }: any) => {
+        setScale(window.width / 1984);
+      }
+    );
     return unsub.remove;
-  }, [])
+  }, []);
 
   return (
     <SetThemeContext.Provider value={setCurTheme}>
@@ -260,5 +275,5 @@ export const ThemeProvider:FunctionComponent<ThemeProviderProps> = ({children })
         {children}
       </ThemeContext.Provider>
     </SetThemeContext.Provider>
-  )
-}
+  );
+};

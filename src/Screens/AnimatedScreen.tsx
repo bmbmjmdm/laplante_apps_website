@@ -1,21 +1,32 @@
 // @ts-ignore-next-line
-import { Animated } from "react-native"
-import React, { FunctionComponent, ReactNode, useRef, useCallback, useContext, } from 'react';
-import { easeOutBack } from '../Components';
+import { Animated } from "react-native";
+import React, {
+  FunctionComponent,
+  ReactNode,
+  useRef,
+  useCallback,
+  useContext,
+} from "react";
+import { easeOutBack } from "../Components";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { ThemeContext } from "../Theme";
 
 type AnimatedScreenProps = {
   children: ReactNode;
   fadeOut?: boolean;
-}
+};
 
 // This animates in its children when the user navigates to a new screen
 // They will simultaniously slide up into position and fade in
 // They will also fade out when the user navigates away
-export const AnimatedScreen:FunctionComponent<AnimatedScreenProps> = ({ children, fadeOut = false }) => {
+export const AnimatedScreen: FunctionComponent<AnimatedScreenProps> = ({
+  children,
+  fadeOut = false,
+}) => {
   const theme = useContext(ThemeContext);
-  const animatedTop = useRef(new Animated.Value(theme.screenAnimationY)).current;
+  const animatedTop = useRef(
+    new Animated.Value(theme.screenAnimationY)
+  ).current;
   const animatedOpacity = useRef(new Animated.Value(0)).current;
   const navigation = useNavigation();
 
@@ -23,13 +34,13 @@ export const AnimatedScreen:FunctionComponent<AnimatedScreenProps> = ({ children
   React.useEffect(() => {
     if (fadeOut) {
       // @ts-ignore-next-line
-      navigation.setParams({fadeOut: false});
+      navigation.setParams({ fadeOut: false });
       // fade out
       Animated.timing(animatedOpacity, {
         toValue: 0,
         duration: 250,
-        useNativeDriver: false
-      }).start()
+        useNativeDriver: false,
+      }).start();
     }
   }, [fadeOut]);
 
@@ -41,22 +52,24 @@ export const AnimatedScreen:FunctionComponent<AnimatedScreenProps> = ({ children
         Animated.timing(animatedOpacity, {
           toValue: 1,
           duration: 850,
-          useNativeDriver: false
+          useNativeDriver: false,
         }),
         // slide up
         Animated.timing(animatedTop, {
           toValue: 0,
           easing: easeOutBack,
           duration: 850,
-          useNativeDriver: false
+          useNativeDriver: false,
         }),
-      ]).start()
+      ]).start();
     }, [])
-  )
+  );
 
   return (
-    <Animated.View style={{flex: 1, top: animatedTop, opacity: animatedOpacity}}>
+    <Animated.View
+      style={{ flex: 1, top: animatedTop, opacity: animatedOpacity }}
+    >
       {children}
     </Animated.View>
-  )
-}
+  );
+};
