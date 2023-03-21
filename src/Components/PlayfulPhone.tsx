@@ -12,6 +12,7 @@ import phone_front from "../assets/phone_front.png";
 import { ThemeContext } from "../Theme";
 
 type PlayfulPhoneProps = {
+  fast?: boolean;
   onAnimationComplete: () => void;
 };
 
@@ -19,6 +20,7 @@ type PlayfulPhoneProps = {
 // You'll see constants used in various equations below. These are relative sizes to ensure that all the images appear in the correct proportions
 export const PlayfulPhone: FunctionComponent<PlayfulPhoneProps> = ({
   onAnimationComplete,
+  fast = false,
 }) => {
   // animate in a phone from off-screen
   const theme = useContext(ThemeContext);
@@ -49,10 +51,10 @@ export const PlayfulPhone: FunctionComponent<PlayfulPhoneProps> = ({
       // slide back down (off-screen) slowly
       Animated.timing(phoneTop, {
         toValue: windowHeight,
-        duration: 4000,
+        duration: fast ? 3000: 4000,
         useNativeDriver: false,
       }),
-      Animated.delay(800),
+      Animated.delay(fast ? 400 : 800),
       // slide up (onto the screen) a little bit at high speed
       Animated.timing(phoneTop, {
         toValue: windowHeight - 350 * phoneHeightRatio,
@@ -66,7 +68,7 @@ export const PlayfulPhone: FunctionComponent<PlayfulPhoneProps> = ({
         duration: 300,
         useNativeDriver: false,
       }),
-      Animated.delay(1000),
+      Animated.delay(fast ? 500 : 1000),
       // now scale the phone down to its normal size and slide it up into the center of its container
       Animated.parallel([
         Animated.timing(phoneTop, {

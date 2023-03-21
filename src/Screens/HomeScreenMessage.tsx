@@ -14,13 +14,14 @@ import {
   TypewriterProps,
 } from "../Components";
 import { ThemeContext } from "../Theme";
+import { CAT_MODE_KEY } from "./HomeScreen";
 
 export const CAT_CAPTION = 10;
-const CAT_MODE_KEY = "laplantAppsCatMode 90124986496340230485789523042983752";
-const CAT_CLARIFICATION_DELAY = 20 * 1000;
+const CAT_CLARIFICATION_DELAY = 60 * 1000;
 
 type HomeScreenMessageProps = {
   setCatMode: (mode: boolean) => void;
+  catMode: boolean;
 };
 
 // This component is used to display the home screen messages. These are typed onto the screen one at a time,
@@ -28,16 +29,14 @@ type HomeScreenMessageProps = {
 // switch to showing a cat-themed product
 export const HomeScreenMessage: FunctionComponent<HomeScreenMessageProps> = ({
   setCatMode,
+  catMode
 }) => {
   const theme = useContext(ThemeContext);
   // lookup if we're already in cat mode from previous sessions
-  const startWithCatModeText = React.useRef(
-    Boolean(localStorage.getItem(CAT_MODE_KEY))
-  ).current;
   const [curCaption, setCurCaption] = useState(
-    startWithCatModeText ? CAT_CAPTION : 0
+    catMode ? CAT_CAPTION : 0
   );
-  const [deleteTitle, setDeleteTitle] = useState(startWithCatModeText);
+  const [deleteTitle, setDeleteTitle] = useState(catMode);
   const [changeTitle, setChangeTitle] = useState(false);
   const titleFinish = deleteTitle
     ? () => {
@@ -57,7 +56,7 @@ export const HomeScreenMessage: FunctionComponent<HomeScreenMessageProps> = ({
   };
   // if we start in cat mode, setup a 20sec timer to show the extended cat caption
   useEffect(() => {
-    if (startWithCatModeText) {
+    if (catMode) {
       setTimeout(() => {
         setCurCaption(curCaption + 1);
       }, CAT_CLARIFICATION_DELAY);

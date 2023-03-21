@@ -1,5 +1,7 @@
-import React, { FunctionComponent, useState, MutableRefObject } from "react";
-import { PlayfulPhone, SlideshowPhone } from "../Components";
+import React, { FunctionComponent, useState, MutableRefObject, useEffect, useRef } from "react";
+// @ts-ignore-next-line
+import { Animated } from 'react-native';
+import { PlayfulPhone, SlideshowPhone, StyledText } from "../Components";
 import iadventure from "../assets/iadventure.gif";
 import npcg from "../assets/npcg_short.gif";
 import dice from "../assets/dice.gif";
@@ -24,7 +26,8 @@ import cat14 from "../assets/cat14.png";
 import cat15 from "../assets/cat15.png";
 
 type HomeScreenImagesProps = {
-  catMode: MutableRefObject<number>;
+  catMode: MutableRefObject<boolean>;
+  showTitle?: boolean
 };
 
 // This component is responsible for animating in the phone (PlayfulPhone half) and then cycling through
@@ -33,14 +36,30 @@ type HomeScreenImagesProps = {
 // If catmode is enabled (1), it'll show cat pictures. Otherwise it'll show app gifs
 export const HomeScreenImages: FunctionComponent<HomeScreenImagesProps> = ({
   catMode,
+  showTitle = false,
 }) => {
   const [phoneDone, setPhoneDone] = useState(false);
   const [phoneCycling, setPhoneCycling] = useState(false);
+  const opacityRef = useRef(new Animated.Value(1)).current;
+  useEffect(() => {
+    setTimeout(() => {
+      Animated.timing(opacityRef, {
+        toValue: 0,
+        duration: 1,
+        useNativeDriver: false,
+      }).start();
+    }, 8000)
+  }, [])
 
   return (
     <>
+      {showTitle && (
+        <StyledText animated style={{ position: "absolute", opacity: opacityRef }} type={"header"} >
+          {catMode.current ? "LaCat Apps :3" : "LaPlante Apps"}
+        </StyledText>
+      )}
       {!phoneCycling && (
-        <PlayfulPhone onAnimationComplete={() => setPhoneDone(true)} />
+        <PlayfulPhone onAnimationComplete={() => setPhoneDone(true)} fast={showTitle} />
       )}
       {phoneDone && (
         <SlideshowPhone

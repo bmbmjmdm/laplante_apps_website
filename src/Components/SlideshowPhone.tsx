@@ -15,7 +15,7 @@ import { ThemeContext } from "../Theme";
 
 type SlideshowPhoneProps = {
   pictureLists: any[][];
-  curListRef: MutableRefObject<number>;
+  curListRef: MutableRefObject<boolean>;
   onFirstCycleComplete: () => void;
 };
 
@@ -26,8 +26,10 @@ export const SlideshowPhone: FunctionComponent<SlideshowPhoneProps> = ({
   curListRef,
   onFirstCycleComplete,
 }) => {
+  // we need to convert our boxed boolean into a boxed number
+  const curListNum = () => curListRef.current ? 1 : 0;
   const theme = useContext(ThemeContext);
-  const prevListRef = useRef(curListRef.current);
+  const prevListRef = useRef(curListNum());
   const [phoneCycling, setPhoneCycling] = useState(false);
   const finalPhoneScale = theme.phoneScaleFinal;
   const basePhoneHeight = theme.phoneHeight;
@@ -48,7 +50,7 @@ export const SlideshowPhone: FunctionComponent<SlideshowPhoneProps> = ({
   const startingScaleVal = theme.appScaleInitial;
   const appScreens = [
     {
-      picList: useRef(pictureLists[curListRef.current]),
+      picList: useRef(pictureLists[curListNum()]),
       picOpacity: useRef(new Animated.Value(0)).current,
       picTop: useRef(new Animated.Value(startingTopVal)).current,
       picZ: useRef(new Animated.Value(1)).current,
@@ -57,7 +59,7 @@ export const SlideshowPhone: FunctionComponent<SlideshowPhoneProps> = ({
       setCurPic: setCurPicOneSetter,
     },
     {
-      picList: useRef(pictureLists[curListRef.current]),
+      picList: useRef(pictureLists[curListNum()]),
       picOpacity: useRef(new Animated.Value(0)).current,
       picTop: useRef(new Animated.Value(startingTopVal)).current,
       picZ: useRef(new Animated.Value(2)).current,
@@ -121,8 +123,8 @@ export const SlideshowPhone: FunctionComponent<SlideshowPhoneProps> = ({
     });
     setTimeout(() => {
       // we switch over the picture lists here to ensure it doesnt conflict with the animation
-      if (curListRef.current !== prevListRef.current) {
-        curAppScreen.picList.current = pictureLists[curListRef.current];
+      if (curListNum() !== prevListRef.current) {
+        curAppScreen.picList.current = pictureLists[curListNum()];
       }
       // go to the next picture (by 2 so the 2 app screens leap frog each other)
       // if we go off the end of the list, reset to our original index
