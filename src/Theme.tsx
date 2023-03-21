@@ -2,6 +2,7 @@
 import { StyleSheet, TextStyle, Dimensions, ViewStyle, DimensionsValue } from 'react-native';
 import React, { FunctionComponent, ReactNode, createContext } from 'react';
 import white_menu from "./assets/menu_white.png";
+import black_menu from "./assets/menu_black.png";
 import { useState } from 'react';
 import { useEffect } from 'react';
 
@@ -45,10 +46,10 @@ export const styles = StyleSheet.create({
 });
 
 // the various theme options available
-type ThemeName = "dark";
+type ThemeName = "dark" | "broken";
 
 // the styling options provided by each theme
-type Theme = {
+export type Theme = {
   name: ThemeName;
   text: TextStyle;
   body: TextStyle;
@@ -83,6 +84,7 @@ type Theme = {
   sideMenuSpeed: number;
   menuSize: number;
   sideMenuColor: string;
+  floatingText: TextStyle;
 }
 
 // various properties that most themes will have in common, mostly things like component sizing/spacing/positioning
@@ -154,22 +156,96 @@ export const Themes:Record<ThemeName, (scale: number) => Theme> = {
       backgroundColor: "#FFFFFF",
     },
     linkBackground: ['#ffb0fb', '#19344d'],
+    floatingText: {
+      fontSize: clamp(20, 30, 45 * scale),
+      color: "#FFFFFF",
+      fontWeight: "bold",
+    },
+  }),
+  broken: (scale) => ({
+    name: "broken",
+    text: {
+      color: "#000000",
+    },
+    sideMenuColor: "#FFFFFF",
+    background: ['#FFFFFF', '#FFFFFF', '#EEEEEE', '#CCCCCC'],
+    navButton: {
+      backgroundColor: "#333333",
+      borderRadius: 0,
+      width: clamp(70, 100, 200 * scale),
+      height: clamp(35, 50, 100 * scale),
+      marginLeft: clamp(0, 0, 0 * scale),
+    },
+    menu: black_menu,
+    showcaseDivider: {
+      width: "25%",
+      height: 20,
+      backgroundColor: "#000000",
+    },
+    linkBackground: ['#84ff0a', '#5a4c5c'],
+    floatingText: {
+      fontSize: clamp(20, 30, 45 * scale),
+      color: "#000000",
+      fontWeight: "bold",
+    },
+    header: {
+      fontSize: clamp(20, 40, 100 * scale),
+      fontWeight: "bold",
+    },
+    body: {
+      fontSize: clamp(15, 30, 50 * scale), 
+    },
+    caption: {
+      fontSize: clamp(50, 75, 100 * scale), 
+    },
+    buttonText: {
+      fontSize: clamp(7, 8, 15 * scale), 
+      paddingBottom: 2,
+    },
+    phoneHeight: clamp(1200, 1600, 2000 * scale),
+    phoneScaleInitial: 1.5,
+    phoneScaleFinal: 0.65,
+    appScaleInitial: 1.5,
+    appCycleTime: 0.5,
+    largeSpace: clamp(100, 200, 300 * scale),
+    mediumSpace: clamp(50, 100, 150 * scale),
+    mediumSmallSpace: clamp(7, 15, 25 * scale),
+    smallSpace: clamp(0, 0, 0 * scale),
+    messageHeightHolder: clamp(50, 100, 150 * scale),
+    screenAnimationY: clamp(-300, -100, -300 * scale),
+    showcaseImageShort: clamp(250, 400, 600 * scale),
+    showcaseImageLong: clamp(125, 200, 300 * scale),
+    showcaseTextWidth: clamp(150, 350, 500 * scale),
+    appLinkSize: clamp(15, 250, 25 * (1/scale)),
+    webLinkWidth: clamp(30, 50, 75 * scale),
+    webLinkHeight: clamp(60, 100, 150 * scale),
+    linearGradient: {
+    },
+    sideMenuWidth: 75,
+    sideMenuSpeed: 5000,
+    menuSize: clamp(35, 50, 100 * scale),
   })
 }
 
 // the theme provider/context used to provide the theme to all components/screens
 type ThemeProviderProps = {
   children: ReactNode;
-  name: (scale:number) => Theme;
 }
 
 // set the initial context using the dark theme and starting window width
 export const ThemeContext = createContext<Theme>(Themes['dark'](Dimensions.get('window').width));
 
-export const ThemeProvider:FunctionComponent<ThemeProviderProps> = ({ name, children }) => {
+// setup context for changing the theme
+const DEFAULT_VAL_FOR_TS = (setter:((scale: number) => Theme) | (() => (scale:number) => Theme)) => {}
+export const SetThemeContext = React.createContext(DEFAULT_VAL_FOR_TS);
+
+export const ThemeProvider:FunctionComponent<ThemeProviderProps> = ({children }) => {
   // scaling operations for different screen sizes
   // we normalize around 1984 because thats my monitor's width :P 
   const [scale, setScale] = useState(Dimensions.get('window').width / 1984);
+
+  // we handle the current theme state here so that we can also change it from any component via SetThemeContext
+  const [curTheme, setCurTheme] = useState<(scale:number) => Theme>(() => Themes['dark']);
 
   useEffect(() => {
     const unsub = Dimensions.addEventListener('change', ({ window }:DimensionsValue) => {
@@ -179,8 +255,10 @@ export const ThemeProvider:FunctionComponent<ThemeProviderProps> = ({ name, chil
   }, [])
 
   return (
-    <ThemeContext.Provider value={name(scale)}>
-      {children}
-    </ThemeContext.Provider>
+    <SetThemeContext.Provider value={setCurTheme}>
+      <ThemeContext.Provider value={curTheme(scale)}>
+        {children}
+      </ThemeContext.Provider>
+    </SetThemeContext.Provider>
   )
 }

@@ -15,6 +15,7 @@ export const HomeScreen:FunctionComponent<StackScreenProps<any>> = ({ route }) =
   const catMode = useRef(0);
   const theme = useContext(ThemeContext);
   const space = theme.mediumSpace;
+  // we dont need a listener since the theme listens for us
   const singleColumn = Dimensions.get('window').width < 650;
 
   return (

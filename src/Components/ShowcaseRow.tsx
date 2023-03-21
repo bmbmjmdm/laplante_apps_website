@@ -39,6 +39,7 @@ export const ShowcaseRow:FunctionComponent<ShowcaseRowProps> = ({
   const imageHeight = customImageDimensions ? customImageDimensions.height :
                       horizontalImage ? theme.showcaseImageShort :
                       theme.showcaseImageLong;
+  // we dont need a listener since the theme listens for us
   const singleColumn = Dimensions.get('window').width < 650;
 
   const buttons = (

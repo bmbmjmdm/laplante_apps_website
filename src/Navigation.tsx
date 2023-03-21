@@ -13,7 +13,7 @@ const Stack = createStackNavigator();
 // the base app component wraps the app in our theme provider and fully expands to screen size
 const App:FunctionComponent<{}> = () => {
   return (
-    <ThemeProvider name={Themes['dark']}>
+    <ThemeProvider>
       <Navigator />
     </ThemeProvider>
   );

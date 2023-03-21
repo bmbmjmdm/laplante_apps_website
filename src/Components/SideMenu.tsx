@@ -15,6 +15,7 @@ const SideMenuComponent:FunctionComponent<SideMenuProps> = ({ navigation }, ref)
   const theme = useContext(ThemeContext);
   const sideMenuWidth = theme.sideMenuWidth
   const sideMenuSpeed = theme.sideMenuSpeed
+  // we don't need to add a listener since the theme will rerender us if it changes
   const smallScreen = Dimensions.get("window").width < 1750;
 
   // slide in the menu from off-screen left

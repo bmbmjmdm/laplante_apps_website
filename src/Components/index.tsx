@@ -10,3 +10,4 @@ export { SideMenu } from './SideMenu';
 export { ScreenHeader } from './ScreenHeader';
 export { PlayfulPhone } from './PlayfulPhone';
 export { SlideshowPhone } from './SlideshowPhone';
+export { ThemeButtons } from './ThemeButtons';

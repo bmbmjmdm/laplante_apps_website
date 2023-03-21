@@ -16,6 +16,7 @@ type PlayfulPhoneProps = {
 export const PlayfulPhone:FunctionComponent<PlayfulPhoneProps> = ({ onAnimationComplete }) => {
   // animate in a phone from off-screen
   const theme = useContext(ThemeContext);
+  // we dont need a listener since the theme listens for us
   const windowHeight = Dimensions.get('window').height/2;
   const phoneTop = useRef(new Animated.Value(windowHeight)).current;
   const phoneScale = useRef(new Animated.Value(theme.phoneScaleInitial)).current;
