@@ -3,6 +3,7 @@ import {
   TextStyle,
   Dimensions,
   ViewStyle,
+  ScaledSize,
 } from "react-native";
 import React, { FunctionComponent, ReactNode, createContext } from "react";
 import white_menu from "./assets/menu_white.png";
@@ -51,6 +52,7 @@ export const styles = StyleSheet.create({
 
 // the various theme options available
 type ThemeName = "dark" | "broken";
+type DimensionNames = "width" | "height";
 
 // the styling options provided by each theme
 export type Theme = {
@@ -92,7 +94,7 @@ export type Theme = {
 };
 
 // various properties that most themes will have in common, mostly things like component sizing/spacing/positioning
-const defaultTheme = (scale: number) => ({
+const defaultTheme = (scale: number, smallerDimension: DimensionNames) => ({
   header: {
     fontSize: clamp(45, 70, 100 * scale),
     fontWeight: "bold" as "bold",
@@ -107,7 +109,11 @@ const defaultTheme = (scale: number) => ({
     fontSize: clamp(14, 16, 30 * scale),
     paddingBottom: 2,
   },
-  phoneHeight: clamp(800, 1232, 1500 * scale),
+  phoneHeight: clamp(
+    smallerDimension === "height" ? 550 : 750,
+    1232,
+    smallerDimension === "height" ? 1100 * scale : 1300 * scale,
+  ),
   phoneScaleInitial: 1.25,
   phoneScaleFinal: 0.65,
   appScaleInitial: 0.5,
@@ -137,9 +143,9 @@ const defaultTheme = (scale: number) => ({
 // where our themes are defined
 // these all accept a scale variable, which is used to scale the theme's styling to different screen sizes
 // as such, they cannot be used without first providing scale
-export const Themes: Record<ThemeName, (scale: number) => Theme> = {
-  dark: (scale) => ({
-    ...defaultTheme(scale),
+export const Themes: Record<ThemeName, (scale: number, smallerDimension: DimensionNames) => Theme> = {
+  dark: (scale, smallerDimension) => ({
+    ...defaultTheme(scale, smallerDimension),
     name: "dark",
     text: {
       color: "#FFFFFF",
@@ -166,7 +172,7 @@ export const Themes: Record<ThemeName, (scale: number) => Theme> = {
       fontWeight: "bold",
     },
   }),
-  broken: (scale) => ({
+  broken: (scale, smallerDimension) => ({
     name: "broken",
     text: {
       color: "#000000",
@@ -237,12 +243,13 @@ type ThemeProviderProps = {
 
 // set the initial context using the dark theme and starting window width
 export const ThemeContext = createContext<Theme>(
-  Themes["dark"](Dimensions.get("window").width)
+  Themes["dark"](Dimensions.get("window").width/1984, "width")
 );
 
 // setup context for changing the theme
 const DEFAULT_VAL_FOR_TS = (
-  setter: ((scale: number) => Theme) | (() => (scale: number) => Theme)
+  // this is simply an empty theme state setter
+  setter: ((scale: number, smallerDimension: DimensionNames) => Theme) | (() => (scale: number, smallerDimension: DimensionNames) => Theme)
 ) => {};
 export const SetThemeContext = React.createContext(DEFAULT_VAL_FOR_TS);
 
@@ -250,19 +257,35 @@ export const ThemeProvider: FunctionComponent<ThemeProviderProps> = ({
   children,
 }) => {
   // scaling operations for different screen sizes
-  // we normalize around 1984 because thats my monitor's width :P
-  const [scale, setScale] = useState(Dimensions.get("window").width / 1984);
+  // we normalize around 1984 and 1003 because those are my monitor's dimensions :P
+  const window = Dimensions.get("window")
+  const getThemeVariables = (window:ScaledSize) => {
+    const height = Math.pow(window.height / 1003, 1.2);
+    const width = window.width / 1984;
+    const scale = Math.min(height, width);
+    const smallerDimension:DimensionNames = height < width ? "height" : "width";
+    return {
+      scale,
+      smallerDimension
+    }
+  }
+  const themeVariables = getThemeVariables(window);
+  const [scale, setScale] = useState(themeVariables.scale);
+  const [smallerDimension, setSmallerDimension] = useState<DimensionNames>(themeVariables.smallerDimension);
 
   // we handle the current theme state here so that we can also change it from any component via SetThemeContext
-  const [curTheme, setCurTheme] = useState<(scale: number) => Theme>(
+  const [curTheme, setCurTheme] = useState<(scale: number, smallerDimension: DimensionNames) => Theme>(
     () => Themes["dark"]
   );
 
+  // when the size of the window changes, update our scaling
   useEffect(() => {
     const unsub = Dimensions.addEventListener(
       "change",
       ({ window }: any) => {
-        setScale(window.width / 1984);
+        const themeVariables = getThemeVariables(window);
+        setScale(themeVariables.scale);
+        setSmallerDimension(themeVariables.smallerDimension);
       }
     );
     return unsub.remove;
@@ -270,7 +293,7 @@ export const ThemeProvider: FunctionComponent<ThemeProviderProps> = ({
 
   return (
     <SetThemeContext.Provider value={setCurTheme}>
-      <ThemeContext.Provider value={curTheme(scale)}>
+      <ThemeContext.Provider value={curTheme(scale, smallerDimension)}>
         {children}
       </ThemeContext.Provider>
     </SetThemeContext.Provider>

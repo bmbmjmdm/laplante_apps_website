@@ -1,5 +1,4 @@
 import React, { FunctionComponent, useState, MutableRefObject, useEffect, useRef } from "react";
-// @ts-ignore-next-line
 import { Animated } from 'react-native';
 import { PlayfulPhone, SlideshowPhone, StyledText } from "../Components";
 import iadventure from "../assets/iadventure.gif";
@@ -48,7 +47,7 @@ export const HomeScreenImages: FunctionComponent<HomeScreenImagesProps> = ({
         duration: 1,
         useNativeDriver: false,
       }).start();
-    }, 8000)
+    }, 7600)
   }, [])
 
   return (

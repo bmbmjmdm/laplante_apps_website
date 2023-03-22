@@ -72,6 +72,7 @@ export const ShowcaseRow: FunctionComponent<ShowcaseRowProps> = ({
       style={{
         width: singleColumn ? undefined : theme.showcaseTextWidth,
         textAlign: singleColumn ? "center" : undefined,
+        paddingRight: singleColumn ? theme.smallSpace : undefined,
       }}
     >
       {title}

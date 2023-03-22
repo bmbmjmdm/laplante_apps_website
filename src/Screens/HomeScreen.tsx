@@ -1,4 +1,3 @@
-// @ts-ignore-next-line
 import { Dimensions } from "react-native";
 import React, { FunctionComponent, useRef, useContext } from "react";
 import { Flex } from "../Components";
@@ -17,20 +16,25 @@ export const HomeScreen: FunctionComponent<StackScreenProps<any>> = ({
   route,
 }) => {
   const catMode = useRef(Boolean(localStorage.getItem(CAT_MODE_KEY)));
+  const randomScreen = useRef(Math.random() > 0.5).current;
   const theme = useContext(ThemeContext);
   const space = theme.mediumSpace;
   const setCatMode = (mode:boolean) => {
     catMode.current = mode;
   }
+
   // we dont need a listener since the theme listens for us
   const smallScreen = Dimensions.get("window").width < 650;
+  // use min height to ensure the phone's final size is used for centering
+  const minHeight = theme.phoneHeight * theme.phoneScaleFinal;
+
 
   // if we're on a small screen, only show 1 of the two halves
   return (
     <AnimatedScreen fadeOut={route?.params?.fadeOut}>
-      <Flex full centered>
+      <Flex full centered style={{ minHeight }}>
         {smallScreen ? (
-          Math.random() > 0.5 ?
+          randomScreen ?
           <HomeScreenMessage setCatMode={setCatMode} catMode={catMode.current} />
           : <HomeScreenImages catMode={catMode} showTitle />
         )
