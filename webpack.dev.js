@@ -25,6 +25,8 @@ module.exports = merge(config, {
     port: 3000,
     hot: true,
     historyApiFallback: true,
+    disableHostCheck: true,  
+    allowedHosts: "all",
   },
 
   // Uncomment before final deployment.
