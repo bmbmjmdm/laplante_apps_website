@@ -6,7 +6,7 @@ import { StackScreenProps } from "@react-navigation/stack";
 import { ShowcaseRow } from "../Components";
 import iadventure from "../assets/iadventure.gif";
 import hearyouout from "../assets/hearyouout.gif";
-import weread from "../assets/weread.gif";
+// import weread from "../assets/weread.gif";
 import npcg from "../assets/npcg.gif";
 import dice from "../assets/dice.gif";
 
@@ -32,7 +32,8 @@ export const AppsScreen: FunctionComponent<StackScreenProps<any>> = ({
           description={
             "An education app for first-time readers, which adjusts its difficulty automatically to suit the child. Users can upload their own voice and pictures to create a personalized experience for their child! Created with special needs children front of mind :)"
           }
-          image={weread}
+          // local gif is too large, so use google storage instead
+          image={"https://storage.googleapis.com/website_large_gifs/weread.gif"}
           apple={
             "https://apps.apple.com/my/app/weread-personalized-learning/id1515323154"
           }

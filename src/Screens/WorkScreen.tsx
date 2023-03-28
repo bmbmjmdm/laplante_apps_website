@@ -5,7 +5,7 @@ import React, { FunctionComponent } from "react";
 import { StackScreenProps } from "@react-navigation/stack";
 import { ShowcaseRow } from "../Components";
 import virta from "../assets/virta.gif";
-import sushimonster from "../assets/sushimonster.gif";
+// import sushimonster from "../assets/sushimonster.gif";
 import gsg from "../assets/gsg.gif";
 import pega from "../assets/pega.jpg";
 
@@ -32,7 +32,8 @@ export const WorkScreen: FunctionComponent<StackScreenProps<any>> = ({
           description={
             "I led the mobile team at Houghton Mifflin Harcourt, maintaining over a dozen apps, reviving old ones, and implementing new features and tooling."
           }
-          image={sushimonster}
+          // local gif is too large, so use google storage instead
+          image={"https://storage.googleapis.com/website_large_gifs/sushimonster.gif"}
           horizontalImage
           link={"https://www.hmhco.com/"}
         />

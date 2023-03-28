@@ -4,7 +4,7 @@ import { AnimatedScreen } from "./AnimatedScreen";
 import React, { FunctionComponent, useContext } from "react";
 import { StackScreenProps } from "@react-navigation/stack";
 import { ShowcaseRow } from "../Components";
-import beatbiome from "../assets/beatbiome.gif";
+// import beatbiome from "../assets/beatbiome.gif";
 import kkgm from "../assets/kkgm.png";
 import { ThemeContext } from "../Theme";
 
@@ -23,7 +23,8 @@ export const NonAppsScreen: FunctionComponent<StackScreenProps<any>> = ({
           description={
             "A virtual reality game that reacts to your music! Available on Steam"
           }
-          image={beatbiome}
+          // local gif is too large, so use google storage instead
+          image={"https://storage.googleapis.com/website_large_gifs/beatbiome.gif"}
           horizontalImage
           sharpEdges
           link={"https://store.steampowered.com/app/1506960/Beat_Biome/"}

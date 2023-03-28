@@ -32,6 +32,7 @@ export const ShowcaseRow: FunctionComponent<ShowcaseRowProps> = ({
   isFirst = false,
 }) => {
   const theme = useContext(ThemeContext);
+  const imageSource = typeof image === "string" ? { uri: image } : image;
   const imageWidth = customImageDimensions
     ? customImageDimensions.width
     : horizontalImage
@@ -91,7 +92,7 @@ export const ShowcaseRow: FunctionComponent<ShowcaseRowProps> = ({
   );
   const imageComponent = (
     <Image
-      source={image}
+      source={imageSource}
       style={{
         width: imageWidth,
         height: imageHeight,

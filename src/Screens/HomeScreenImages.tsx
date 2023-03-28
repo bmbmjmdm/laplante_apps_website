@@ -37,9 +37,38 @@ export const HomeScreenImages: FunctionComponent<HomeScreenImagesProps> = ({
   catMode,
   showTitle = false,
 }) => {
+  const appPictures = useRef([
+    dice,
+    hearyouout,
+    virta,
+    sushimonster,
+    iadventure,
+    weread,
+    npcg,
+  ]).current;
+
+  const catPictures = useRef([
+    cat14,
+    cat15,
+    cat1,
+    cat2,
+    cat3,
+    cat4,
+    cat5,
+    cat6,
+    cat7,
+    cat8,
+    cat9,
+    cat10,
+    cat11,
+    cat12,
+    cat13,
+  ]).current;
+  
   const [phoneDone, setPhoneDone] = useState(false);
   const [phoneCycling, setPhoneCycling] = useState(false);
   const opacityRef = useRef(new Animated.Value(1)).current;
+
   useEffect(() => {
     setTimeout(() => {
       Animated.timing(opacityRef, {
@@ -70,31 +99,3 @@ export const HomeScreenImages: FunctionComponent<HomeScreenImagesProps> = ({
     </>
   );
 };
-
-const appPictures = [
-  dice,
-  hearyouout,
-  virta,
-  sushimonster,
-  iadventure,
-  weread,
-  npcg,
-];
-
-const catPictures = [
-  cat14,
-  cat15,
-  cat1,
-  cat2,
-  cat3,
-  cat4,
-  cat5,
-  cat6,
-  cat7,
-  cat8,
-  cat9,
-  cat10,
-  cat11,
-  cat12,
-  cat13,
-];
