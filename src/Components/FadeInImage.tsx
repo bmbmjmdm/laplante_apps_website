@@ -7,15 +7,6 @@ type FadeInImageProps = ImageProps | Animated.AnimatedProps<ImageProps>;
 export const FadeInImage: FunctionComponent<FadeInImageProps> = (props) => {
   // fade in after load
   const opacityObj = React.useRef({opacity: new Animated.Value(0)}).current;
-  useEffect(() => {
-    Image.prefetch(props.source as any).then(() => {
-      Animated.timing(opacityObj.opacity, {
-        toValue: 1,
-        duration: 250,
-        useNativeDriver: false,
-      }).start();
-    })
-  })
 
   // merge animated opacity style into props
   // we do this every render incase our props object changes
@@ -31,10 +22,19 @@ export const FadeInImage: FunctionComponent<FadeInImageProps> = (props) => {
   else {
     props.style = opacityObj;
   }
-
+console.log("render" + Date.now());
   return (
     <Animated.Image
       {...props}
+      onLoad={(arg) => {
+        console.log("loaded" + Date.now());
+        props.onLoad?.(arg);
+        Animated.timing(opacityObj.opacity, {
+          toValue: 1,
+          duration: 350,
+          useNativeDriver: false,
+        }).start();
+      }}
     />
   )
 };
