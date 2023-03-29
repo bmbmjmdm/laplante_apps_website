@@ -38,7 +38,7 @@ export const AnimatedScreen: FunctionComponent<AnimatedScreenProps> = ({
       // fade out
       Animated.timing(animatedOpacity, {
         toValue: 0,
-        duration: 250,
+        duration: theme.screenAnimationOutSpeed,
         useNativeDriver: false,
       }).start();
     }
@@ -51,14 +51,14 @@ export const AnimatedScreen: FunctionComponent<AnimatedScreenProps> = ({
       Animated.parallel([
         Animated.timing(animatedOpacity, {
           toValue: 1,
-          duration: 850,
+          duration: theme.screenAnimationSpeed,
           useNativeDriver: false,
         }),
         // slide up
         Animated.timing(animatedTop, {
           toValue: 0,
           easing: easeOutBack,
-          duration: 850,
+          duration: theme.screenAnimationSpeed,
           useNativeDriver: false,
         }),
       ]).start();

@@ -78,6 +78,8 @@ export type Theme = {
   smallSpace: number;
   messageHeightHolder: number;
   screenAnimationY: number;
+  screenAnimationSpeed: number,
+  screenAnimationOutSpeed: number,
   largeSpace: number;
   showcaseImageLong: number;
   showcaseImageShort: number;
@@ -124,6 +126,8 @@ const defaultTheme = (scale: number, smallerDimension: DimensionNames) => ({
   smallSpace: clamp(8, 15, 25 * scale),
   messageHeightHolder: clamp(50, 100, 150 * scale),
   screenAnimationY: clamp(150, 200, 300 * scale),
+  screenAnimationSpeed: 850,
+  screenAnimationOutSpeed: 250,
   showcaseImageLong: clamp(250, 400, 600 * scale),
   showcaseImageShort: clamp(125, 200, 300 * scale),
   showcaseTextWidth: clamp(200, 500, 700 * scale),
@@ -188,8 +192,8 @@ export const Themes: Record<ThemeName, (scale: number, smallerDimension: Dimensi
     },
     menu: black_menu,
     showcaseDivider: {
-      width: "25%",
-      height: 20,
+      width: "100%",
+      height: 600,
       backgroundColor: "#000000",
     },
     linkBackground: ["#84ff0a", "#5a4c5c"],
@@ -217,12 +221,14 @@ export const Themes: Record<ThemeName, (scale: number, smallerDimension: Dimensi
     phoneScaleFinal: 0.65,
     appScaleInitial: 1.5,
     appCycleTime: 0.5,
-    largeSpace: clamp(100, 200, 300 * scale),
-    mediumSpace: clamp(50, 100, 150 * scale),
-    mediumSmallSpace: clamp(7, 15, 25 * scale),
+    largeSpace: clamp(150, 400, 500 * scale),
+    mediumSpace: clamp(75, 200, 300 * scale),
+    mediumSmallSpace: clamp(0, 0, 0 * scale),
     smallSpace: clamp(0, 0, 0 * scale),
     messageHeightHolder: clamp(50, 100, 150 * scale),
     screenAnimationY: clamp(-300, -100, -300 * scale),
+    screenAnimationSpeed: 1500,
+    screenAnimationOutSpeed: 1,
     showcaseImageShort: clamp(250, 400, 600 * scale),
     showcaseImageLong: clamp(125, 200, 300 * scale),
     showcaseTextWidth: clamp(150, 350, 500 * scale),

@@ -2,6 +2,7 @@ import { Animated, ImageProps, Image, } from "react-native";
 import React, { FunctionComponent, useEffect } from "react";
 
 // A wrapper for the react-native Image component that fades it in when it loads
+// Overwrites opacity style prop
 type FadeInImageProps = ImageProps | Animated.AnimatedProps<ImageProps>;
 
 export const FadeInImage: FunctionComponent<FadeInImageProps> = (props) => {
@@ -22,12 +23,11 @@ export const FadeInImage: FunctionComponent<FadeInImageProps> = (props) => {
   else {
     props.style = opacityObj;
   }
-console.log("render" + Date.now());
+
   return (
     <Animated.Image
       {...props}
       onLoad={(arg) => {
-        console.log("loaded" + Date.now());
         props.onLoad?.(arg);
         Animated.timing(opacityObj.opacity, {
           toValue: 1,
