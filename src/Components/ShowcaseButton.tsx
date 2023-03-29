@@ -6,6 +6,7 @@ import apple from "../assets/apple.png";
 import android from "../assets/android.png";
 import { StyledText } from "./Text";
 import { ThemeContext } from "../Theme";
+import { FadeInImage } from "./FadeInImage";
 
 type ShowcaseButtonProps = {
   link: string;
@@ -95,7 +96,7 @@ const AndroidIcon: FunctionComponent<{}> = () => {
         transform: [{ translateX: androidLeft }],
       }}
     >
-      <Animated.Image
+      <FadeInImage
         style={{
           height: theme.appLinkSize,
           width: theme.appLinkSize,
@@ -139,7 +140,7 @@ const AppleIcon: FunctionComponent<{}> = () => {
   };
 
   return (
-    <Animated.Image
+    <FadeInImage
       style={{
         height: theme.appLinkSize,
         width: theme.appLinkSize,

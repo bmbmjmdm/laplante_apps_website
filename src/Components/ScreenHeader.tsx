@@ -1,8 +1,8 @@
-import { TouchableOpacity, Image, Dimensions } from "react-native";
+import { TouchableOpacity, Dimensions } from "react-native";
 import React, { FunctionComponent, useContext } from "react";
 import { StackHeaderProps } from "@react-navigation/stack";
 import { ThemeContext } from "../Theme";
-import { Flex, Padding, SideMenu, StyledText, ThemeButtons } from ".";
+import { Flex, Padding, SideMenu, StyledText, ThemeButtons, FadeInImage } from ".";
 
 // This component takes up the full width of the screen and is shown on every screen
 // It is used to display the current page name (unless the user is on the home page), the menu button, and three empty buttons
@@ -31,7 +31,7 @@ export const ScreenHeader: FunctionComponent<StackHeaderProps> = ({
     >
       <SideMenu navigation={navigation} ref={sideMenuRef} />
       <TouchableOpacity onPress={sideMenuRef.current?.toggleMenu as () => {}}>
-        <Image
+        <FadeInImage
           source={theme.menu}
           style={{ width: theme.menuSize, height: theme.menuSize }}
         />
