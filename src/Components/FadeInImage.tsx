@@ -3,6 +3,7 @@ import React, { FunctionComponent, useEffect } from "react";
 
 // A wrapper for the react-native Image component that fades it in when it loads
 // Overwrites opacity style prop
+// If you are enabling the spinner, it will inherit from the image's style prop
 type FadeInImageProps = (ImageProps | Animated.AnimatedProps<ImageProps>) & {
   spinner?: boolean;
 };
@@ -29,15 +30,13 @@ export const FadeInImage: FunctionComponent<FadeInImageProps> = (props) => {
 
   return (
     <>
-      <Animated.View style={{
+      <Animated.View style={[props.style, {
         position: "absolute",
-        height: "100%",
-        width: "100%",
         justifyContent: "center",
         alignItems: "center",
         opacity: opacitySpinner,
-      }} >
-        <ActivityIndicator />
+      }]} >
+        <ActivityIndicator color={"#AAAAAA"}/>
       </Animated.View>
       <Animated.Image
         {...props}
