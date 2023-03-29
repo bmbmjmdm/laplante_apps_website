@@ -92,6 +92,7 @@ export const ShowcaseRow: FunctionComponent<ShowcaseRowProps> = ({
   );
   const imageComponent = (
     <FadeInImage
+      spinner
       source={image}
       style={{
         width: imageWidth,

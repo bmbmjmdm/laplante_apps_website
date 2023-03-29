@@ -1,13 +1,16 @@
-import { Animated, ImageProps, Image, } from "react-native";
+import { Animated, ImageProps, ActivityIndicator } from "react-native";
 import React, { FunctionComponent, useEffect } from "react";
 
 // A wrapper for the react-native Image component that fades it in when it loads
 // Overwrites opacity style prop
-type FadeInImageProps = ImageProps | Animated.AnimatedProps<ImageProps>;
+type FadeInImageProps = (ImageProps | Animated.AnimatedProps<ImageProps>) & {
+  spinner?: boolean;
+};
 
 export const FadeInImage: FunctionComponent<FadeInImageProps> = (props) => {
   // fade in after load
   const opacityObj = React.useRef({opacity: new Animated.Value(0)}).current;
+  const opacitySpinner = React.useRef(new Animated.Value(props.spinner ? 1 : 0)).current;
 
   // merge animated opacity style into props
   // we do this every render incase our props object changes
@@ -25,16 +28,33 @@ export const FadeInImage: FunctionComponent<FadeInImageProps> = (props) => {
   }
 
   return (
-    <Animated.Image
-      {...props}
-      onLoad={(arg) => {
-        props.onLoad?.(arg);
-        Animated.timing(opacityObj.opacity, {
-          toValue: 1,
-          duration: 350,
-          useNativeDriver: false,
-        }).start();
-      }}
-    />
+    <>
+      <Animated.View style={{
+        position: "absolute",
+        height: "100%",
+        width: "100%",
+        justifyContent: "center",
+        alignItems: "center",
+        opacity: opacitySpinner,
+      }} >
+        <ActivityIndicator />
+      </Animated.View>
+      <Animated.Image
+        {...props}
+        onLoad={(arg) => {
+          props.onLoad?.(arg);
+          Animated.timing(opacitySpinner, {
+            toValue: 0,
+            duration: 200,
+            useNativeDriver: false,
+          }).start();
+          Animated.timing(opacityObj.opacity, {
+            toValue: 1,
+            duration: 350,
+            useNativeDriver: false,
+          }).start();
+        }}
+      />
+    </>
   )
 };
