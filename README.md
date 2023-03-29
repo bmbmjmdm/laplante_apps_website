@@ -16,7 +16,7 @@ git clone https://github.com/bmbmjmdm/laplante_apps_website.git
   pip install gdown
   cd laplante_apps_website
   cd src/assets
-/home/bmbmjmdm/.local/bin/gdown https://drive.google.com/uc?id=1ttQvquOOtVWSZHRmE3BoCoku0Q8K3g3P
+/home/bmbmjmdm/.local/bin/gdown https://drive.google.com/uc?id=1qkanzy4daSqk7Ir0ZjEKzVkOo9q1ctvA
 */
 gcloud services enable cloudbuild.googleapis.com
 gcloud builds submit --tag gcr.io/${GOOGLE_CLOUD_PROJECT}/monolith:1.0.0 .
