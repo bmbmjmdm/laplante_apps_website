@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState, MutableRefObject, useEffect, useRef } from "react";
-import { Animated } from 'react-native';
+import { Animated, Image } from 'react-native';
 import { PlayfulPhone, SlideshowPhone, StyledText } from "../Components";
 import iadventure from "../assets/iadventure.gif";
 import npcg from "../assets/npcg_short.gif";
@@ -70,6 +70,11 @@ export const HomeScreenImages: FunctionComponent<HomeScreenImagesProps> = ({
   const opacityRef = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
+    // prefetch all images in appPictures
+    appPictures.forEach((image) => {
+      Image.prefetch(image);
+    });
+
     setTimeout(() => {
       Animated.timing(opacityRef, {
         toValue: 0,
