@@ -1,8 +1,9 @@
-import { View, Image, Dimensions } from "react-native";
+import { View, Dimensions } from "react-native";
 import React, { FunctionComponent, useContext } from "react";
 import { Flex, Padding, StyledText } from "../Components";
 import { ShowcaseButton } from "./ShowcaseButton";
 import { ThemeContext } from "../Theme";
+import { FadeInImage } from "./FadeInImage";
 
 type ShowcaseRowProps = {
   title: string;
@@ -90,7 +91,7 @@ export const ShowcaseRow: FunctionComponent<ShowcaseRowProps> = ({
     </StyledText>
   );
   const imageComponent = (
-    <Image
+    <FadeInImage
       source={image}
       style={{
         width: imageWidth,
