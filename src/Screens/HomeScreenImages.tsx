@@ -70,11 +70,28 @@ export const HomeScreenImages: FunctionComponent<HomeScreenImagesProps> = ({
   const opacityRef = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
-    // prefetch all images in appPictures
-    appPictures.forEach((image) => {
-      Image.prefetch(image);
-    });
+    // prefetch all images
+    const catFetch = () => {
+      catPictures.forEach((image) => {
+        Image.prefetch(image);
+      });
+    }
+    if (catMode.current) {
+      // if we're starting in cat mode, we only need the cats
+      catFetch()
+    }
+    else {
+      // otherwise, grab the apps first, then the cats afterwards
+      const promises = appPictures.map((image) => {
+        return Image.prefetch(image);
+      });
+      Promise.all(promises).then(() => {
+        catFetch()
+      });
+    }
 
+    // make the title disappear right as the phone moves over it
+    // on small screens only
     setTimeout(() => {
       Animated.timing(opacityRef, {
         toValue: 0,
