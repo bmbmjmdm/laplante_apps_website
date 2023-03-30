@@ -7,6 +7,9 @@ import { ShowcaseRow } from "../Components";
 // import beatbiome from "../assets/beatbiome.gif";
 import kkgm from "../assets/kkgm.png";
 import { ThemeContext } from "../Theme";
+import site from "../assets/site.png";
+import siteSmall from "../assets/siteSmall.png";
+import { isScreenSmall } from "../Helpers";
 
 // This is the screen that shows a list of non-app projects, like board games and VR games
 // This shows in the same ShowcaseRows as AppScreen and WorkScreen, showing a title, description, image, and link(s)
@@ -15,6 +18,8 @@ export const NonAppsScreen: FunctionComponent<StackScreenProps<any>> = ({
   route,
 }) => {
   const theme = useContext(ThemeContext);
+  const smallScreen = isScreenSmall();
+
   return (
     <AnimatedScreen fadeOut={route?.params?.fadeOut}>
       <ScrollView style={{ height: 1 }}>
@@ -23,6 +28,7 @@ export const NonAppsScreen: FunctionComponent<StackScreenProps<any>> = ({
           description={
             "A virtual reality game that reacts to your music! Available on Steam"
           }
+          tech={"Unity, C#, SteamVR, Audio Manipulation"}
           // local gif is too large, so use google storage instead
           image={
             "https://storage.googleapis.com/website_large_gifs/beatbiome.gif"
@@ -44,6 +50,17 @@ export const NonAppsScreen: FunctionComponent<StackScreenProps<any>> = ({
           }}
           sharpEdges
           link={""}
+        />
+        <ShowcaseRow
+          title={"LaPlante Apps Site"}
+          description={
+            "This website!"
+          }
+          tech={"RN Web, Typescript, Node, Webpack, Google Cloud"}
+          image={smallScreen ? siteSmall : site}
+          horizontalImage={smallScreen ? false : true}
+          sharpEdges
+          link={"/"}
         />
       </ScrollView>
     </AnimatedScreen>

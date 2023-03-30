@@ -1,5 +1,5 @@
 // @ts-ignore-next-line
-import { Text, Dimensions, TextStyle } from "react-native";
+import { Text, TextStyle } from "react-native";
 import React, {
   FunctionComponent,
   useState,
@@ -15,6 +15,7 @@ import {
 } from "../Components";
 import { ThemeContext } from "../Theme";
 import { CAT_MODE_KEY } from "./HomeScreen";
+import { isScreenSmall } from "../Helpers";
 
 export const CAT_CAPTION = 10;
 const CAT_CLARIFICATION_DELAY = 60 * 1000;
@@ -95,7 +96,7 @@ export const getCaption = (
   nextCaption: Function,
   changeProduct: Function
 ) => {
-  const smallScreen = Dimensions.get("window").width < 650;
+  const smallScreen = isScreenSmall();
   const style: TextStyle = {
     textAlign: smallScreen ? "center" : undefined,
   };

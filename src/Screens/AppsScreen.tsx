@@ -24,6 +24,7 @@ export const AppsScreen: FunctionComponent<StackScreenProps<any>> = ({
           description={
             "Coming soon! Share views and have your own views challenged!"
           }
+          tech={"React Native, iOS, Android, Audio Manipulation, Typescript, REST"}
           image={hearyouout}
           isFirst
         />
@@ -32,6 +33,7 @@ export const AppsScreen: FunctionComponent<StackScreenProps<any>> = ({
           description={
             "An education app for first-time readers, which adjusts its difficulty automatically to suit the child. Users can upload their own voice and pictures to create a personalized experience for their child! Created with special needs children front of mind :)"
           }
+          tech={"Vue Native, iOS, Android, Audio Manipulation, JS"}
           // local gif is too large, so use google storage instead
           image={"https://storage.googleapis.com/website_large_gifs/weread.gif"}
           apple={
@@ -43,7 +45,8 @@ export const AppsScreen: FunctionComponent<StackScreenProps<any>> = ({
         />
         <ShowcaseRow
           title={"iAdventure"}
-          description={"A text-based adventure game"}
+          description={"A text-based adventure game that changes based on your choices"}
+          tech={"React Native, iOS, Android, JS"}
           image={iadventure}
           apple={"https://apps.apple.com/tr/app/iadventure/id1437961208"}
           android={
@@ -53,8 +56,9 @@ export const AppsScreen: FunctionComponent<StackScreenProps<any>> = ({
         <ShowcaseRow
           title={"NPC Generator"}
           description={
-            "A character generator for Dungeons and Dragons 5e, primarily focusing on quick-to-read NPCs. Can be fully modified with user content!"
+            "A character generator for Dungeons and Dragons 5e, primarily focusing on quick-to-read NPCs for DM convenience. Can be fully modified with user content!"
           }
+          tech={"React Native, Android, JS"}
           image={npcg}
           android={"https://play.google.com/store/apps/details?id=com.npcgen"}
         />
@@ -63,6 +67,7 @@ export const AppsScreen: FunctionComponent<StackScreenProps<any>> = ({
           description={
             "6 different die types with a simple interface and cute animations"
           }
+          tech={"Android, Java"}
           image={dice}
           android={
             "https://play.google.com/store/apps/details?id=com.dale.diceapp"

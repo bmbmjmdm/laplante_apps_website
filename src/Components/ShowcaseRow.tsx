@@ -1,13 +1,15 @@
-import { View, Dimensions } from "react-native";
+import { View } from "react-native";
 import React, { FunctionComponent, useContext } from "react";
 import { Flex, Padding, StyledText } from "../Components";
 import { ShowcaseButton } from "./ShowcaseButton";
 import { ThemeContext } from "../Theme";
 import { FadeInImage } from "./FadeInImage";
+import { isScreenSmall } from "../Helpers";
 
 type ShowcaseRowProps = {
   title: string;
   description: string;
+  tech?: string;
   image: any;
   horizontalImage?: boolean;
   customImageDimensions?: { width: number; height: number };
@@ -23,6 +25,7 @@ type ShowcaseRowProps = {
 export const ShowcaseRow: FunctionComponent<ShowcaseRowProps> = ({
   title,
   description,
+  tech,
   image,
   horizontalImage = false,
   sharpEdges = false,
@@ -44,7 +47,7 @@ export const ShowcaseRow: FunctionComponent<ShowcaseRowProps> = ({
     ? theme.showcaseImageShort
     : theme.showcaseImageLong;
   // we dont need a listener since the theme listens for us
-  const singleColumn = Dimensions.get("window").width < 650;
+  const singleColumn = isScreenSmall();
 
   const buttons = (
     <Flex row style={{ marginTop: "auto" }}>
@@ -80,15 +83,26 @@ export const ShowcaseRow: FunctionComponent<ShowcaseRowProps> = ({
     </StyledText>
   );
   const descriptionComponent = (
-    <StyledText
-      type={"caption"}
-      style={{
-        width: singleColumn ? undefined : theme.showcaseTextWidth,
-        textAlign: singleColumn ? "center" : undefined,
-      }}
-    >
-      {description}
-    </StyledText>
+    <>
+      <StyledText
+        type={"caption"}
+        style={{
+          width: singleColumn ? undefined : theme.showcaseTextWidth,
+          textAlign: singleColumn ? "center" : undefined,
+        }}
+      >
+        {description}
+      </StyledText>
+      {tech && <StyledText
+        type={"subscript"}
+        style={{
+          width: singleColumn ? undefined : theme.showcaseTextWidth,
+          textAlign: singleColumn ? "center" : undefined,
+        }}
+      >
+        {tech}
+      </StyledText>}
+    </>
   );
   const imageComponent = (
     <FadeInImage

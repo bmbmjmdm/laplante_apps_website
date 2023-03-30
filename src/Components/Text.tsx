@@ -16,7 +16,7 @@ type TextProps = {
   style?: TextStyle | Animated.AnimatedProps<TextStyle>;
   children: ReactNode;
   onPress?: () => void;
-  type?: "header" | "body" | "caption" | "button";
+  type?: "header" | "body" | "caption" | "subscript" | "button";
   animated?: boolean;
 };
 export const StyledText: FunctionComponent<TextProps> = (props) => {
@@ -24,12 +24,14 @@ export const StyledText: FunctionComponent<TextProps> = (props) => {
   // setup style
   const newProps = { ...props };
   const { style = {}, type, animated } = props;
-  newProps.style = { ...theme.text, ...style };
+  let themeStyle = {}
   // use the given type to lookup that text type style in our theme
   if (type) {
     const fullType = type === "button" ? "buttonText" : type;
-    newProps.style = { ...theme[fullType], ...newProps.style };
+    themeStyle = theme[fullType]
   }
+  newProps.style = { ...theme.text, ...themeStyle, ...style };
+  
   if (animated) return <Animated.Text {...newProps} />;
   // @ts-ignore-next-line - it doesn't know how to handle animated styles with the animated prop
   else return <Text {...newProps} />;

@@ -1,4 +1,4 @@
-import { Dimensions, ViewStyle } from "react-native";
+import { ViewStyle } from "react-native";
 import React, { FunctionComponent, useRef, useContext, useEffect } from "react";
 import { Flex } from "../Components";
 import { HomeScreenMessage } from "./HomeScreenMessage";
@@ -6,6 +6,7 @@ import { HomeScreenImages } from "./HomeScreenImages";
 import { AnimatedScreen } from "./AnimatedScreen";
 import { StackScreenProps } from "@react-navigation/stack";
 import { ThemeContext } from "../Theme";
+import { isScreenSmall } from "../Helpers";
 
 export const CAT_MODE_KEY =
   "laplantAppsCatMode 82jfnfoi239uf2jibn29yt928rth984h3ut9u923r";
@@ -37,7 +38,7 @@ export const HomeScreen: FunctionComponent<StackScreenProps<any>> = ({
   };
 
   // we dont need a listener since the theme listens for us
-  const smallScreen = Dimensions.get("window").width < 650;
+  const smallScreen = isScreenSmall();
   // use min height to ensure the phone's final size is used for centering
   const minHeight = theme.phoneHeight * theme.phoneScaleFinal;
   const optionalStyles = {

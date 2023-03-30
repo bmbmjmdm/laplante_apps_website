@@ -2,6 +2,7 @@ import { TouchableOpacity, View, Animated } from "react-native";
 import React, { FunctionComponent, useContext, useRef, useEffect } from "react";
 import { SetThemeContext, Theme, ThemeContext, Themes } from "../Theme";
 import { v4 as uuid } from "uuid";
+import { isScreenSmall } from "../Helpers";
 
 type FloatingTextObj = { [key: string]: JSX.Element | null };
 
@@ -10,6 +11,7 @@ let themeContainer: Theme | undefined = undefined;
 
 // These are the three buttons in the header which can be used to change the theme if pressed in the correct order
 export const ThemeButtons: FunctionComponent<{}> = () => {
+  const smallScreen = isScreenSmall();
   const theme = useContext(ThemeContext);
   useEffect(() => {
     themeContainer = theme;
@@ -81,7 +83,7 @@ export const ThemeButtons: FunctionComponent<{}> = () => {
 
   return (
     <>
-      <View>
+      <View style={{marginLeft: smallScreen ? "auto" : undefined}}>
         <TouchableOpacity style={theme.navButton} onPress={onPressOne} />
         {Object.values(floatingTextOne)}
       </View>

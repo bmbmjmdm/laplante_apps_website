@@ -21,8 +21,9 @@ export const WorkScreen: FunctionComponent<StackScreenProps<any>> = ({
         <ShowcaseRow
           title={"Virta Health"}
           description={
-            "I worked at Virta Health creating large portions of their mobile app and website, including the Today Page, User Profile, Bluetooth Meter Syncing, Biomarker Submission, Patient Journey, Action Items, and more!"
+            "I worked at Virta Health as a Senior Mobile Developer leading large projects and creating vast portions of their mobile app and website. These included the Today Page, User Profile, Bluetooth Meter Syncing, Biomarker Submission, Patient Journey, Action Items, and more!"
           }
+          tech={"React Native, iOS, Android, RN Web, Redux, Bluetooth, Typescript, GQL, Google Cloud, Node, Webpack, REST"}
           image={virta}
           link={"https://www.virtahealth.com/"}
           isFirst
@@ -30,8 +31,9 @@ export const WorkScreen: FunctionComponent<StackScreenProps<any>> = ({
         <ShowcaseRow
           title={"Scolastic / HMH"}
           description={
-            "I led the mobile team at Houghton Mifflin Harcourt, maintaining over a dozen apps, reviving old ones, and implementing new features and tooling."
+            "I led the mobile team at Houghton Mifflin Harcourt as Lead Mobile Developer, maintaining over a dozen apps, reviving old ones, and implementing new features and tooling."
           }
+          tech={"Actionscript, iOS, Android, Java, Objective-C, HTML, CSS, JS, Node, REST"}
           // local gif is too large, so use google storage instead
           image={
             "https://storage.googleapis.com/website_large_gifs/sushimonster.gif"
@@ -42,8 +44,9 @@ export const WorkScreen: FunctionComponent<StackScreenProps<any>> = ({
         <ShowcaseRow
           title={"Grant Street Group"}
           description={
-            "I created Grant Street Group's first mobile app and added numerous features to their websites, including creating their admin portal where they can create and configure entirely new websites automatically."
+            "I created and maintained Grant Street Group's first mobile app and added numerous features to their websites as a Lead Mobile/Web Developer. This included creating their Admin Portal where admin can create and configure entirely new websites automatically."
           }
+          tech={"Vue, JS, iOS, Android, React Native, AWS, HTML, CSS, Node, Webpack, REST"}
           image={gsg}
           link={"https://www.grantstreet.com/"}
         />

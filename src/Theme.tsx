@@ -60,6 +60,7 @@ export type Theme = {
   text: TextStyle;
   body: TextStyle;
   caption: TextStyle;
+  subscript: TextStyle;
   buttonText: TextStyle;
   header: TextStyle;
   navButton: ViewStyle;
@@ -157,6 +158,11 @@ export const Themes: Record<
     text: {
       color: "#FFFFFF",
     },
+    subscript: {
+      fontSize: clamp(14, 16, 30 * scale),
+      paddingTop: 10,
+      color: "#AAAAAA",
+    },
     sideMenuColor: "#000000",
     background: ["#000000", "#000000", "#1a1a1a", "#3d3d3d"],
     navButton: {
@@ -214,6 +220,11 @@ export const Themes: Record<
     },
     caption: {
       fontSize: clamp(50, 75, 100 * scale),
+    },
+    subscript: {
+      textDecorationLine: "underline",
+      textDecorationStyle: "dotted",
+      fontSize: 2
     },
     buttonText: {
       fontSize: clamp(7, 8, 15 * scale),
