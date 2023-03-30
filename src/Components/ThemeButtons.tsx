@@ -15,7 +15,9 @@ export const ThemeButtons: FunctionComponent<{}> = () => {
     themeContainer = theme;
   }, [theme]);
   const setTheme = useContext(SetThemeContext);
-  const [isBroken, setIsBroken] = React.useState(themeContainer?.name === "broken");
+  const [isBroken, setIsBroken] = React.useState(
+    themeContainer?.name === "broken"
+  );
   const [floatingTextOne, setFloatingTextOne] = React.useState<FloatingTextObj>(
     {}
   );

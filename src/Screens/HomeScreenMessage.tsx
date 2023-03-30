@@ -1,5 +1,5 @@
 // @ts-ignore-next-line
-import { Text } from "react-native";
+import { Text, Dimensions, TextStyle } from "react-native";
 import React, {
   FunctionComponent,
   useState,
@@ -29,13 +29,11 @@ type HomeScreenMessageProps = {
 // switch to showing a cat-themed product
 export const HomeScreenMessage: FunctionComponent<HomeScreenMessageProps> = ({
   setCatMode,
-  catMode
+  catMode,
 }) => {
   const theme = useContext(ThemeContext);
   // lookup if we're already in cat mode from previous sessions
-  const [curCaption, setCurCaption] = useState(
-    catMode ? CAT_CAPTION : 0
-  );
+  const [curCaption, setCurCaption] = useState(catMode ? CAT_CAPTION : 0);
   const [deleteTitle, setDeleteTitle] = useState(catMode);
   const [changeTitle, setChangeTitle] = useState(false);
   const titleFinish = deleteTitle
@@ -97,7 +95,12 @@ export const getCaption = (
   nextCaption: Function,
   changeProduct: Function
 ) => {
+  const smallScreen = Dimensions.get("window").width < 650;
+  const style: TextStyle = {
+    textAlign: smallScreen ? "center" : undefined,
+  };
   let counter = 0;
+
   // all captions share the same default props, but some are overriden to change speed, etc for certain captions
   const defaultProps = (): Omit<TypewriterProps, "children"> & {
     key: number;
@@ -111,8 +114,10 @@ export const getCaption = (
       pauseTime: 500,
       onFinish: nextCaption,
       type: "caption",
+      style,
     };
   };
+
   return [
     <Typewriter {...defaultProps()} pauseTime={1000}>
       This is a caption that I'll make informative and interesting and
@@ -167,14 +172,20 @@ export const getCaption = (
     </Typewriter>,
 
     // We have a duplicate of the caption here so that we can show the extended caption appropriately on subsequent loads
-    <StyledText type={"caption"}>I like cats.</StyledText>,
+    <StyledText type={"caption"} style={style}>
+      I like cats.
+    </StyledText>,
 
-    <Text>
+    <Text style={style}>
       <StyledText type={"caption"}>I like cats.</StyledText>
-      <Typewriter {...defaultProps()} pauseTime={5000} onFinish={undefined}>
+      <Typewriter
+        {...defaultProps()}
+        pauseTime={5000}
+        onFinish={undefined}
+        style={{}}
+      >
         {"    .    .    .    (Actually it would be spelled LeChatte)"}
       </Typewriter>
-      ,
     </Text>,
   ][curCaption];
 };

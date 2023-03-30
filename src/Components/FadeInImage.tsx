@@ -10,36 +10,41 @@ type FadeInImageProps = (ImageProps | Animated.AnimatedProps<ImageProps>) & {
 
 export const FadeInImage: FunctionComponent<FadeInImageProps> = (props) => {
   // fade in after load
-  const opacityObj = React.useRef({opacity: new Animated.Value(0)}).current;
-  const opacitySpinner = React.useRef(new Animated.Value(props.spinner ? 1 : 0)).current;
+  const opacityObj = React.useRef({ opacity: new Animated.Value(0) }).current;
+  const opacitySpinner = React.useRef(
+    new Animated.Value(props.spinner ? 1 : 0)
+  ).current;
 
   // merge animated opacity style into props
-  // we do this every render incase our props object changes
-  // this can be optimised to only happen when props changes, but we're not worried because this won't rerender often
+  let newStyle;
   if (props.style) {
     if (props.style.constructor === Array) {
-      props.style = [...props.style, opacityObj];
+      newStyle = [...props.style, opacityObj];
+    } else {
+      newStyle = [props.style, opacityObj];
     }
-    else {
-      props.style = [props.style, opacityObj];
-    }
-  }
-  else {
-    props.style = opacityObj;
+  } else {
+    newStyle = opacityObj;
   }
 
   return (
     <>
-      <Animated.View style={[props.style, {
-        position: "absolute",
-        justifyContent: "center",
-        alignItems: "center",
-        opacity: opacitySpinner,
-      }]} >
-        <ActivityIndicator color={"#AAAAAA"}/>
+      <Animated.View
+        style={[
+          props.style,
+          {
+            position: "absolute",
+            justifyContent: "center",
+            alignItems: "center",
+            opacity: opacitySpinner,
+          },
+        ]}
+      >
+        <ActivityIndicator color={"#AAAAAA"} />
       </Animated.View>
       <Animated.Image
         {...props}
+        style={newStyle}
         onLoad={(arg) => {
           props.onLoad?.(arg);
           Animated.timing(opacitySpinner, {
@@ -55,5 +60,5 @@ export const FadeInImage: FunctionComponent<FadeInImageProps> = (props) => {
         }}
       />
     </>
-  )
+  );
 };

@@ -1,10 +1,5 @@
 import { Animated, Image, Dimensions } from "react-native";
-import React, {
-  FunctionComponent,
-  useEffect,
-  useRef,
-  useContext,
-} from "react";
+import React, { FunctionComponent, useEffect, useRef, useContext } from "react";
 import { easeOutBack, CardFlip, CardFlipRef } from "../Components";
 import phone_back from "../assets/phone_back.png";
 import phone_front from "../assets/phone_front.png";
@@ -50,7 +45,7 @@ export const PlayfulPhone: FunctionComponent<PlayfulPhoneProps> = ({
       // slide back down (off-screen) slowly
       Animated.timing(phoneTop, {
         toValue: windowHeight,
-        duration: fast ? 3000: 4000,
+        duration: fast ? 3000 : 4000,
         useNativeDriver: false,
       }),
       Animated.delay(fast ? 400 : 800),

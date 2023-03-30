@@ -26,7 +26,7 @@ export const SlideshowPhone: FunctionComponent<SlideshowPhoneProps> = ({
   onFirstCycleComplete,
 }) => {
   // we need to convert our boxed boolean into a boxed number
-  const curListNum = () => curListRef.current ? 1 : 0;
+  const curListNum = () => (curListRef.current ? 1 : 0);
   const theme = useContext(ThemeContext);
   const prevListRef = useRef(curListNum());
   const [phoneCycling, setPhoneCycling] = useState(false);

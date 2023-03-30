@@ -1,5 +1,12 @@
-import React, { FunctionComponent, useState, MutableRefObject, useEffect, useRef } from "react";
-import { Animated, Image } from 'react-native';
+import React, {
+  FunctionComponent,
+  useState,
+  MutableRefObject,
+  useEffect,
+  useRef,
+  useContext,
+} from "react";
+import { Animated, Image } from "react-native";
 import { PlayfulPhone, SlideshowPhone, StyledText } from "../Components";
 import iadventure from "../assets/iadventure.gif";
 import npcg from "../assets/npcg_short.gif";
@@ -23,10 +30,11 @@ import cat12 from "../assets/cat12.png";
 import cat13 from "../assets/cat13.png";
 import cat14 from "../assets/cat14.png";
 import cat15 from "../assets/cat15.png";
+import { ThemeContext } from "../Theme";
 
 type HomeScreenImagesProps = {
   catMode: MutableRefObject<boolean>;
-  showTitle?: boolean
+  showTitle?: boolean;
 };
 
 // This component is responsible for animating in the phone (PlayfulPhone half) and then cycling through
@@ -64,10 +72,11 @@ export const HomeScreenImages: FunctionComponent<HomeScreenImagesProps> = ({
     cat12,
     cat13,
   ]).current;
-  
+
   const [phoneDone, setPhoneDone] = useState(false);
   const [phoneCycling, setPhoneCycling] = useState(false);
   const opacityRef = useRef(new Animated.Value(1)).current;
+  const theme = useContext(ThemeContext);
 
   useEffect(() => {
     // prefetch all images
@@ -75,18 +84,17 @@ export const HomeScreenImages: FunctionComponent<HomeScreenImagesProps> = ({
       catPictures.forEach((image) => {
         Image.prefetch(image);
       });
-    }
+    };
     if (catMode.current) {
       // if we're starting in cat mode, we only need the cats
-      catFetch()
-    }
-    else {
+      catFetch();
+    } else {
       // otherwise, grab the apps first, then the cats afterwards
       const promises = appPictures.map((image) => {
         return Image.prefetch(image);
       });
       Promise.all(promises).then(() => {
-        catFetch()
+        catFetch();
       });
     }
 
@@ -98,18 +106,29 @@ export const HomeScreenImages: FunctionComponent<HomeScreenImagesProps> = ({
         duration: 1,
         useNativeDriver: false,
       }).start();
-    }, 7600)
-  }, [])
+    }, 7600);
+  }, []);
 
   return (
     <>
       {showTitle && (
-        <StyledText animated style={{ position: "absolute", opacity: opacityRef }} type={"header"} >
+        <StyledText
+          animated
+          style={{
+            position: "absolute",
+            opacity: opacityRef,
+            paddingBottom: theme.largeSpace,
+          }}
+          type={"header"}
+        >
           {catMode.current ? "LaCat Apps :3" : "LaPlante Apps"}
         </StyledText>
       )}
       {!phoneCycling && (
-        <PlayfulPhone onAnimationComplete={() => setPhoneDone(true)} fast={showTitle} />
+        <PlayfulPhone
+          onAnimationComplete={() => setPhoneDone(true)}
+          fast={showTitle}
+        />
       )}
       {phoneDone && (
         <SlideshowPhone

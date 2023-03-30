@@ -24,7 +24,9 @@ export const NonAppsScreen: FunctionComponent<StackScreenProps<any>> = ({
             "A virtual reality game that reacts to your music! Available on Steam"
           }
           // local gif is too large, so use google storage instead
-          image={"https://storage.googleapis.com/website_large_gifs/beatbiome.gif"}
+          image={
+            "https://storage.googleapis.com/website_large_gifs/beatbiome.gif"
+          }
           horizontalImage
           sharpEdges
           link={"https://store.steampowered.com/app/1506960/Beat_Biome/"}

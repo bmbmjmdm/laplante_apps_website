@@ -33,7 +33,9 @@ export const WorkScreen: FunctionComponent<StackScreenProps<any>> = ({
             "I led the mobile team at Houghton Mifflin Harcourt, maintaining over a dozen apps, reviving old ones, and implementing new features and tooling."
           }
           // local gif is too large, so use google storage instead
-          image={"https://storage.googleapis.com/website_large_gifs/sushimonster.gif"}
+          image={
+            "https://storage.googleapis.com/website_large_gifs/sushimonster.gif"
+          }
           horizontalImage
           link={"https://www.hmhco.com/"}
         />
