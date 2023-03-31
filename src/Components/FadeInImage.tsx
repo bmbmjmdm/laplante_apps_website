@@ -1,4 +1,4 @@
-import { Animated, ImageProps, ActivityIndicator } from "react-native";
+import { Animated, ImageProps, ActivityIndicator, View, ImageStyle } from "react-native";
 import React, { FunctionComponent, useEffect } from "react";
 
 // A wrapper for the react-native Image component that fades it in when it loads
@@ -28,7 +28,7 @@ export const FadeInImage: FunctionComponent<FadeInImageProps> = (props) => {
   }
 
   return (
-    <>
+    <View>
       <Animated.View
         style={[
           props.style,
@@ -46,6 +46,7 @@ export const FadeInImage: FunctionComponent<FadeInImageProps> = (props) => {
         {...props}
         style={newStyle}
         onLoad={(arg) => {
+          
           props.onLoad?.(arg);
           Animated.timing(opacitySpinner, {
             toValue: 0,
@@ -58,7 +59,8 @@ export const FadeInImage: FunctionComponent<FadeInImageProps> = (props) => {
             useNativeDriver: false,
           }).start();
         }}
+        
       />
-    </>
+    </View>
   );
 };

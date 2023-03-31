@@ -5,9 +5,9 @@ import React, { FunctionComponent } from "react";
 import { StackScreenProps } from "@react-navigation/stack";
 import { ShowcaseRow } from "../Components";
 import virta from "../assets/virta.gif";
-// import sushimonster from "../assets/sushimonster.gif";
 import gsg from "../assets/gsg.gif";
 import pega from "../assets/pega.jpg";
+import sushimonster from "../assets/sushimonster.gif";
 
 // This is the screen that shows a list of previous jobs
 // This shows in the same ShowcaseRows as AppScreen and NonAppsScreen, showing a title, description, image, and link(s)
@@ -34,10 +34,7 @@ export const WorkScreen: FunctionComponent<StackScreenProps<any>> = ({
             "I led the mobile team at Houghton Mifflin Harcourt as Lead Mobile Developer, maintaining over a dozen apps, reviving old ones, and implementing new features and tooling."
           }
           tech={"Actionscript, iOS, Android, Java, Objective-C, HTML, CSS, JS, Node, REST"}
-          // local gif is too large, so use google storage instead
-          image={
-            "https://storage.googleapis.com/website_large_gifs/sushimonster.gif"
-          }
+          image={sushimonster}
           horizontalImage
           link={"https://www.hmhco.com/"}
         />

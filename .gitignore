@@ -21,7 +21,3 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
-
-/src/assets/beatbiome.gif
-/src/assets/backup/beatbiome.gif
