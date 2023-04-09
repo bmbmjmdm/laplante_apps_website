@@ -64,6 +64,12 @@ const SideMenuComponent: FunctionComponent<SideMenuProps> = (
     toggleMenu,
   }));
 
+  // reset menu when theme changes
+  React.useEffect(() => {
+    sideMenuLeft.setValue(-sideMenuWidth);
+    isSideMenuShown.current = false;
+  }, [theme]);
+
   return (
     <Animated.View
       style={{
