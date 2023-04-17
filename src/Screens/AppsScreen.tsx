@@ -22,9 +22,9 @@ export const AppsScreen: FunctionComponent<StackScreenProps<any>> = ({
         <ShowcaseRow
           title={"Hear You Out"}
           description={
-            "Coming soon! Share views and have your own views challenged!"
+            "Coming soon! Share views and have your own views challenged! (Uses OpenAI for audio transcribing, category completion, and vector embedding to give the user diverse viewpoints.)"
           }
-          tech={"React Native, iOS, Android, Audio Manipulation, Typescript, REST"}
+          tech={"React Native, OpenAI, Pinecone, iOS, Android, Audio Manipulation, Typescript, REST"}
           image={hearyouout}
           isFirst
         />
