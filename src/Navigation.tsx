@@ -2,7 +2,7 @@ import React, { FunctionComponent, useContext } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { ThemeContext, ThemeProvider } from "./Theme";
-import { HomeScreen, WorkScreen, AppsScreen, NonAppsScreen } from "./Screens";
+import { HomeScreen, WorkScreen, AppsScreen, NonAppsScreen, KKGMScreen } from "./Screens";
 // @ts-ignore-next-line
 import LinearGradient from "react-native-web-linear-gradient";
 import { ScreenHeader } from "./Components";
@@ -45,6 +45,7 @@ const Navigator: FunctionComponent<{}> = () => {
       Apps: "apps",
       NonApps: "nonapps",
       Work: "work",
+      KKGM: "kkgm",
     },
   };
   const linking = { config, prefixes: [] };
@@ -74,6 +75,11 @@ const Navigator: FunctionComponent<{}> = () => {
           <Stack.Screen
             name="Work"
             component={WorkScreen}
+            options={defaultOptions}
+          />
+          <Stack.Screen
+            name="KKGM"
+            component={KKGMScreen}
             options={defaultOptions}
           />
         </Stack.Navigator>

@@ -6,10 +6,11 @@ import apple from "../assets/apple.png";
 import android from "../assets/android.png";
 import { StyledText } from "./Text";
 import { ThemeContext } from "../Theme";
+import { useNavigation } from "@react-navigation/native";
 import { FadeInImage } from "./FadeInImage";
 
 type ShowcaseButtonProps = {
-  link: string;
+  link: string | { path: string };
   name: "Android" | "Apple" | "Link";
   singleColumn?: boolean;
 };
@@ -21,7 +22,27 @@ export const ShowcaseButton: FunctionComponent<ShowcaseButtonProps> = ({
   name,
   singleColumn = false,
 }) => {
+  const navigation = useNavigation();
   const theme = useContext(ThemeContext);
+
+  // When the user presses this showcase button
+  const onPress = () => {
+    // open a normal link in a new tab
+    if (typeof link === "string") {
+      Linking.openURL(link);
+    }
+    // if the link is a path within our own site, manually fade out and navigate
+    else {
+      // @ts-ignore-next-line
+      navigation.setParams({ fadeOut: true });
+      setTimeout(() => {
+        // @ts-ignore-next-line
+        navigation.push(link.path)
+        // default screen animation time from SideMenu.tsx
+      }, theme.sideMenuSpeed/2)
+    }
+  };
+
   return (
     <TouchableOpacity
       style={{
@@ -29,7 +50,7 @@ export const ShowcaseButton: FunctionComponent<ShowcaseButtonProps> = ({
         marginHorizontal: singleColumn ? theme.smallSpace : undefined,
         marginTop: theme.mediumSmallSpace,
       }}
-      onPress={() => Linking.openURL(link)}
+      onPress={onPress}
     >
       {name === "Apple" && <AppleIcon />}
       {name === "Android" && <AndroidIcon />}

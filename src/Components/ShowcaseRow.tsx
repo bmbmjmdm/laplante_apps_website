@@ -16,7 +16,7 @@ type ShowcaseRowProps = {
   sharpEdges?: boolean;
   android?: string;
   apple?: string;
-  link?: string;
+  link?: string | { path: string };
   isFirst?: boolean;
 };
 

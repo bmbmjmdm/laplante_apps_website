@@ -46,7 +46,7 @@ export const NonAppsScreen: FunctionComponent<StackScreenProps<any>> = ({
             height: theme.showcaseImageLong,
           }}
           sharpEdges
-          link={""}
+          link={{path: "KKGM"}}
         />
         <ShowcaseRow
           title={"LaPlante Apps Site"}
