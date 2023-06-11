@@ -2,7 +2,7 @@
 
 module.exports = {
   entry : {
-    index: './src/startup/index.tsx'
+    index: './src/startup/index.js'
   },
   module : {
     rules : [
