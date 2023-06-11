@@ -1,7 +1,7 @@
 {
   "name": "laplante-apps",
   "version": "1.0.0",
-  "main": "src/startup/index.js",
+  "main": "src/startup/index.mjs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --config webpack.prod.js",

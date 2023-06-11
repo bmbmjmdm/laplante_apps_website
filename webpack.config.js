@@ -2,14 +2,14 @@
 
 module.exports = {
   entry : {
-    index: './src/startup/index.js'
+    index: './src/startup/index.mjs'
   },
   module : {
     rules : [
       {
-        test: /\.(js|jsx)$/,
+        test: /\.(js|jsx|mjs)$/,
         resolve: {
-          extensions: ['.web.js', '.ts', '.js', '.tsx', '.jsx'],
+          extensions: ['.web.js', '.ts', '.js', '.tsx', '.jsx', '.mjs'],
         },
         use: {
           loader: "babel-loader",
