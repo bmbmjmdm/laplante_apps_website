@@ -42,8 +42,9 @@ export const NonAppsScreen: FunctionComponent<StackScreenProps<any>> = ({
           }
           image={kkgm}
           customImageDimensions={{
-            width: theme.showcaseImageShort * 1.5,
+            width: theme.showcaseImageLong,
             height: theme.showcaseImageLong,
+            left: theme.showcaseImageShort/2,
           }}
           sharpEdges
           link={{path: "KKGM"}}

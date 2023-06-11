@@ -12,7 +12,7 @@ type ShowcaseRowProps = {
   tech?: string;
   image: any;
   horizontalImage?: boolean;
-  customImageDimensions?: { width: number; height: number };
+  customImageDimensions?: { width: number; height: number; left?: number };
   sharpEdges?: boolean;
   android?: string;
   apple?: string;
@@ -114,7 +114,9 @@ export const ShowcaseRow: FunctionComponent<ShowcaseRowProps> = ({
         resizeMode: "stretch",
         borderRadius: sharpEdges ? 5 : 20,
         position: singleColumn ? undefined : "absolute",
-        left: singleColumn ? undefined : imageHeight / 2,
+        left: singleColumn ? undefined :
+              customImageDimensions?.left ? customImageDimensions.left :
+              imageHeight / 2,
       }}
     />
   );
