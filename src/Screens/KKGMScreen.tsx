@@ -16,16 +16,20 @@ export const KKGMScreen: FunctionComponent<StackScreenProps<any>> = ({
 
   // we do some custom sizing for both the waitlist widget and the sell sheet image
   // these are crucial components so they need to look good on all screens
+  // we specifically don't resize them if the window changes because the user may zoom in
   const smallScreen = isScreenSmall();
   const width = Dimensions.get("window").width;
   let resizeSellSheet = width/3000
-  let borderRadius = 20
+  let resizeBorderRadius = 20
   let resizeWaitlist = 600;
   if (smallScreen) {
     resizeWaitlist = width
     resizeSellSheet = width/(1588 + 40);
-    borderRadius = 0;
+    resizeBorderRadius = 0;
   }
+  const finalSellSheet = useRef(resizeSellSheet).current
+  let finalBorderRadius = useRef(resizeBorderRadius).current
+  let finalWaitlist = useRef(resizeWaitlist).current;
 
   // the waitlist widget has a weird white loading screen, so we make a custom loading screen for it
   const fadeinWidget = useRef(new Animated.Value(0)).current
@@ -63,7 +67,7 @@ export const KKGMScreen: FunctionComponent<StackScreenProps<any>> = ({
         <Flex fullWidth centered>
           <Animated.View style={{
             flexDirection: 'row',
-            width: resizeWaitlist,
+            width: finalWaitlist,
             position: 'absolute',
             opacity: fadeoutLoaders
           }}>
@@ -76,7 +80,7 @@ export const KKGMScreen: FunctionComponent<StackScreenProps<any>> = ({
                 frameBorder="0"
                 marginHeight={0}
                 marginWidth={0}
-                width={resizeWaitlist + "px"}
+                width={finalWaitlist + "px"}
                 height="400px"
                 src="https://getwaitlist.com/waitlist/8254"
             />
@@ -88,10 +92,10 @@ export const KKGMScreen: FunctionComponent<StackScreenProps<any>> = ({
             spinner
             source={sellsheet}
             style={{
-              width: 1588 * resizeSellSheet,
-              height: 2244 * resizeSellSheet,
+              width: 1588 * finalSellSheet,
+              height: 2244 * finalSellSheet,
               resizeMode: "stretch",
-              borderRadius: borderRadius,
+              borderRadius: finalBorderRadius,
             }}
           />
         </Flex>
