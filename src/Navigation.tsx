@@ -52,7 +52,7 @@ const Navigator: FunctionComponent<{}> = () => {
   return (
     <LinearGradient
       colors={theme.background}
-      style={{ height: "100svh", overflow: "hidden" }} // Replace with svh or dvh if problems with mobile/scrolls?
+      style={{ height: "100vh", overflow: "hidden" }}
       {...theme.linearGradient}
     >
       <NavigationContainer theme={emptyTheme} linking={linking}>
