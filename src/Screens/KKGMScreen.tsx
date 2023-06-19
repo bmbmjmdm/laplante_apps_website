@@ -87,7 +87,7 @@ export const KKGMScreen: FunctionComponent<StackScreenProps<any>> = ({
           </Animated.View>
         </Flex>
 
-        <Flex centered style={{marginBottom: 60}}>
+        <Flex centered style={{marginBottom: 50}}>
           <FadeInImage
             spinner
             source={sellsheet}
@@ -98,6 +98,10 @@ export const KKGMScreen: FunctionComponent<StackScreenProps<any>> = ({
               borderRadius: finalBorderRadius,
             }}
           />
+        </Flex>
+
+        <Flex centered style={{marginBottom: 50}}>
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/du2JMZ38VN0" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
         </Flex>
       </ScrollView>
     </AnimatedScreen>
