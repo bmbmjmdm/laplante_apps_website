@@ -65,39 +65,40 @@ export const KKGMScreen: FunctionComponent<StackScreenProps<any>> = ({
       <ScrollView style={{ height: 1 }}>
         <Flex fullWidth centered>
 
-          <Animated.View style={{
-            flexDirection: 'row',
-            width: finalWaitlist,
-            position: 'absolute',
-            opacity: fadeoutLoaders
-          }}>
-            {loading && activityIndicators}
-          </Animated.View>
-          <Animated.View style={{opacity: fadeinWidget}}>
-            <iframe
-                allowTransparency={true}
-                id="waitlist_iframe"
-                frameBorder="0"
-                marginHeight={0}
-                marginWidth={0}
-                width={finalWaitlist + "px"}
-                height="400px"
-                src="https://getwaitlist.com/waitlist/8254"
-            />
-          </Animated.View>
-
-          <Flex style={{marginBottom: 75}}>
-            <FadeInImage
-              spinner
-              source={sellsheet}
-              style={{
-                width: 1588 * finalSellSheet,
-                height: 2244 * finalSellSheet,
-                resizeMode: "stretch",
-                borderRadius: finalBorderRadius,
-              }}
-            />
+          <Flex centered>
+            <Animated.View style={{
+              flexDirection: 'row',
+              width: finalWaitlist,
+              position: 'absolute',
+              opacity: fadeoutLoaders
+            }}>
+              {loading && activityIndicators}
+            </Animated.View>
+            <Animated.View style={{opacity: fadeinWidget}}>
+              <iframe
+                  allowTransparency={true}
+                  id="waitlist_iframe"
+                  frameBorder="0"
+                  marginHeight={0}
+                  marginWidth={0}
+                  width={finalWaitlist + "px"}
+                  height="400px"
+                  src="https://getwaitlist.com/waitlist/8254"
+              />
+            </Animated.View>
           </Flex>
+
+          <FadeInImage
+            spinner
+            source={sellsheet}
+            style={{
+              width: 1588 * finalSellSheet,
+              height: 2244 * finalSellSheet,
+              resizeMode: "stretch",
+              borderRadius: finalBorderRadius,
+              marginBottom: 75,
+            }}
+          />
 
           <Flex style={{marginBottom: 75}}>
             <iframe
@@ -113,7 +114,7 @@ export const KKGMScreen: FunctionComponent<StackScreenProps<any>> = ({
 
           <StyledText
             type="body"
-            style={{marginBottom: 50}}
+            style={{marginBottom: 50, textAlign: 'center'}}
           >
             Standard Play Tutorial Coming Soon!
           </StyledText>
