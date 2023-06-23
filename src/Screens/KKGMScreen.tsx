@@ -3,7 +3,7 @@ import { ScrollView, Dimensions, Animated, ActivityIndicator } from 'react-nativ
 import { AnimatedScreen } from "./AnimatedScreen";
 import React, { FunctionComponent, useContext, useEffect, useRef, useState, ReactElement } from "react";
 import { StackScreenProps } from "@react-navigation/stack";
-import { FadeInImage, Flex } from "../Components";
+import { FadeInImage, Flex, StyledText } from "../Components";
 import { ThemeContext } from "../Theme";
 import { isScreenSmall } from "../Helpers";
 import sellsheet from "../assets/sellsheet.png";
@@ -63,8 +63,8 @@ export const KKGMScreen: FunctionComponent<StackScreenProps<any>> = ({
   return (
     <AnimatedScreen fadeOut={route?.params?.fadeOut}>
       <ScrollView style={{ height: 1 }}>
-
         <Flex fullWidth centered>
+
           <Animated.View style={{
             flexDirection: 'row',
             width: finalWaitlist,
@@ -85,31 +85,39 @@ export const KKGMScreen: FunctionComponent<StackScreenProps<any>> = ({
                 src="https://getwaitlist.com/waitlist/8254"
             />
           </Animated.View>
-        </Flex>
 
-        <Flex centered style={{marginBottom: 50}}>
-          <FadeInImage
-            spinner
-            source={sellsheet}
-            style={{
-              width: 1588 * finalSellSheet,
-              height: 2244 * finalSellSheet,
-              resizeMode: "stretch",
-              borderRadius: finalBorderRadius,
-            }}
-          />
-        </Flex>
+          <Flex style={{marginBottom: 75}}>
+            <FadeInImage
+              spinner
+              source={sellsheet}
+              style={{
+                width: 1588 * finalSellSheet,
+                height: 2244 * finalSellSheet,
+                resizeMode: "stretch",
+                borderRadius: finalBorderRadius,
+              }}
+            />
+          </Flex>
 
-        <Flex centered style={{marginBottom: 50}}>
-          <iframe
-            width="560"
-            height="315"
-            src="https://www.youtube.com/embed/du2JMZ38VN0"
-            title="YouTube video player"
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowFullScreen
-          />
+          <Flex style={{marginBottom: 75}}>
+            <iframe
+              width="560"
+              height="315"
+              src="https://www.youtube.com/embed/tFJoRRcEtwM"
+              title="YouTube video player"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+            />
+          </Flex>
+
+          <StyledText
+            type="body"
+            style={{marginBottom: 50}}
+          >
+            Standard Play Tutorial Coming Soon!
+          </StyledText>
+
         </Flex>
       </ScrollView>
     </AnimatedScreen>
