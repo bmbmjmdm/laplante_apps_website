@@ -100,6 +100,24 @@ export const KKGMScreen: FunctionComponent<StackScreenProps<any>> = ({
             }}
           />
 
+          <StyledText
+            type="body"
+            style={{marginBottom: 50, textAlign: 'center'}}
+          >
+            Tutorial Videos Coming Soon!
+          </StyledText>
+
+        </Flex>
+      </ScrollView>
+    </AnimatedScreen>
+  );
+};
+
+
+/*
+
+
+
           <Flex style={{marginBottom: 75}}>
             <iframe
               width="560"
@@ -112,15 +130,4 @@ export const KKGMScreen: FunctionComponent<StackScreenProps<any>> = ({
             />
           </Flex>
 
-          <StyledText
-            type="body"
-            style={{marginBottom: 50, textAlign: 'center'}}
-          >
-            Standard Play Tutorial Coming Soon!
-          </StyledText>
-
-        </Flex>
-      </ScrollView>
-    </AnimatedScreen>
-  );
-};
+          */
