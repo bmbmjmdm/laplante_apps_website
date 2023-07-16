@@ -46,6 +46,7 @@ const Navigator: FunctionComponent<{}> = () => {
       NonApps: "nonapps",
       Work: "work",
       KKGM: "kkgm",
+      LoreCraft: "lorecraft"
     },
   };
   const linking = { config, prefixes: [] };
@@ -79,6 +80,11 @@ const Navigator: FunctionComponent<{}> = () => {
           />
           <Stack.Screen
             name="KKGM"
+            component={KKGMScreen}
+            options={defaultOptions}
+          />
+          <Stack.Screen
+            name="LoreCraft"
             component={KKGMScreen}
             options={defaultOptions}
           />

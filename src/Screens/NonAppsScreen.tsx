@@ -36,7 +36,7 @@ export const NonAppsScreen: FunctionComponent<StackScreenProps<any>> = ({
           isFirst
         />
         <ShowcaseRow
-          title={"Knight Knight Good Mountain"}
+          title={"LoreCraft"}
           description={
             "A board game for 2-10 players, combining story telling, strategy, deck-building, and more!"
           }
@@ -47,7 +47,7 @@ export const NonAppsScreen: FunctionComponent<StackScreenProps<any>> = ({
             left: theme.showcaseImageShort/2,
           }}
           sharpEdges
-          link={{path: "KKGM"}}
+          link={{path: "LoreCraft"}}
         />
         <ShowcaseRow
           title={"LaPlante Apps Site"}
