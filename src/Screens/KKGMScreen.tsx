@@ -100,6 +100,19 @@ export const KKGMScreen: FunctionComponent<StackScreenProps<any>> = ({
             }}
           />
 
+          
+          <Flex style={{marginBottom: 75}}>
+            <iframe
+              width="560"
+              height="315"
+              src="https://www.youtube.com/watch?v=OjyGHSUeTyg"
+              title="YouTube video player"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+            />
+          </Flex>
+
           <StyledText
             type="body"
             style={{marginBottom: 50, textAlign: 'center'}}
@@ -112,22 +125,3 @@ export const KKGMScreen: FunctionComponent<StackScreenProps<any>> = ({
     </AnimatedScreen>
   );
 };
-
-
-/*
-
-
-
-          <Flex style={{marginBottom: 75}}>
-            <iframe
-              width="560"
-              height="315"
-              src="https://www.youtube.com/embed/tFJoRRcEtwM"
-              title="YouTube video player"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowFullScreen
-            />
-          </Flex>
-
-          */
