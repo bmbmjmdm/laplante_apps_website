@@ -113,11 +113,24 @@ export const KKGMScreen: FunctionComponent<StackScreenProps<any>> = ({
             />
           </Flex>
 
+          
+          <Flex style={{marginBottom: 75}}>
+            <iframe
+              width="560"
+              height="315"
+              src="https://www.youtube.com/embed/19Ma2sum7aQ"
+              title="YouTube video player"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+            />
+          </Flex>
+
           <StyledText
             type="body"
             style={{marginBottom: 50, textAlign: 'center'}}
           >
-            Tutorial Videos Coming Soon!
+            Standard Play Tutorial Coming Soon!
           </StyledText>
 
         </Flex>
