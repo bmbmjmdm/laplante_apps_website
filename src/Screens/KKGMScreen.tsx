@@ -1,5 +1,5 @@
 // @ts-ignore-next-line
-import { ScrollView, Dimensions, Animated, ActivityIndicator } from 'react-native';
+import { ScrollView, Dimensions, Animated, ActivityIndicator, Linking } from 'react-native';
 import { AnimatedScreen } from "./AnimatedScreen";
 import React, { FunctionComponent, useContext, useEffect, useRef, useState, ReactElement } from "react";
 import { StackScreenProps } from "@react-navigation/stack";
@@ -65,28 +65,13 @@ export const KKGMScreen: FunctionComponent<StackScreenProps<any>> = ({
       <ScrollView style={{ height: 1 }}>
         <Flex fullWidth centered>
 
-          <Flex centered>
-            <Animated.View style={{
-              flexDirection: 'row',
-              width: finalWaitlist,
-              position: 'absolute',
-              opacity: fadeoutLoaders
-            }}>
-              {loading && activityIndicators}
-            </Animated.View>
-            <Animated.View style={{opacity: fadeinWidget}}>
-              <iframe
-                  allowTransparency={true}
-                  id="waitlist_iframe"
-                  frameBorder="0"
-                  marginHeight={0}
-                  marginWidth={0}
-                  width={finalWaitlist + "px"}
-                  height="400px"
-                  src="https://getwaitlist.com/waitlist/8254"
-              />
-            </Animated.View>
-          </Flex>
+          <StyledText
+            type="body"
+            style={{marginBottom: 50, textAlign: 'center'}}
+            onPress={() => Linking.openURL("https://boardgamegeek.com/boardgame/398730/lorecraft")}
+          >
+            See on Board Game Geek, click here!
+          </StyledText>
 
           <FadeInImage
             spinner
@@ -138,3 +123,32 @@ export const KKGMScreen: FunctionComponent<StackScreenProps<any>> = ({
     </AnimatedScreen>
   );
 };
+
+/*
+
+
+
+          <Flex centered>
+            <Animated.View style={{
+              flexDirection: 'row',
+              width: finalWaitlist,
+              position: 'absolute',
+              opacity: fadeoutLoaders
+            }}>
+              {loading && activityIndicators}
+            </Animated.View>
+            <Animated.View style={{opacity: fadeinWidget}}>
+              <iframe
+                  allowTransparency={true}
+                  id="waitlist_iframe"
+                  frameBorder="0"
+                  marginHeight={0}
+                  marginWidth={0}
+                  width={finalWaitlist + "px"}
+                  height="400px"
+                  src="https://getwaitlist.com/waitlist/8254"
+              />
+            </Animated.View>
+          </Flex>
+
+          */
