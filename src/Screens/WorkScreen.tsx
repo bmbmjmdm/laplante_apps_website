@@ -22,11 +22,12 @@ export const WorkScreen: FunctionComponent<StackScreenProps<any>> = ({
         <ShowcaseRow
           title={"Celerway"}
           description={
-            "I work at Celerway as the lead Frontend Developer, designing and developing their web apps. My largest project has been their router management system, including an integrated AI assistant which utilizes knowledge of the website, the user's settings, and various user guides to help navigate and assist the user as needed."
+            "I work at Celerway as the lead Frontend Developer, designing and developing their web apps. This includes an integrated AI assistant which utilizes knowledge of their router portal, the user's settings, and various user guides to help navigate and assist the user as needed."
           }
           tech={"ReactJS, NodeJS, Google Vertex, GCP, Langchain, Tensorflow, FAISS, Figma, Uizard, Redux, React Router, Typescript, REST"}
           image={celerway}
           link={"https://www.celerway.com/"}
+          horizontalImage
           isFirst
         />
         <ShowcaseRow
