@@ -27,7 +27,7 @@ export const WorkScreen: FunctionComponent<StackScreenProps<any>> = ({
           tech={"ReactJS, NodeJS, Google Vertex, GCP, Langchain, Tensorflow, FAISS, Figma, Uizard, Redux, React Router, Typescript, REST"}
           image={celerway}
           link={"https://www.celerway.com/"}
-          horizontalImage
+          customImageDimensions={{ width: 400, height: 250 }}
           sharpEdges
           isFirst
         />
