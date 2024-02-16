@@ -9,6 +9,7 @@ import hearyouout from "../assets/hearyouout.gif";
 import npcg from "../assets/npcg.gif";
 import dice from "../assets/dice.gif";
 import weread from "../assets/weread.gif";
+import simpleinsight from "../assets/simpleinsight.gif"
 
 // This is the screen that shows a list of mobile app projects
 // This shows in the same ShowcaseRows as NonAppsScreen and WorkScreen, showing a title, description, image, and link(s)
@@ -27,6 +28,14 @@ export const AppsScreen: FunctionComponent<StackScreenProps<any>> = ({
           tech={"React Native, OpenAI, Pinecone, iOS, Android, Audio Manipulation, Typescript, REST"}
           image={hearyouout}
           isFirst
+        />
+        <ShowcaseRow
+          title={"Simple Insight"}
+          description={
+            "Upload your SimpleNote notes and ask an AI whatever you want. It'll pull in relevant notes to answer you, as well as give you daily self improvement and project tasks."
+          }
+          tech={"React Native, OpenAI, Pinecone, RAG, Android, iOS, Typescript, REST"}
+          image={simpleinsight}
         />
         <ShowcaseRow
           title={"weRead"}

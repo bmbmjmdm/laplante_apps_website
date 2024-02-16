@@ -8,6 +8,7 @@ import virta from "../assets/virta.gif";
 import gsg from "../assets/gsg.gif";
 import pega from "../assets/pega.jpg";
 import sushimonster from "../assets/sushimonster.gif";
+import celerway from "../assets/celerway.jpg"
 
 // This is the screen that shows a list of previous jobs
 // This shows in the same ShowcaseRows as AppScreen and NonAppsScreen, showing a title, description, image, and link(s)
@@ -19,11 +20,21 @@ export const WorkScreen: FunctionComponent<StackScreenProps<any>> = ({
     <AnimatedScreen fadeOut={route?.params?.fadeOut}>
       <ScrollView style={{ height: 1 }}>
         <ShowcaseRow
+          title={"Celerway"}
+          description={
+            "I work at Celerway as the lead Frontend Developer, designing and developing their web apps. My largest project has been their router management system, including an integrated AI assistant which utilizes knowledge of the website, the user's settings, and various user guides to help navigate and assist the user as needed."
+          }
+          tech={"ReactJS, NodeJS, Google Vertex, GCP, Langchain, Tensorflow, FAISS, Figma, Uizard, Redux, React Router, Typescript, REST"}
+          image={celerway}
+          link={"https://www.celerway.com/"}
+          isFirst
+        />
+        <ShowcaseRow
           title={"Virta Health"}
           description={
             "I worked at Virta Health as a Senior Mobile Developer leading large projects and creating vast portions of their mobile app and website. These included the Today Page, User Profile, Bluetooth Meter Syncing, Biomarker Submission, Patient Journey, Action Items, and more!"
           }
-          tech={"React Native, iOS, Android, RN Web, Redux, Bluetooth, Typescript, GQL, Google Cloud, Node, Webpack, REST"}
+          tech={"React Native, iOS, Android, RN Web, Redux, Bluetooth, Typescript, GQL, GCP, Node, Webpack, REST"}
           image={virta}
           link={"https://www.virtahealth.com/"}
           isFirst
