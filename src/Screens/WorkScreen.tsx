@@ -28,6 +28,7 @@ export const WorkScreen: FunctionComponent<StackScreenProps<any>> = ({
           image={celerway}
           link={"https://www.celerway.com/"}
           horizontalImage
+          sharpEdges
           isFirst
         />
         <ShowcaseRow
