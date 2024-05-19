@@ -13,7 +13,7 @@ kamatera prod run:
 go to Servers in Kamatera
 Open > Connect > Open Remote Console (username root and password in firefox saved passwords)
 cd laplante_apps_website
-run local prod run steps above
+run the above "local prod run" steps
 
 gcloud prod run:
 git clone https://github.com/bmbmjmdm/laplante_apps_website.git
