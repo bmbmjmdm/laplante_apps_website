@@ -42,9 +42,9 @@ const Navigator: FunctionComponent<{}> = () => {
   const config = {
     screens: {
       Home: "home",
+      Work: "work",
       Apps: "apps",
       NonApps: "nonapps",
-      Work: "work",
       KKGM: "kkgm",
       LoreCraft: "lorecraft"
     },
@@ -64,6 +64,11 @@ const Navigator: FunctionComponent<{}> = () => {
             options={defaultOptions}
           />
           <Stack.Screen
+            name="Work"
+            component={WorkScreen}
+            options={defaultOptions}
+          />
+          <Stack.Screen
             name="Apps"
             component={AppsScreen}
             options={defaultOptions}
@@ -71,11 +76,6 @@ const Navigator: FunctionComponent<{}> = () => {
           <Stack.Screen
             name="NonApps"
             component={NonAppsScreen}
-            options={defaultOptions}
-          />
-          <Stack.Screen
-            name="Work"
-            component={WorkScreen}
             options={defaultOptions}
           />
           <Stack.Screen

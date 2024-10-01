@@ -1,5 +1,5 @@
 // @ts-ignore-next-line
-import { ScrollView } from "react-native";
+import { ScrollView, View } from "react-native";
 import { AnimatedScreen } from "./AnimatedScreen";
 import React, { FunctionComponent, useContext } from "react";
 import { StackScreenProps } from "@react-navigation/stack";
@@ -59,6 +59,13 @@ export const NonAppsScreen: FunctionComponent<StackScreenProps<any>> = ({
           horizontalImage={smallScreen ? false : true}
           sharpEdges
           link={"/"}
+        />
+        <ShowcaseRow
+          title={"Misc AI"}
+          description={
+            "Various AI projects, including a monte carlo simulation of millions of card games across multiple threads, anthropic categorization of files, open ai and puppeteer scraping webpages for information, and more! "
+          }
+          tech={"Monte Carlo, Puppeteer, Typescript, Node, Multithreading, Anthropic, OpenAI"}
         />
       </ScrollView>
     </AnimatedScreen>

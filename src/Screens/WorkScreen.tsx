@@ -8,7 +8,7 @@ import virta from "../assets/virta.gif";
 import gsg from "../assets/gsg.gif";
 import pega from "../assets/pega.jpg";
 import sushimonster from "../assets/sushimonster.gif";
-import celerway from "../assets/celerway.jpg"
+import celerway from "../assets/celerway.gif"
 
 // This is the screen that shows a list of previous jobs
 // This shows in the same ShowcaseRows as AppScreen and NonAppsScreen, showing a title, description, image, and link(s)

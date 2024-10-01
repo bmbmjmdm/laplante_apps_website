@@ -10,7 +10,7 @@ type ShowcaseRowProps = {
   title: string;
   description: string;
   tech?: string;
-  image: any;
+  image?: any;
   horizontalImage?: boolean;
   customImageDimensions?: { width: number; height: number; left?: number };
   sharpEdges?: boolean;
@@ -104,7 +104,7 @@ export const ShowcaseRow: FunctionComponent<ShowcaseRowProps> = ({
       </StyledText>}
     </>
   );
-  const imageComponent = (
+  const imageComponent = image ? (
     <FadeInImage
       spinner
       source={image}
@@ -119,7 +119,7 @@ export const ShowcaseRow: FunctionComponent<ShowcaseRowProps> = ({
               imageHeight / 2,
       }}
     />
-  );
+  ) : null;
 
   // on larger screens, we have 2 columns. in the left is the title, description, and buttons. in the right is the image
   // on smaller screens, we have 1 column. This is then split based on the orientation of the image:

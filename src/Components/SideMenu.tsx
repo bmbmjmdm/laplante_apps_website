@@ -89,16 +89,16 @@ const SideMenuComponent: FunctionComponent<SideMenuProps> = (
         <StyledText type={"body"}>Home</StyledText>
       </TouchableOpacity>
       <Padding vertical={theme.mediumSmallSpace} />
+      <TouchableOpacity onPress={navigate("Work")}>
+        <StyledText type={"body"}>Work</StyledText>
+      </TouchableOpacity>
+      <Padding vertical={theme.mediumSmallSpace} />
       <TouchableOpacity onPress={navigate("Apps")}>
         <StyledText type={"body"}>Apps</StyledText>
       </TouchableOpacity>
       <Padding vertical={theme.mediumSmallSpace} />
       <TouchableOpacity onPress={navigate("NonApps")}>
         <StyledText type={"body"}>NonApps</StyledText>
-      </TouchableOpacity>
-      <Padding vertical={theme.mediumSmallSpace} />
-      <TouchableOpacity onPress={navigate("Work")}>
-        <StyledText type={"body"}>Work</StyledText>
       </TouchableOpacity>
       <Padding vertical={theme.mediumSmallSpace} />
       <a href="mailto:bmbmjmdm@gmail.com">
