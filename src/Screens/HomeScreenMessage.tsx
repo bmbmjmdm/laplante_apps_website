@@ -76,10 +76,10 @@ export const HomeScreenMessage: FunctionComponent<HomeScreenMessageProps> = ({
             deleteAfter={deleteTitle}
             onFinish={titleFinish}
           >
-            LaPlante Apps
+            LaPlante Studios
           </Typewriter>
         )}
-        {changeTitle && <Typewriter type={"header"}>LaCat Apps :3</Typewriter>}
+        {changeTitle && <Typewriter type={"header"}>LaCat Studios :3</Typewriter>}
       </Flex>
       <Padding vertical={15} />
       <Flex row style={{ height: theme.messageHeightHolder }}>
@@ -127,9 +127,9 @@ export const getCaption = (
 
     // We use hairs here for consistent spacing and speed
     <Typewriter {...defaultProps()} pauseTime={1000}>
-      This site is dedicated to LaPlante Apps (well, I guess that's obvious), a
-      little business that makes mobile apps, board games, computer games, and
-      more!{twentyHairs} . . . Happy?
+      This site is dedicated to LaPlante Studios (well, I guess that's obvious), a
+      little business that makes mobile apps, websites, board games, computer games,
+      and more!{twentyHairs} . . . Happy?
     </Typewriter>,
 
     <Typewriter {...defaultProps()} pauseTime={1000}>

@@ -121,7 +121,7 @@ export const HomeScreenImages: FunctionComponent<HomeScreenImagesProps> = ({
           }}
           type={"header"}
         >
-          {catMode.current ? "LaCat Apps :3" : "LaPlante Apps"}
+          {catMode.current ? "LaCat Studios :3" : "LaPlante Studios"}
         </StyledText>
       )}
       {!phoneCycling && (

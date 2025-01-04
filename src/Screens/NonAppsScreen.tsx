@@ -50,7 +50,7 @@ export const NonAppsScreen: FunctionComponent<StackScreenProps<any>> = ({
           link={{path: "LoreCraft"}}
         />
         <ShowcaseRow
-          title={"LaPlante Apps Site"}
+          title={"LaPlante Studios Site"}
           description={
             "This website!"
           }
