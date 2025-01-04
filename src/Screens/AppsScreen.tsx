@@ -10,6 +10,8 @@ import npcg from "../assets/npcg.gif";
 import dice from "../assets/dice.gif";
 import weread from "../assets/weread.gif";
 import simpleinsight from "../assets/simpleinsight.gif"
+import gmtoolkit from "../assets/gmtoolkit.gif"
+import allergyscanner from "../assets/allergyscanner.gif"
 
 // This is the screen that shows a list of mobile app projects
 // This shows in the same ShowcaseRows as NonAppsScreen and WorkScreen, showing a title, description, image, and link(s)
@@ -20,6 +22,17 @@ export const AppsScreen: FunctionComponent<StackScreenProps<any>> = ({
   return (
     <AnimatedScreen fadeOut={route?.params?.fadeOut}>
       <ScrollView style={{ height: 1 }}>
+        <ShowcaseRow
+          title={"GM Toolkit"}
+          description={
+            "A content generation app that helps GMs create NPCs, towns, quests, and more on the fly. Designed to be easy to use mid-game, as well as have diverse color pallets."
+          }
+          tech={"React Native, Android, Typescript, Anthropic AI"}
+          image={gmtoolkit}
+          android={
+            "https://play.google.com/store/apps/details?id=com.dmgenerator"
+          }
+        />
         <ShowcaseRow
           title={"Hear You Out"}
           description={
@@ -50,6 +63,14 @@ export const AppsScreen: FunctionComponent<StackScreenProps<any>> = ({
           android={
             "https://play.google.com/store/apps/details?id=com.wesleyapp"
           }
+        />
+        <ShowcaseRow
+          title={"Allergy Scanner"}
+          description={
+            "An AI-Vision app that scans an image (file or camera) and reads any text in it, then compares that content to a list of the user's allergens to determine if the product is safe or not."
+          }
+          tech={"React Native, Android, Typescript, Anthropic AI, Computer Vision"}
+          image={allergyscanner}
         />
         <ShowcaseRow
           title={"iAdventure"}
