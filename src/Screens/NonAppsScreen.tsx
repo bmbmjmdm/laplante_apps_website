@@ -5,7 +5,7 @@ import React, { FunctionComponent, useContext } from "react";
 import { StackScreenProps } from "@react-navigation/stack";
 import { ShowcaseRow } from "../Components";
 import beatbiome from "../assets/beatbiome.gif";
-import kkgm from "../assets/kkgm.png";
+import sellsheet from "../assets/sellsheet.png";
 import { ThemeContext } from "../Theme";
 import site from "../assets/site.png";
 import siteSmall from "../assets/siteSmall.png";
@@ -38,16 +38,16 @@ export const NonAppsScreen: FunctionComponent<StackScreenProps<any>> = ({
         <ShowcaseRow
           title={"LoreCraft"}
           description={
-            "A board game for 2-10 players, combining story telling, strategy, deck-building, and more!"
+            "A board game for 2-10 players, combining story telling, strategy, collaboration and more!"
           }
-          image={kkgm}
+          image={sellsheet}
           customImageDimensions={{
-            width: theme.showcaseImageLong,
+            width: theme.showcaseImageLong*2/3,
             height: theme.showcaseImageLong,
-            left: theme.showcaseImageShort/2,
+            left: theme.showcaseImageLong * 2/5,
           }}
           sharpEdges
-          link={{path: "LoreCraft"}}
+          link={{path: "Boardgames"}}
         />
         <ShowcaseRow
           title={"LaPlante Studios Site"}
