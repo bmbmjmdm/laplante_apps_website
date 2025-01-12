@@ -16,6 +16,7 @@ module.exports = {
           options: {
             presets: ["@babel/preset-react"],
             plugins: ['react-native-web'],
+            cacheDirectory: true, // Enable caching for babel-loader
           }
         }
       },
@@ -26,11 +27,25 @@ module.exports = {
            extensions: ['.ts', '.js', '.tsx', '.jsx'],
          },
          exclude: /node_modules/,
-         use: ["ts-loader"],
+         use: [
+          {
+            loader: 'ts-loader',
+            options: {
+              transpileOnly: true, // Skip type checking for performance
+            },
+          },
+        ],
       },
       {
         test: /\.html$/,
-        use: "html-loader"
+        use: [
+          {
+            loader: 'html-loader',
+            options: {
+              minimize: true, // Minify HTML
+            },
+          },
+        ],
       },
       {
         test: /\.css$/,
