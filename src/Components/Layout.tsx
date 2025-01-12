@@ -13,6 +13,7 @@ type FlexProps = {
   slim?: boolean;
   row?: boolean;
   reverse?: boolean;
+  wrap?: boolean;
 };
 export const Flex: FunctionComponent<FlexProps> = ({
   full = false,
@@ -24,6 +25,7 @@ export const Flex: FunctionComponent<FlexProps> = ({
   row = false,
   reverse = false,
   children,
+  wrap = false,
 }) => {
   return (
     <View
@@ -37,6 +39,7 @@ export const Flex: FunctionComponent<FlexProps> = ({
         row ? styles.row : {},
         reverse && row ? styles.reverseRow : {},
         reverse && !row ? styles.reverseColumn : {},
+        wrap ? styles.wrap : {},
         style,
       ]}
     >

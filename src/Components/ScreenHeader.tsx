@@ -46,7 +46,7 @@ export const ScreenHeader: FunctionComponent<StackHeaderProps> = ({
       {bigScreen && (
         <>
           <Padding horizontal={theme.mediumSpace} />
-          <StyledText type={"caption"}>LaPlante Apps</StyledText>
+          <StyledText type={"caption"}>LaPlante Studios</StyledText>
           <StyledText
             type={"caption"}
             style={{ marginLeft: "auto", marginRight: "auto" }}

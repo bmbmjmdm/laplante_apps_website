@@ -27,6 +27,9 @@ export const styles = StyleSheet.create({
   alignCenter: {
     alignItems: "center",
   },
+  wrap: {
+    flexWrap: "wrap",
+  },
   row: {
     flexDirection: "row",
   },

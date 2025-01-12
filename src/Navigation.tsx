@@ -2,7 +2,7 @@ import React, { FunctionComponent, useContext } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { ThemeContext, ThemeProvider } from "./Theme";
-import { HomeScreen, WorkScreen, AppsScreen, NonAppsScreen, KKGMScreen } from "./Screens";
+import { HomeScreen, WorkScreen, AppsScreen, NonAppsScreen, LorecraftScreen } from "./Screens";
 // @ts-ignore-next-line
 import LinearGradient from "react-native-web-linear-gradient";
 import { ScreenHeader } from "./Components";
@@ -45,8 +45,7 @@ const Navigator: FunctionComponent<{}> = () => {
       Work: "work",
       Apps: "apps",
       NonApps: "nonapps",
-      KKGM: "kkgm",
-      LoreCraft: "lorecraft"
+      Boardgames: "boardgames"
     },
   };
   const linking = { config, prefixes: [] };
@@ -79,14 +78,11 @@ const Navigator: FunctionComponent<{}> = () => {
             options={defaultOptions}
           />
           <Stack.Screen
-            name="KKGM"
-            component={KKGMScreen}
-            options={defaultOptions}
-          />
-          <Stack.Screen
-            name="LoreCraft"
-            component={KKGMScreen}
-            options={defaultOptions}
+            name="Boardgames"
+            component={LorecraftScreen}
+            options={{
+              header: () => null,
+            }}
           />
         </Stack.Navigator>
       </NavigationContainer>
