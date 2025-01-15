@@ -30,6 +30,7 @@ export const LorecraftScreen: FunctionComponent<StackScreenProps<any>> = ({
     marginTop: smallScreen ? 75 : 100,
   }
   const textStyle = {
+    textAlign: 'center',
     textShadowColor: '#5B80A0',
     textShadowOffset: {width: 2, height: 2},
     textShadowRadius: 2,
