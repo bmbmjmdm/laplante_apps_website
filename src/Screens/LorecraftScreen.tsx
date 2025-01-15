@@ -14,6 +14,7 @@ import lorecraftBackground from "../assets/lorecraftBackground.png";
 export const LorecraftScreen: FunctionComponent<StackScreenProps<any>> = ({
   route,
 }) => {
+  const smallScreen = isScreenSmall();
   const logoOpacity = useRef(new Animated.Value(0)).current;
   const titleOpacity = useRef(new Animated.Value(0)).current;
   const restOpacity = useRef(new Animated.Value(0)).current;
@@ -22,7 +23,18 @@ export const LorecraftScreen: FunctionComponent<StackScreenProps<any>> = ({
   const titleOffset = useRef(new Animated.Value(-40)).current;
   const [lorecraftHeight, setLorecraftHeight] = useState(0);
   
-
+  const infoStyle = {
+    marginTop: 25
+  }
+  const headerStyle = {
+    marginTop: smallScreen ? 75 : 100,
+  }
+  const textStyle = {
+    textShadowColor: '#5B80A0',
+    textShadowOffset: {width: 2, height: 2},
+    textShadowRadius: 2,
+  }
+console.log(Dimensions.get('window').width)
   useEffect(() => {
     Animated.sequence([
       Animated.timing(logoOpacity, {
@@ -37,12 +49,12 @@ export const LorecraftScreen: FunctionComponent<StackScreenProps<any>> = ({
           useNativeDriver: false
         }),
         Animated.timing(logoOffset, {
-          toValue: 175,
+          toValue: smallScreen ? 75 : 175,
           duration: 1000,
           useNativeDriver: false
         }),
         Animated.timing(titleOffset, {
-          toValue: -125,
+          toValue: smallScreen ? -75 : -125,
           duration: 1000,
           useNativeDriver: false
         }),
@@ -59,7 +71,15 @@ export const LorecraftScreen: FunctionComponent<StackScreenProps<any>> = ({
     <AnimatedScreen fadeOut={route?.params?.fadeOut}>
       <ScrollView style={{ height: 1 }}>
       <Flex fullWidth centered>
-        <Animated.View style={{display: 'flex', alignItems: 'center', justifyContent: 'center', height: 1, marginTop: 200, marginBottom: 200, transform: [{translateY: headerOffset}]}}>
+        <Animated.View style={{
+          display: 'flex', 
+          alignItems: 'center', 
+          justifyContent: 'center', 
+          height: 1, 
+          marginTop: smallScreen ? 150 : 200, 
+          marginBottom: smallScreen ? 150 : 200, 
+          transform: [{translateY: headerOffset}]
+        }}>
           <Animated.View style={{
             position: 'absolute',
             opacity: titleOpacity,
@@ -70,7 +90,7 @@ export const LorecraftScreen: FunctionComponent<StackScreenProps<any>> = ({
               }
             ]
           }}>
-            <StyledText type="header">LaPlante Studios</StyledText>
+            <StyledText type={smallScreen ? "body" : "header"}>LaPlante Studios</StyledText>
           </Animated.View>
           <Animated.View style={{
             position: 'absolute',
@@ -84,8 +104,8 @@ export const LorecraftScreen: FunctionComponent<StackScreenProps<any>> = ({
             <Image 
               source={logo}
               style={{
-                width: 250,
-                height: 250,
+                width: smallScreen ? 125 : 250,
+                height: smallScreen ? 125 : 250,
               }}
             />
           </Animated.View>
@@ -106,8 +126,8 @@ export const LorecraftScreen: FunctionComponent<StackScreenProps<any>> = ({
             <Image 
               source={title}
               style={{
-                width: 600,
-                height: 250,
+                width: smallScreen ? 300 : 600,
+                height: smallScreen ? 125 : 250,
               }}
             />
             
@@ -120,10 +140,10 @@ export const LorecraftScreen: FunctionComponent<StackScreenProps<any>> = ({
             </StyledText>
             
             <Flex row wrap centered>
-              <Flex style={{marginHorizontal: 50, marginVertical: 25}}>
+              <Flex style={{marginHorizontal: smallScreen ? 0 : 50, marginVertical: 25}}>
               <iframe
-                width="560"
-                height="315"
+                width={smallScreen ? "280" : "560"}
+                height={smallScreen ? "160" : "315"}
                 src="https://www.youtube.com/embed/OjyGHSUeTyg"
                 title="YouTube video player"
                 frameBorder="0"
@@ -131,10 +151,10 @@ export const LorecraftScreen: FunctionComponent<StackScreenProps<any>> = ({
                 allowFullScreen
               />
               </Flex>
-              <Flex style={{margin: 50, marginVertical: 25}}>
+              <Flex style={{marginHorizontal: smallScreen ? 0 : 50, marginVertical: 25}}>
               <iframe
-                width="560"
-                height="315"
+                width={smallScreen ? "280" : "560"}
+                height={smallScreen ? "160" : "315"}
                 src="https://www.youtube.com/embed/19Ma2sum7aQ"
                 title="YouTube video player"
                 frameBorder="0"
@@ -145,7 +165,7 @@ export const LorecraftScreen: FunctionComponent<StackScreenProps<any>> = ({
             </Flex>
             <StyledText
               type="body"
-              style={{marginTop: 25, paddingBottom: 100, ...textStyle}}
+              style={{marginTop: 25, paddingBottom: smallScreen ? 75 : 100, ...textStyle}}
               onPress={() => Linking.openURL("https://boardgamegeek.com/boardgame/398730/lorecraft")}
             >
               See on Board Game Geek, click here!
@@ -172,17 +192,6 @@ export const LorecraftScreen: FunctionComponent<StackScreenProps<any>> = ({
   );
 };
 
-const infoStyle = {
-  marginTop: 25
-}
-const headerStyle = {
-  marginTop: 100,
-}
-const textStyle = {
-  textShadowColor: '#5B80A0',
-  textShadowOffset: {width: 1, height: 1},
-  textShadowRadius: 2
-}
 
 /*
 
