@@ -14,6 +14,7 @@ import { ThemeContext } from "../Theme";
 type AnimatedScreenProps = {
   children: ReactNode;
   fadeOut?: boolean;
+  fadeIn?: boolean;
 };
 
 // This animates in its children when the user navigates to a new screen
@@ -22,12 +23,13 @@ type AnimatedScreenProps = {
 export const AnimatedScreen: FunctionComponent<AnimatedScreenProps> = ({
   children,
   fadeOut = false,
+  fadeIn = true,
 }) => {
   const theme = useContext(ThemeContext);
   const animatedTop = useRef(
-    new Animated.Value(theme.screenAnimationY)
+    new Animated.Value(fadeIn ? theme.screenAnimationY : 0)
   ).current;
-  const animatedOpacity = useRef(new Animated.Value(0)).current;
+  const animatedOpacity = useRef(new Animated.Value(fadeIn ? 0 : 1)).current;
   const navigation = useNavigation();
 
   // animate out the screen when the user navigates somewhere else
@@ -47,21 +49,23 @@ export const AnimatedScreen: FunctionComponent<AnimatedScreenProps> = ({
   //animate in the screen when the user navigates to it
   useFocusEffect(
     useCallback(() => {
-      // fade in
-      Animated.parallel([
-        Animated.timing(animatedOpacity, {
-          toValue: 1,
-          duration: theme.screenAnimationSpeed,
-          useNativeDriver: false,
-        }),
-        // slide up
-        Animated.timing(animatedTop, {
-          toValue: 0,
-          easing: easeOutBack,
-          duration: theme.screenAnimationSpeed,
-          useNativeDriver: false,
-        }),
-      ]).start();
+      if (fadeIn) {
+        // fade in
+        Animated.parallel([
+          Animated.timing(animatedOpacity, {
+            toValue: 1,
+            duration: theme.screenAnimationSpeed,
+            useNativeDriver: false,
+          }),
+          // slide up
+          Animated.timing(animatedTop, {
+            toValue: 0,
+            easing: easeOutBack,
+            duration: theme.screenAnimationSpeed,
+            useNativeDriver: false,
+          }),
+        ]).start();
+      }
     }, [])
   );
 

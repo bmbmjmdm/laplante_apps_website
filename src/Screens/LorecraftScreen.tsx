@@ -34,7 +34,7 @@ export const LorecraftScreen: FunctionComponent<StackScreenProps<any>> = ({
     textShadowOffset: {width: 2, height: 2},
     textShadowRadius: 2,
   }
-console.log(Dimensions.get('window').width)
+  
   useEffect(() => {
     Animated.sequence([
       Animated.timing(logoOpacity, {
@@ -68,7 +68,7 @@ console.log(Dimensions.get('window').width)
   }, [])
 
   return (
-    <AnimatedScreen fadeOut={route?.params?.fadeOut}>
+    <AnimatedScreen fadeIn={!smallScreen} fadeOut={route?.params?.fadeOut}>
       <ScrollView style={{ height: 1 }}>
       <Flex fullWidth centered>
         <Animated.View style={{
