@@ -56,7 +56,7 @@ const Navigator: FunctionComponent<{}> = () => {
       {...theme.linearGradient}
     >
       <NavigationContainer theme={emptyTheme} linking={linking}>
-        <Stack.Navigator initialRouteName="Home">
+        <Stack.Navigator initialRouteName="Boardgames">
           <Stack.Screen
             name="Home"
             component={HomeScreen}

@@ -58,7 +58,7 @@ export const NonAppsScreen: FunctionComponent<StackScreenProps<any>> = ({
           image={smallScreen ? siteSmall : site}
           horizontalImage={smallScreen ? false : true}
           sharpEdges
-          link={"/"}
+          link={"/home"}
         />
         <ShowcaseRow
           title={"Misc AI"}
