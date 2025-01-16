@@ -15,6 +15,8 @@ export const LorecraftScreen: FunctionComponent<StackScreenProps<any>> = ({
   route,
 }) => {
   const smallScreen = isScreenSmall();
+
+  // initial screen appearing animations
   const logoOpacity = useRef(new Animated.Value(0)).current;
   const titleOpacity = useRef(new Animated.Value(0)).current;
   const restOpacity = useRef(new Animated.Value(0)).current;
@@ -22,20 +24,6 @@ export const LorecraftScreen: FunctionComponent<StackScreenProps<any>> = ({
   const headerOffset = useRef(new Animated.Value(0)).current;
   const titleOffset = useRef(new Animated.Value(-40)).current;
   const [lorecraftHeight, setLorecraftHeight] = useState(0);
-  
-  const infoStyle = {
-    marginTop: 25
-  }
-  const headerStyle = {
-    marginTop: smallScreen ? 75 : 100,
-  }
-  const textStyle = {
-    textAlign: 'center',
-    textShadowColor: '#5B80A0',
-    textShadowOffset: {width: 2, height: 2},
-    textShadowRadius: 2,
-  }
-  
   useEffect(() => {
     Animated.sequence([
       Animated.timing(logoOpacity, {
@@ -68,17 +56,84 @@ export const LorecraftScreen: FunctionComponent<StackScreenProps<any>> = ({
     ]).start()
   }, [])
 
+
+  // scrolling animations
+  const animatedScrollYValue = useRef(new Animated.Value(0)).current;
+  const headerHeight = smallScreen ? 150 : 200;
+  const drift = smallScreen ? 25 : 50
+  const bottomTextDriftOffset = smallScreen ? 200 : 0;
+  const imageZoom = useRef(new Animated.Value(0.5)).current;
+  const textDriftLeft = useRef(new Animated.Value(-drift)).current;
+  const textDriftRight = useRef(new Animated.Value(drift)).current;
+  useEffect(() => {
+    Animated.timing(imageZoom, {
+      toValue: animatedScrollYValue.interpolate({
+        inputRange: [0, headerHeight],
+        outputRange: [0.75, 1],
+        extrapolate: 'clamp',
+      }),
+      easing: Easing.linear,
+      duration: 250,
+      useNativeDriver: true,
+    }).start();
+    
+    Animated.timing(textDriftLeft, {
+      toValue: animatedScrollYValue.interpolate({
+        inputRange: [0, headerHeight, headerHeight * 2, headerHeight * 3],
+        outputRange: [-drift, 0, 0, drift],
+        extrapolate: 'clamp',
+      }),
+      easing: Easing.linear,
+      duration: 350,
+      useNativeDriver: true,
+    }).start();
+
+    Animated.timing(textDriftRight, {
+      toValue: animatedScrollYValue.interpolate({
+        inputRange: [0, headerHeight * 2 + bottomTextDriftOffset, headerHeight * 3 + bottomTextDriftOffset, headerHeight * 4 + bottomTextDriftOffset],
+        outputRange: [drift, 0, 0, -drift],
+        extrapolate: 'clamp',
+      }),
+      easing: Easing.linear,
+      duration: 350,
+      useNativeDriver: true,
+    }).start();
+
+  }, [animatedScrollYValue, headerHeight, bottomTextDriftOffset, drift]);
+
+
+  
+  const infoStyle = {
+    marginTop: 25
+  }
+  const headerStyle = {
+    marginTop: smallScreen ? 75 : 100,
+  }
+  const textStyle = {
+    textAlign: 'center' as 'center',
+    textShadowColor: '#5B80A0',
+    textShadowOffset: {width: 2, height: 2},
+    textShadowRadius: 2,
+  }
+
   return (
     <AnimatedScreen fadeIn={!smallScreen} fadeOut={route?.params?.fadeOut}>
-      <ScrollView style={{ height: 1 }}>
+      <Animated.ScrollView
+        style={{ height: 1 }}
+        onScroll={Animated.event(
+          [{ nativeEvent: { contentOffset: { y: animatedScrollYValue } } }],
+          { useNativeDriver: true }
+        )}
+        scrollEventThrottle={16}
+      >
       <Flex fullWidth centered>
         <Animated.View style={{
           display: 'flex', 
           alignItems: 'center', 
           justifyContent: 'center', 
           height: 1, 
-          marginTop: smallScreen ? 150 : 200, 
-          marginBottom: smallScreen ? 150 : 200, 
+          marginTop: headerHeight, 
+          marginBottom: headerHeight, 
           transform: [{translateY: headerOffset}]
         }}>
           <Animated.View style={{
@@ -124,17 +179,23 @@ export const LorecraftScreen: FunctionComponent<StackScreenProps<any>> = ({
               }}
               resizeMode='stretch'
             />
-            <Image 
+            <Animated.Image 
               source={title}
               style={{
                 width: smallScreen ? 300 : 600,
                 height: smallScreen ? 125 : 250,
+                transform: [{scale: imageZoom}]
               }}
             />
             
             <StyledText
+              animated
               type="body"
-              style={{marginBottom: 25, ...textStyle}}
+              style={{
+                marginBottom: 25,
+                transform: [{translateX: textDriftLeft}],
+                ...textStyle
+            }}
               onPress={() => Linking.openURL("http://www.google.com")}
             >
               Order now on Kickstarter, click here!
@@ -166,7 +227,13 @@ export const LorecraftScreen: FunctionComponent<StackScreenProps<any>> = ({
             </Flex>
             <StyledText
               type="body"
-              style={{marginTop: 25, paddingBottom: smallScreen ? 75 : 100, ...textStyle}}
+              animated
+              style={{
+                marginTop: 25,
+                paddingBottom: smallScreen ? 75 : 100,
+                transform: [{translateX: textDriftRight}],
+                ...textStyle
+            }}
               onPress={() => Linking.openURL("https://boardgamegeek.com/boardgame/398730/lorecraft")}
             >
               See on Board Game Geek, click here!
@@ -188,7 +255,7 @@ export const LorecraftScreen: FunctionComponent<StackScreenProps<any>> = ({
           </Flex>
         </Animated.View>
       </Flex>
-      </ScrollView>
+      </Animated.ScrollView>
     </AnimatedScreen>
   );
 };
