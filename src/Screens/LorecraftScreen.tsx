@@ -60,9 +60,11 @@ export const LorecraftScreen: FunctionComponent<StackScreenProps<any>> = ({
   // scrolling animations
   const animatedScrollYValue = useRef(new Animated.Value(0)).current;
   const headerHeight = smallScreen ? 150 : 200;
-  const drift = smallScreen ? 25 : 50
+  //const drift = smallScreen ? 25 : 50
+  const drift = 0
   const bottomTextDriftOffset = smallScreen ? 200 : 0;
-  const imageZoom = useRef(new Animated.Value(0.5)).current;
+  const imageZoom = useRef(new Animated.Value(0.75)).current;
+  const textZoom = useRef(new Animated.Value(1.25)).current;
   const textDriftLeft = useRef(new Animated.Value(-drift)).current;
   const textDriftRight = useRef(new Animated.Value(drift)).current;
   useEffect(() => {
@@ -76,7 +78,19 @@ export const LorecraftScreen: FunctionComponent<StackScreenProps<any>> = ({
       duration: 250,
       useNativeDriver: true,
     }).start();
-    
+    Animated.timing(textZoom, {
+      toValue: animatedScrollYValue.interpolate({
+        inputRange: [0, headerHeight],
+        outputRange: [1.25, 1],
+        extrapolate: 'clamp',
+      }),
+      easing: Easing.linear,
+      duration: 250,
+      useNativeDriver: true,
+    }).start();
+
+    // disable drifting animations for now, they work fine but the design is meh
+    /*
     Animated.timing(textDriftLeft, {
       toValue: animatedScrollYValue.interpolate({
         inputRange: [0, headerHeight, headerHeight * 2, headerHeight * 3],
@@ -98,6 +112,7 @@ export const LorecraftScreen: FunctionComponent<StackScreenProps<any>> = ({
       duration: 350,
       useNativeDriver: true,
     }).start();
+    */
 
   }, [animatedScrollYValue, headerHeight, bottomTextDriftOffset, drift]);
 
@@ -124,7 +139,7 @@ export const LorecraftScreen: FunctionComponent<StackScreenProps<any>> = ({
           [{ nativeEvent: { contentOffset: { y: animatedScrollYValue } } }],
           { useNativeDriver: true }
         )}
-        scrollEventThrottle={16}
+        scrollEventThrottle={100}
       >
       <Flex fullWidth centered>
         <Animated.View style={{
@@ -193,7 +208,7 @@ export const LorecraftScreen: FunctionComponent<StackScreenProps<any>> = ({
               type="body"
               style={{
                 marginBottom: 25,
-                transform: [{translateX: textDriftLeft}],
+                transform: [{translateX: textDriftLeft}, {scale: textZoom}],
                 ...textStyle
             }}
               onPress={() => Linking.openURL("http://www.google.com")}
@@ -231,7 +246,7 @@ export const LorecraftScreen: FunctionComponent<StackScreenProps<any>> = ({
               style={{
                 marginTop: 25,
                 paddingBottom: smallScreen ? 75 : 100,
-                transform: [{translateX: textDriftRight}],
+                transform: [{translateX: textDriftRight}, {scale: textZoom}],
                 ...textStyle
             }}
               onPress={() => Linking.openURL("https://boardgamegeek.com/boardgame/398730/lorecraft")}
