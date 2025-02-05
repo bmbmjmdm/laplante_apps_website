@@ -6,25 +6,26 @@ npm start
 
 local prod run:
 docker build -t html-server-image:v1 .
-docker run --restart always -d -p 80:80 html-server-image:v1
-curl localhost:80
+docker run --restart always -d -p 80:80 -p 443:443 html-server-image:v1
 
-
-to also run certbot for SSL:
-(may need to install it idk https://certbot.eff.org/instructions?ws=nginx&os=snap)
-docker run --rm -it \
-  --network bridge \
-  -v /etc/letsencrypt:/etc/letsencrypt \
-  -v /var/lib/letsencrypt:/var/lib/letsencrypt \
-  -v /etc/nginx:/etc/nginx \
-  certbot/certbot certonly --webroot -w /usr/share/nginx/html -d laplantestudios.org
-
+to also run certbot for SSL: (if you do this you probably have to redo it every 3 months)
+docker exec -it <container_id> sh
+apk add certbot
+apk add certbot-nginx
+certbot --nginx -d laplantestudios.org -d www.laplantestudios.org
+exit
+docker exec -it <container_id> nginx -s reload
 
 kamatera prod run:
 go to Servers in Kamatera
 Open > Connect > Open Remote Console (username root and password in firefox saved passwords)
 cd laplante_apps_website
 run the above "local prod run" steps
+(if you dont have space to do the build, you can run:
+docker stop $(docker ps -aq)
+docker rm $(docker ps -aq)
+docker rmi $(docker images -q)
+)
 
 gcloud prod run:
 git clone https://github.com/bmbmjmdm/laplante_apps_website.git
