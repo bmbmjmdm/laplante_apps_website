@@ -17,7 +17,7 @@ docker run --rm -it \
   -v /etc/letsencrypt:/etc/letsencrypt \
   -v /var/lib/letsencrypt:/var/lib/letsencrypt \
   -v /etc/nginx:/etc/nginx \
-  certbot/certbot certonly --webroot -w /path/to/your/webroot -d laplantestudios.org
+  certbot/certbot certonly --webroot -w /usr/share/nginx/html -d laplantestudios.org
 
 
 kamatera prod run:
