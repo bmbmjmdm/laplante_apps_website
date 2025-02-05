@@ -9,6 +9,17 @@ docker build -t html-server-image:v1 .
 docker run --restart always -d -p 80:80 html-server-image:v1
 curl localhost:80
 
+
+to also run certbot for SSL:
+(may need to install it idk https://certbot.eff.org/instructions?ws=nginx&os=snap)
+docker run --rm -it \
+  --network bridge \
+  -v /etc/letsencrypt:/etc/letsencrypt \
+  -v /var/lib/letsencrypt:/var/lib/letsencrypt \
+  -v /etc/nginx:/etc/nginx \
+  certbot/certbot certonly --webroot -w /path/to/your/webroot -d laplantestudios.org
+
+
 kamatera prod run:
 go to Servers in Kamatera
 Open > Connect > Open Remote Console (username root and password in firefox saved passwords)
