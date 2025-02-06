@@ -23,8 +23,7 @@ cd laplante_apps_website
 run the above "local prod run" steps
 (if you dont have space to do the build, you can run:
 docker stop $(docker ps -aq)
-docker rm $(docker ps -aq)
-docker rmi $(docker images -q)
+docker system prune -a --volumes
 )
 
 gcloud prod run:
