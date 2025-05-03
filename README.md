@@ -16,6 +16,12 @@ certbot --nginx -d laplantestudios.org -d www.laplantestudios.org
 exit
 docker exec -it <container_id> nginx -s reload
 
+renewing certificates (every 3 months)
+docker exec -it <container_id> sh
+certbot renew
+exit
+docker exec -it <container_id> nginx -s reload
+
 kamatera prod run:
 go to Servers in Kamatera
 Open > Connect > Open Remote Console (username root and password in firefox saved passwords)
@@ -25,6 +31,12 @@ run the above "local prod run" steps
 docker stop $(docker ps -aq)
 docker system prune -a --volumes
 )
+
+
+
+
+
+==== Deprecated ====
 
 gcloud prod run:
 git clone https://github.com/bmbmjmdm/laplante_apps_website.git
