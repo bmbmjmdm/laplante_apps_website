@@ -6,6 +6,7 @@ import { StackScreenProps } from "@react-navigation/stack";
 import { ShowcaseRow } from "../Components";
 import iadventure from "../assets/iadventure.gif";
 import hearyouout from "../assets/hearyouout.gif";
+import katGame from "../assets/katgame.gif";
 import npcg from "../assets/npcg.gif";
 import dice from "../assets/dice.gif";
 import weread from "../assets/weread.gif";
@@ -31,6 +32,9 @@ export const AppsScreen: FunctionComponent<StackScreenProps<any>> = ({
           image={gmtoolkit}
           android={
             "https://play.google.com/store/apps/details?id=com.dmgenerator"
+          }
+          apple={
+            "https://apps.apple.com/my/app/gmtoolkit/id6749824562"
           }
         />
         <ShowcaseRow
@@ -62,6 +66,20 @@ export const AppsScreen: FunctionComponent<StackScreenProps<any>> = ({
           }
           android={
             "https://play.google.com/store/apps/details?id=com.wesleyapp"
+          }
+        />
+        <ShowcaseRow
+          title={"Kat Game"}
+          description={
+            "Just a cute question/improv game I made for my partner's birthday :3"
+          }
+          tech={"React Native, iOS, Android, Typescript"}
+          image={katGame}
+          apple={
+            "https://apps.apple.com/my/app/kat-game/id6749801159"
+          }
+          android={
+            "https://play.google.com/store/apps/details?id=com.katgame&hl=en-US"
           }
         />
         <ShowcaseRow
