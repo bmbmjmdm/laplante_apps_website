@@ -9,6 +9,7 @@ import gsg from "../assets/gsg.gif";
 import pega from "../assets/pega.jpg";
 import sushimonster from "../assets/sushimonster.gif";
 import celerway from "../assets/celerway.gif"
+import ardoq from "../assets/ardoq.gif"
 
 // This is the screen that shows a list of previous jobs
 // This shows in the same ShowcaseRows as AppScreen and NonAppsScreen, showing a title, description, image, and link(s)
@@ -20,16 +21,27 @@ export const WorkScreen: FunctionComponent<StackScreenProps<any>> = ({
     <AnimatedScreen fadeOut={route?.params?.fadeOut}>
       <ScrollView style={{ height: 1 }}>
         <ShowcaseRow
+          title={"Ardoq"}
+          description={
+            "I work at Ardoq as a Senior Frontend Developer, primarily designing, developing, and owning the AI Assistant and integrating it with our app's frontend and data."
+          }
+          tech={"ReactJS, NodeJS, MCP, Figma, ReactBreach, Typescript, REST"}
+          image={ardoq}
+          link={"https://www.ardoq.com/"}
+          customImageDimensions={{ width: 400, height: 250 }}
+          sharpEdges
+          isFirst
+        />
+        <ShowcaseRow
           title={"Celerway"}
           description={
-            "I work at Celerway as the lead Frontend Developer, designing and developing their web apps. This includes an integrated AI assistant which utilizes knowledge of their router portal, the user's settings, and various user guides to help navigate and assist the user as needed."
+            "I worked at Celerway as the lead Frontend Developer, designing and developing their web apps. This includes an integrated AI assistant which utilizes knowledge of their router portal, the user's settings, and various user guides to help navigate and assist the user as needed."
           }
           tech={"ReactJS, NodeJS, Google Vertex, GCP, Langchain, Tensorflow, FAISS, Figma, Uizard, Redux, React Router, Typescript, REST"}
           image={celerway}
           link={"https://www.celerway.com/"}
           customImageDimensions={{ width: 400, height: 250 }}
           sharpEdges
-          isFirst
         />
         <ShowcaseRow
           title={"Virta Health"}
@@ -39,7 +51,6 @@ export const WorkScreen: FunctionComponent<StackScreenProps<any>> = ({
           tech={"React Native, iOS, Android, RN Web, Redux, Bluetooth, Typescript, GQL, GCP, Node, Webpack, REST"}
           image={virta}
           link={"https://www.virtahealth.com/"}
-          isFirst
         />
         <ShowcaseRow
           title={"Scolastic / HMH"}
