@@ -17,10 +17,11 @@ exit
 docker exec -it <container_id> nginx -s reload
 
 renewing certificates (every 3 months)
+docker ps
 docker exec -it <container_id> sh
 certbot renew
 exit
-docker exec -it <container_id> nginx -s reload
+(optional) docker exec -it <container_id> nginx -s reload
 
 kamatera prod run:
 go to Servers in Kamatera
