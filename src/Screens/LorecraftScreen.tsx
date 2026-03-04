@@ -1,10 +1,9 @@
 // @ts-ignore-next-line
-import { ScrollView, Dimensions, Animated, ActivityIndicator, Linking, Image, Easing, View, Alert } from 'react-native';
+import { Dimensions, Animated, Linking, Image, Easing, View } from 'react-native';
 import { AnimatedScreen } from "./AnimatedScreen";
-import React, { FunctionComponent, useContext, useEffect, useRef, useState, ReactElement } from "react";
+import React, { FunctionComponent, useEffect, useRef, useState } from "react";
 import { StackScreenProps } from "@react-navigation/stack";
-import { FadeInImage, Flex, ShowcaseRow, StyledText } from "../Components";
-import { ThemeContext } from "../Theme";
+import {  Flex, LorecraftPopup, StyledText } from "../Components";
 import { isScreenSmall } from "../Helpers";
 import logo from "../assets/logo.png";
 import title from "../assets/title.png";
@@ -39,6 +38,8 @@ export const LorecraftScreen: FunctionComponent<StackScreenProps<any>> = ({
   const [resultColor, setResultColor] = useState(WAITLIST_SUCCESS_COLOR);
   const [resultVisible, setResultVisible] = useState(false);
   const [resultContentHeight, setResultContentHeight] = useState(0);
+  const [waitlistPopupVisible, setWaitlistPopupVisible] = useState(false);
+  const [waitlistSubmitting, setWaitlistSubmitting] = useState(false);
   const resultOpacity = useRef(new Animated.Value(0)).current;
   const resultContainerProgress = useRef(new Animated.Value(0)).current;
   const resultAnimationRef = useRef<Animated.CompositeAnimation | null>(null);
@@ -73,14 +74,6 @@ export const LorecraftScreen: FunctionComponent<StackScreenProps<any>> = ({
       ]),
     ]).start()
   }, [])
-
-  const notify = (title: string, message?: string) => {
-    if (typeof Alert.alert === 'function') {
-      Alert.alert(title, message);
-    } else if (typeof window !== 'undefined' && typeof window.alert === 'function') {
-      window.alert(message ? `${title}\n${message}` : title);
-    }
-  };
 
   const showWaitlistResult = (status: 'success' | 'error', message: string) => {
     setResultColor(status === 'success' ? WAITLIST_SUCCESS_COLOR : WAITLIST_ERROR_COLOR);
@@ -135,11 +128,8 @@ export const LorecraftScreen: FunctionComponent<StackScreenProps<any>> = ({
 
   const submitWaitlistEmail = async (emailInput?: string) => {
     const email = (emailInput || '').trim();
-    if (!email) {
-      notify('Email required', 'Please enter a valid email address.');
-      return;
-    }
 
+    setWaitlistSubmitting(true);
     try {
       const response = await fetch(WAITLIST_SIGNUP_URL, {
         method: 'POST',
@@ -149,36 +139,33 @@ export const LorecraftScreen: FunctionComponent<StackScreenProps<any>> = ({
 
       if (response.ok) {
         showWaitlistResult('success', 'Success! You are on the waitlist.');
+        return true;
       } else {
         showWaitlistResult('error', 'Something went wrong. Please try again.');
+        return false;
       }
     } catch (error) {
       showWaitlistResult('error', 'Network error. Please try again later.');
+      return false;
+    } finally {
+      setWaitlistSubmitting(false);
     }
   };
 
   const handleWaitlistPress = () => {
-    const promptHandled =
-      typeof Alert.prompt === 'function'
-        ? (Alert.prompt(
-            'Join the waitlist',
-            'Enter your email address to get notified when we launch.',
-            [
-              { text: 'Cancel', style: 'cancel' },
-              { text: 'Submit', onPress: (value) => void submitWaitlistEmail(value) },
-            ],
-            'plain-text'
-          ), true)
-        : typeof window !== 'undefined' && typeof window.prompt === 'function'
-          ? (() => {
-              const value = window.prompt('Enter your email to join the Lorecraft waitlist:');
-              if (value !== null) void submitWaitlistEmail(value);
-              return true;
-            })()
-          : false;
+    setWaitlistPopupVisible(true);
+  };
 
-    if (!promptHandled) {
-      notify('Unsupported', 'Inline prompts are not available on this device yet.');
+  const handleWaitlistPopupClose = () => {
+    if (!waitlistSubmitting) {
+      setWaitlistPopupVisible(false);
+    }
+  };
+
+  const handleWaitlistSubmit = async (value: string) => {
+    const success = await submitWaitlistEmail(value);
+    if (success) {
+      setWaitlistPopupVisible(false);
     }
   };
 
@@ -369,7 +356,7 @@ export const LorecraftScreen: FunctionComponent<StackScreenProps<any>> = ({
                       color: resultColor,
                       opacity: resultOpacity,
                       textAlign: 'center',
-                      fontSize: smallScreen ? 12 : 16,
+                      fontSize: smallScreen ? 16 : 20,
                       fontFamily: 'System'
                     }}
                   >
@@ -423,7 +410,7 @@ export const LorecraftScreen: FunctionComponent<StackScreenProps<any>> = ({
                 }}
               />
             </Flex>
-            <Flex row wrap centered style={{paddingBottom: 35}}>
+            <Flex row wrap centered style={{paddingBottom: 75}}>
               <Image 
                 source={smallScreen ? lorecraftStepsVerticle : lorecraftSteps}
                 style={{
@@ -474,7 +461,7 @@ export const LorecraftScreen: FunctionComponent<StackScreenProps<any>> = ({
                       color: resultColor,
                       opacity: resultOpacity,
                       textAlign: 'center',
-                      fontSize: smallScreen ? 12 : 16,
+                      fontSize: smallScreen ? 16 : 20,
                       fontFamily: 'System'
                     }}
                   >
@@ -501,6 +488,13 @@ export const LorecraftScreen: FunctionComponent<StackScreenProps<any>> = ({
         </Animated.View>
       </Flex>
       </Animated.ScrollView>
+      <LorecraftPopup
+        visible={waitlistPopupVisible}
+        onClose={handleWaitlistPopupClose}
+        onSubmit={handleWaitlistSubmit}
+        loading={waitlistSubmitting}
+        accentColor="#5B80A0"
+      />
     </AnimatedScreen>
   );
 };

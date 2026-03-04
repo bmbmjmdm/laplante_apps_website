@@ -12,3 +12,4 @@ export { PlayfulPhone } from "./PlayfulPhone";
 export { SlideshowPhone } from "./SlideshowPhone";
 export { ThemeButtons } from "./ThemeButtons";
 export { FadeInImage } from "./FadeInImage";
+export { LorecraftPopup } from "./LorecraftPopup";
