@@ -13,6 +13,8 @@ import weread from "../assets/weread.gif";
 import simpleinsight from "../assets/simpleinsight.gif"
 import gmtoolkit from "../assets/gmtoolkit.gif"
 import allergyscanner from "../assets/allergyscanner.gif"
+import norskb1 from "../assets/norskb1.gif"
+
 
 // This is the screen that shows a list of mobile app projects
 // This shows in the same ShowcaseRows as NonAppsScreen and WorkScreen, showing a title, description, image, and link(s)
@@ -23,6 +25,29 @@ export const AppsScreen: FunctionComponent<StackScreenProps<any>> = ({
   return (
     <AnimatedScreen fadeOut={route?.params?.fadeOut}>
       <ScrollView style={{ height: 1 }}>
+        <ShowcaseRow
+          title={"Hear You Out"}
+          description={
+            "Coming soon! Share views and have your own views challenged! AI-powered answer selection to ensure a diverse set of views."
+          }
+          tech={"React Native, OpenAI, Pinecone, iOS, Android, Audio Manipulation, Typescript, REST"}
+          image={hearyouout}
+          isFirst
+        />
+        <ShowcaseRow
+          title={"Norsk B1"}
+          description={
+            "A flashcard app for learning A2-B1 Norwegian using the spaced repetition method. Users can add their own cards and modify the app to their liking."
+          }
+          tech={"React Native, Android, iOS, Typescript"}
+          image={norskb1}
+          android={
+            "https://play.google.com/store/apps/details?id=com.norskb1&hl=no"
+          }
+          apple={
+            "https://apps.apple.com/my/app/norsk-b1/id6785236419"
+          }
+        />
         <ShowcaseRow
           title={"GM Toolkit"}
           description={
@@ -36,15 +61,6 @@ export const AppsScreen: FunctionComponent<StackScreenProps<any>> = ({
           apple={
             "https://apps.apple.com/my/app/gmtoolkit/id6749824562"
           }
-        />
-        <ShowcaseRow
-          title={"Hear You Out"}
-          description={
-            "Coming soon! Share views and have your own views challenged! AI-powered answer selection to ensure a diverse set of views."
-          }
-          tech={"React Native, OpenAI, Pinecone, iOS, Android, Audio Manipulation, Typescript, REST"}
-          image={hearyouout}
-          isFirst
         />
         <ShowcaseRow
           title={"Simple Insight"}

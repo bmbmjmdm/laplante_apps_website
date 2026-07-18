@@ -23,9 +23,9 @@ export const WorkScreen: FunctionComponent<StackScreenProps<any>> = ({
         <ShowcaseRow
           title={"Ardoq"}
           description={
-            "I work at Ardoq as a Senior Frontend Developer, primarily designing, developing, and owning the AI Assistant and integrating it with our app's frontend and data."
+            "I work at Ardoq as a Senior Frontend Developer, primarily aligning the organization on our AI UX philosophy, as well as designing, developing, and owning the AI Assistant and integrating it with our app's frontend and data."
           }
-          tech={"ReactJS, NodeJS, MCP, Figma, ReactBreach, Typescript, REST"}
+          tech={"ReactJS, NodeJS, MCP, Claude Code, Claude Cowork, Figma, ReactBreach, Typescript, REST"}
           image={ardoq}
           link={"https://www.ardoq.com/"}
           customImageDimensions={{ width: 400, height: 250 }}
